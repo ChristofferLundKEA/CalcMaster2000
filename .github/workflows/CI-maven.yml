@@ -38,8 +38,3 @@ jobs:
     - name: Build with Maven
       run: mvn -B test
 
-    - name: Test Report
-      if: success() || failure()
-      uses: scacap/action-surefire-report@v1
-      with:
-        report_paths: '**/target/surefire-reports/*.xml'
