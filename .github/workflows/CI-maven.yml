@@ -14,13 +14,13 @@ on:
       - laura/*
       - celine/*
       - christoffer/*
-      - main
+      - master
   pull_request:
     branches:
       - laura/*
       - celine/*
       - christoffer/*
-      - main
+      - master
 
 jobs:
   build:
