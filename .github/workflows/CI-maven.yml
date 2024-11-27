@@ -11,16 +11,16 @@ name: CI workfow
 on:
   push:
     branches: 
-      - Laura/*
-      - Celine/*
-      - Christoffer/*
-      - Main
+      - laura/*
+      - celine/*
+      - christoffer/*
+      - main
   pull_request:
     branches:
-      - Laura/*
-      - Celine/*
-      - Christoffer/*
-      - Main
+      - laura/*
+      - celine/*
+      - christoffer/*
+      - main
 
 jobs:
   build:
