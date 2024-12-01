@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Projects</title>
+    <!-- Link til den eksterne CSS-fil -->
+    <link rel="stylesheet" type="text/css" href="/styling.css">
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>CalcMaster Menu</h2>
+    <ul>
+        <li><a href="/allProjects">Alle Projekter</a></li>
+        <li><a href="/employees">Alle Medarbejdere</a></li>
+    </ul>
+    <ul>
+        <li><a href="/logout" class="logout">Log ud</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+    <h1 th:text="'Velkommen, ' + ${session.adminUsername} + '!'"></h1>
+    <h2>Liste over igangværende projekter</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Projekt Navn</th>
+            <th>Slutdato</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.name}"></td>
+            <td th:text="${project.endDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>
