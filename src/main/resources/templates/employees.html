@@ -5,6 +5,62 @@
     <title>Title</title>
 </head>
 <body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<head>
+    <title>Combined View</title>
+    <link rel="stylesheet" href="/static/css/allProjects.css">
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/allProjects" class="menu-item active">
+            <span class="icon">●</span>
+            <span class="text">Projects</span>
+        </a>
+        <a href="/employees" class="menu-item">
+            <span class="icon">○</span>
+            <span class="text">Employees</span>
+        </a>
+        <a href="/profile" class="menu-item bottom">
+            <span class="icon">👤</span>
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <header class="header">
+            <h1>Employees</h1>
+            <a href="/logout" class="logout">Log out</a>
+        </header>
+        <div class="main-area">
+            <h1 th:text="'Welcome, ' + ${session.adminUsername} + '!'"></h1>
+            <h2>Employees available</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Skill</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.name}"></td>
+                    <td th:text="${employee.skill}"></td>
+                    <td th:text="${employee.email}"></td>
+                    <td th:text="${employee.phone}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>
+
 
 </body>
 </html>
