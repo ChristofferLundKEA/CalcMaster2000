@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Combined View</title>
+    <link rel="stylesheet" href="/static/css/allProjects.css">
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/allProjects" class="menu-item active">
+            <span class="icon">●</span>
+            <span class="text">Projects</span>
+        </a>
+        <a href="/employees" class="menu-item">
+            <span class="icon">○</span>
+            <span class="text">Employees</span>
+        </a>
+        <a href="/profile" class="menu-item bottom">
+            <span class="icon">👤</span>
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <header class="header">
+            <h1>Projects</h1>
+            <a href="/logout" class="logout">Log out</a>
+        </header>
+        <div class="main-area">
+            <h1 th:text="'Welcome, ' + ${session.adminUsername} + '!'"></h1>
+            <h2>Your projects</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Project name</th>
+                    <th>End date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.name}"></td>
+                    <td th:text="${project.endDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>
+
