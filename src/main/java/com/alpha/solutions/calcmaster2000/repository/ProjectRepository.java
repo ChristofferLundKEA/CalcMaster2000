@@ -4,8 +4,10 @@ import com.alpha.solutions.calcmaster2000.model.Project;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Repository
 public class ProjectRepository {
@@ -27,8 +29,11 @@ public class ProjectRepository {
                 project.setProjectID(rs.getInt("ProjectID"));
                 project.setName(rs.getString("Name"));
                 project.setDescription(rs.getString("Description"));
-                project.setStartDate(rs.getDate("StartDate"));
-                project.setEndDate(rs.getDate("EndDate"));
+
+                // Konverter java.sql.Date til java.time.LocalDate da datoer er skrevet anderledes på sql
+                project.setStartDate(rs.getDate("StartDate").toLocalDate());
+                project.setEndDate(rs.getDate("EndDate").toLocalDate());
+
                 projects.add(project);
             }
         } catch (SQLException e) {
@@ -36,5 +41,24 @@ public class ProjectRepository {
         }
         return projects;
     }
+
+
+    public void addProject(Project project) {
+        String query = "INSERT INTO Project (Name, Description, StartDate, EndDate) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, project.getName());
+            stmt.setString(2, project.getDescription());
+            stmt.setDate(3, Date.valueOf(project.getStartDate())); // Konverter LocalDate til java.sql.Date
+            stmt.setDate(4, Date.valueOf(project.getEndDate()));   // Konverter LocalDate til java.sql.Date
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
