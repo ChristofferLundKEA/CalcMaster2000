@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Project</title>
+    <link rel="stylesheet" href="/static/css/addProject.css">
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/allProjects" class="menu-item">
+            <span class="icon">●</span>
+            <span class="text">Projects</span>
+        </a>
+        <a href="/employees" class="menu-item">
+            <span class="icon">○</span>
+            <span class="text">Employees</span>
+        </a>
+        <a href="/profile" class="menu-item bottom">
+            <span class="icon">👤</span>
+        </a>
+    </aside>
+
+    <!-- indholdet -->
+    <main class="content">
+        <header class="header">
+            <h1>Add Project</h1>
+            <a href="/logout" class="logout">Log out</a>
+        </header>
+        <div class="main-area">
+            <form th:action="@{/addproject}" method="post" class="form">
+                <div class="form-group">
+                    <label for="name">Project Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Enter project name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" placeholder="Enter project description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Add Project</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>
