@@ -18,11 +18,13 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    // Viser login-siden
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login";
+        return "login"; // Sender brugeren til login.html
     }
 
+    // Håndterer login-logik
     @PostMapping("/login")
     public String handleLogin(
             @RequestParam("username") String username,
@@ -30,26 +32,29 @@ public class AdminController {
             HttpSession session,
             Model model
     ) {
+        // Validerer admin-login via AdminService
         Admin admin = adminService.validateLogin(username, password);
+
         if (admin != null) {
+            // Hvis login er korrekt, gem admin-info i sessionen
             session.setAttribute("adminUsername", admin.getUsername());
             session.setAttribute("isAdminLoggedIn", true);
-            return "redirect:/allProjects"; // Send admin til overview
+
+            // Omdirigér til /allProjects
+            return "redirect:/allProjects";
         } else {
+            // Hvis login fejler, vis en fejlbesked på login-siden
             model.addAttribute("error", "Forkert brugernavn eller adgangskode");
-            return "login"; // Gå tilbage til login-siden med fejlmeddelelse
+            return "login"; // Bliv på login-siden
         }
     }
 
+    // Håndterer logout
     @GetMapping("/logout")
     public String handleLogout(HttpSession session) {
-        session.invalidate(); // Slet session-data
-        return "redirect:/login"; // Tilbage til login-siden
-    }
-
-    @GetMapping("/allProjects")
-    public String showAllProjects() {
-        // Returner navnet på Thymeleaf-templaten (fx "allProjects.html")
-        return "allProjects";
+        // Invalider sessionen for at logge brugeren ud
+        session.invalidate();
+        return "redirect:/login"; // Send brugeren tilbage til login-siden
     }
 }
+

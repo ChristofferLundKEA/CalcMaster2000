@@ -14,7 +14,7 @@ body, html {
 
 /* Sidebar */
 .sidebar {
-    width: 60px; /* Gør sidebaren mindre */
+    width: 60px; /* Lille sidebar */
     background-color: #333;
     color: white;
     display: flex;
@@ -26,9 +26,9 @@ body, html {
 
 .sidebar .menu-item {
     width: 100%;
-    padding: 10px 0;
+    padding: 15px 0; /* Mere luft mellem items */
     text-align: center;
-    font-size: 12px; /* Mindre tekst */
+    font-size: 12px;
     color: white;
     text-decoration: none;
     display: flex;
@@ -46,7 +46,7 @@ body, html {
 }
 
 .sidebar .menu-item .icon {
-    font-size: 16px; /* Mindre ikon */
+    font-size: 16px;
     margin-bottom: 5px;
 }
 
@@ -55,16 +55,17 @@ body, html {
     bottom: 20px;
 }
 
-/* Main content */
+/* Main Content */
 .content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     background-color: #f9f9f9;
+    padding: 20px;
 }
 
 .header {
-    background-color: #ADD8E6; /* Lys blå farve */
+    background-color: #ADD8E6;
     color: black;
     display: flex;
     justify-content: space-between;
@@ -80,7 +81,7 @@ body, html {
 
 .header .logout {
     text-decoration: none;
-    color: #0000FF; /* Blå farve */
+    color: #0000FF;
     font-size: 14px;
     cursor: pointer;
 }
@@ -89,7 +90,40 @@ body, html {
     text-decoration: underline;
 }
 
-.main-area {
-    padding: 20px;
-    flex-grow: 1;
+.main-area h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.main-area h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #273f6c;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
 }
