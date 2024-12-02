@@ -36,14 +36,18 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Project name</th>
-                    <th>End date</th>
+                    <th>Project Name</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="project : ${projects}">
                     <td th:text="${project.name}"></td>
                     <td th:text="${project.endDate}"></td>
+                    <td>
+                        <a th:href="@{/project/{id}(id=${project.projectID})}" class="view-details">Administrate Project</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

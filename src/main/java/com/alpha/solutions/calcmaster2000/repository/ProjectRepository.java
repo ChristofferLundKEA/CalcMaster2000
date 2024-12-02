@@ -60,5 +60,31 @@ public class ProjectRepository {
         }
     }
 
+    public Project getProjectById(int id) {
+        String query = "SELECT ProjectID, Name, Description, StartDate, EndDate FROM Project WHERE ProjectID = ?";
+        Project project = null;
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id); // Sæt parameter i SQL-query
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                project = new Project();
+                project.setProjectID(rs.getInt("ProjectID"));
+                project.setName(rs.getString("Name"));
+                project.setDescription(rs.getString("Description"));
+                project.setStartDate(rs.getDate("StartDate").toLocalDate());
+                project.setEndDate(rs.getDate("EndDate").toLocalDate());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return project;
+    }
+
+
 
 }

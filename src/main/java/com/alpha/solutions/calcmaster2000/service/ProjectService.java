@@ -37,5 +37,10 @@ public class ProjectService {
                 && project.getStartDate() != null
                 && project.getEndDate() != null; // Ingen sammenligning af datoer
     }
+
+    public Project getProjectById(int id) {
+        return projectRepository.getProjectById(id); // Kalder repository for data
+    }
+
 }
 

@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.time.LocalDate;
 
 @Controller
 public class ProjectController {
@@ -45,4 +45,19 @@ public class ProjectController {
             return "addProject"; // Gå tilbage til formularen med fejl
         }
     }
+    @GetMapping("/project/{id}")
+    public String showProject(@PathVariable("id") int id, Model model) {
+        // Hent projektet via ProjectService
+        Project project = projectService.getProjectById(id);
+
+        if (project == null) {
+            // Hvis projektet ikke findes så vis en fejlside eller omdiriger til oversigten
+            return "redirect:/allProjects";
+        }
+
+        // Tilføjer projektet til modellen
+        model.addAttribute("project", project);
+        return "project"; // Thymeleaf-side for detaljer
+    }
+
 }
