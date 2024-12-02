@@ -1,42 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>All Projects</title>
-    <!-- Link til den eksterne CSS-fil -->
-    <link rel="stylesheet" type="text/css" href="/styling.css">
+    <title>Combined View</title>
+    <link rel="stylesheet" href="/static/css/allProjects.css">
 </head>
 <body>
-<!-- Sidebar -->
-<div class="sidebar">
-    <h2>CalcMaster Menu</h2>
-    <ul>
-        <li><a href="/allProjects">Alle Projekter</a></li>
-        <li><a href="/employees">Alle Medarbejdere</a></li>
-    </ul>
-    <ul>
-        <li><a href="/logout" class="logout">Log ud</a></li>
-    </ul>
-</div>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/allProjects" class="menu-item active">
+            <span class="icon">●</span>
+            <span class="text">Projects</span>
+        </a>
+        <a href="/employees" class="menu-item">
+            <span class="icon">○</span>
+            <span class="text">Employees</span>
+        </a>
+        <a href="/profile" class="menu-item bottom">
+            <span class="icon">👤</span>
+        </a>
+    </aside>
 
-<!-- Main Content -->
-<div class="content">
-    <h1 th:text="'Velkommen, ' + ${session.adminUsername} + '!'"></h1>
-    <h2>Liste over igangværende projekter</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Projekt Navn</th>
-            <th>Slutdato</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="project : ${projects}">
-            <td th:text="${project.name}"></td>
-            <td th:text="${project.endDate}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- Main Content -->
+    <main class="content">
+        <header class="header">
+            <h1>Projects</h1>
+            <div class="header-actions">
+                <a href="/addproject" class="add-project-button">Add Project</a>
+                <a href="/logout" class="logout">Log out</a>
+            </div>
+        </header>
+        <div class="main-area">
+            <h1 th:text="'Welcome, ' + ${session.adminUsername} + '!'"></h1>
+            <h2>Your projects</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Project name</th>
+                    <th>End date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.name}"></td>
+                    <td th:text="${project.endDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
 </body>
-
 </html>
