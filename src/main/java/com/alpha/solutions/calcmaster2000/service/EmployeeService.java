@@ -15,7 +15,23 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    public Employee getEmployeeByID(int id) {
+        return employeeRepository.getEmployeeByID(id);
+    }
+
     public List<Employee> getAllEmployees() {
         return employeeRepository.getAllEmployees();
+    }
+
+    public void addNewEmployee(Employee employee) {
+        employeeRepository.addNewEmployee(employee);
+    }
+
+    public void deleteEmployeeById(int id) {
+        employeeRepository.deleteEmployeeById(id);
+    }
+
+    public void updateEmployee(Employee employee) {
+        employeeRepository.updateEmployee(employee);
     }
 }
