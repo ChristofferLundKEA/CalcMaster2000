@@ -85,6 +85,37 @@ public class ProjectRepository {
         return project;
     }
 
+    public void deleteProject(int id) {
+        String query = "DELETE FROM Project WHERE ProjectID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id); // Sæt parameteren i query
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateProject(Project project) {
+        String query = "UPDATE Project SET Name = ?, Description = ?, StartDate = ?, EndDate = ? WHERE ProjectID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, project.getName());
+            stmt.setString(2, project.getDescription());
+            stmt.setDate(3, java.sql.Date.valueOf(project.getStartDate())); // Konverter LocalDate til SQL Date
+            stmt.setDate(4, java.sql.Date.valueOf(project.getEndDate()));   // Konverter LocalDate til SQL Date
+            stmt.setInt(5, project.getProjectID());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

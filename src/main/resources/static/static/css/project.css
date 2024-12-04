@@ -115,3 +115,32 @@ body, html {
     background-color: #45a049;
 }
 
+.delete-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #FF6347;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: #FF4500; /* Mørkere rød ved hover */
+}
+
+.edit-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #FFA500;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.edit-button:hover {
+    background-color: #FF8C00; /* Mørkere orange ved hover */
+}
+
+

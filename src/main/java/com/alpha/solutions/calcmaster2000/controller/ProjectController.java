@@ -60,5 +60,32 @@ public class ProjectController {
         return "project"; // Thymeleaf-side for detaljer
     }
 
+    @GetMapping("/project/delete/{id}")
+    public String deleteProject(@PathVariable("id") int id) {
+        // Kald service-laget for at slette projektet
+        projectService.deleteProject(id);
+        return "redirect:/allProjects"; // Tilbage til oversigten efter sletning
+    }
+
+    @GetMapping("/project/edit/{id}")
+    public String showEditProjectForm(@PathVariable("id") int id, Model model) {
+        Project project = projectService.getProjectById(id); // Hent projektet via service
+
+        if (project == null) {
+            return "redirect:/allProjects"; // Hvis projektet ikke findes, omdiriger til allProjects
+        }
+
+        model.addAttribute("project", project); // Send projektet til formularen
+        return "editProject"; // vises til redigeringsformular
+    }
+
+    @PostMapping("/project/edit/{id}")
+    public String handleEditProjectForm(@PathVariable("id") int id, @ModelAttribute Project project) {
+        project.setProjectID(id); // Sikrer, at det korrekte ID opdateres
+        projectService.updateProject(project); // Opdater projektet via service
+        return "redirect:/project/" + id; // Send brugeren tilbage til projektets side
+    }
+
+
 }
 
