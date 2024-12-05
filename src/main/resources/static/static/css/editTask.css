@@ -94,87 +94,80 @@ body, html {
 .main-area {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Sørg for, at indholdet fylder hele højden */
-    min-height: 80vh; /* For at holde layoutet konsistent */
+    justify-content: center; /* Centrerer indhold lodret */
+    align-items: center; /* Centrerer indhold horisontalt */
+    min-height: 80vh;
 }
 
-.main-area h2 {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-
-.main-area p {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-/* Tilføjer styling til tabeller */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+/* Formular layout */
+.form-container {
+    max-width: 600px;
+    width: 100%; /* Gør formularen responsiv */
+    margin: 0 auto;
     background-color: white;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    text-align: left;
-    padding: 12px;
-}
-
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-/* Styling for knapper */
-.back-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
+.form-container h2 {
+    margin-bottom: 20px;
+    color: #333;
     text-align: center;
 }
 
-.back-button:hover {
-    background-color: #45a049;
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-/* Add Task Link */
-.add-task a {
-    color: #007bff;
-    text-decoration: none;
+input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
     font-size: 14px;
 }
 
-.add-task a:hover {
-    text-decoration: underline;
+textarea {
+    resize: vertical;
+    height: 100px;
 }
 
-.action-link {
-    color: #007bff;
+/* Knapper */
+button, .cancel {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
     text-decoration: none;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
 }
 
-.action-link:hover {
-    text-decoration: underline;
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
-.delete-link {
-    color: #dc3545;
+button:hover {
+    background-color: #45a049;
 }
 
-.delete-link:hover {
-    text-decoration: underline;
+.cancel {
+    background-color: #dc3545;
+    color: white;
 }
 
-
+.cancel:hover {
+    background-color: #c82333;
+}
 
 

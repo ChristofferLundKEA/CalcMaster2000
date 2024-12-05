@@ -39,7 +39,11 @@ public class ProjectService {
     }
 
     public Project getProjectById(int id) {
-        return projectRepository.getProjectById(id); // Kalder repository for data
+        Project project = projectRepository.getProjectById(id);
+        if (project == null) {
+            throw new RuntimeException("Projekt med ID " + id + " blev ikke fundet");
+        }
+        return project;
     }
 
 }

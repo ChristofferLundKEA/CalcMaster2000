@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Project Details</title>
-    <link rel="stylesheet" href="/static/css/project.css"> <!-- Separat CSS til denne side -->
+    <link rel="stylesheet" href="/static/css/project.css">
 </head>
 <body>
 <div class="container">
@@ -30,11 +30,61 @@
             </div>
         </header>
         <div class="main-area">
-            <h2>Project Details</h2>
-            <p><strong>Description:<br></strong> <span th:text="${project.description}"></span></p>
-            <p><strong>Start Date:</strong> <span th:text="${project.startDate}"></span></p>
-            <p><strong>End Date:</strong> <span th:text="${project.endDate}"></span></p>
-            <a href="/allProjects" class="back-button">Back to All Projects</a>
+            <!-- Project Details -->
+            <section>
+                <h2>Project Details</h2>
+                <p><strong>Description:<br></strong> <span th:text="${project.description}"></span></p>
+                <p><strong>Start Date:</strong> <span th:text="${project.startDate}"></span></p>
+                <p><strong>End Date:</strong> <span th:text="${project.endDate}"></span></p>
+            </section>
+
+            <!-- Task List Section -->
+            <section>
+                <h2>Tasks</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Time Estimate</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Iterér over tasks -->
+                    <tr th:each="task : ${tasks}">
+                        <td>
+                            <a th:href="@{/tasks/{taskID}(taskID=${task.taskID})}" th:text="${task.name}">Task Name</a>
+                        </td>
+                        <td th:text="${task.description}">No description</td>
+                        <td th:text="${task.priority}">No priority</td>
+                        <td th:text="${task.timeEstimate}">0</td>
+                        <td th:text="${task.status}">No status</td>
+                        <td>
+                            <a th:href="@{/tasks/edit/{taskID}(taskID=${task.taskID})}" class="action-link">Edit</a> |
+                            <a th:href="@{/tasks/delete/{taskID}(taskID=${task.taskID}, projectID=${project.projectID})}"
+                               class="action-link delete-link"
+                               onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- Hvis der ikke er nogen tasks -->
+                <p th:if="${tasks.isEmpty()}">No tasks found for this project.</p>
+            </section>
+
+            <!-- Button to Add a New Task -->
+            <div class="add-task">
+                <a th:href="@{/tasks/addTask(projectID=${project.projectID})}" class="button">Add Task</a>
+            </div>
+
+            <!-- Back to All Projects -->
+            <div class="back-button-container">
+                <a href="/allProjects" class="back-button">Back to All Projects</a>
+            </div>
         </div>
     </main>
 </div>

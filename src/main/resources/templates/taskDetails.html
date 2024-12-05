@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Task Details</title>
+  <link rel="stylesheet" href="/static/css/taskDetails.css">
+</head>
+<body>
+
+<header>
+  <h1 th:text="${task.name}">Task Name</h1>
+  <a th:href="@{/project/{projectID}(projectID=${task.projectID})}">Back to Project</a>
+</header>
+
+<section class="task-details">
+  <h2>Task Details</h2>
+  <p><strong>Description:</strong> <span th:text="${task.description}"></span></p>
+  <p><strong>Priority:</strong> <span th:text="${task.priority}"></span></p>
+  <p><strong>Time Estimate:</strong> <span th:text="${task.timeEstimate}"></span> days</p>
+  <p><strong>Status:</strong> <span th:text="${task.status}"></span></p>
+</section>
+
+<section class="subtasks">
+  <h2>Subtasks</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Subtask Name</th>
+      <th>Description</th>
+      <th>Priority</th>
+      <th>Time Estimate</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="subtask : ${subtasks}">
+      <td th:text="${subtask.name}">No name</td>
+      <td th:text="${subtask.description}">No description</td>
+      <td th:text="${subtask.priority}">No priority</td>
+      <td th:text="${subtask.timeEstimate}">0</td>
+      <td th:text="${subtask.status}">No status</td>
+      <td>
+        <a th:href="@{/subtasks/edit/{subtaskID}(subtaskID=${subtask.subtaskID})}">Edit</a> |
+        <a th:href="@{/subtasks/delete/{subtaskID}(subtaskID=${subtask.subtaskID}, taskID=${task.taskID})}"
+           class="delete-link"
+           onclick="return confirm('Are you sure you want to delete this subtask?');">Delete</a>
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/subtask/addSubtask(taskID=${task.taskID})}" class="add-subtask-link">Add Subtask</a>
+</section>
+
+</body>
+</html>
