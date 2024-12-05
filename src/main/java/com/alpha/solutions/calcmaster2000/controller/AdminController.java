@@ -60,8 +60,15 @@ public class AdminController {
 
     // Viser profile-siden
     @GetMapping("/adminProfile")
-    public String showProfile() {
-        return "adminProfile"; // Sender brugeren til profile.html
+    public String showProfile(Model model) {
+        // Simuler en admin-bruger for demonstration
+        Admin admin = new Admin();
+        admin.setUsername("AdminName");
+        admin.setEmail("admin@example.com");
+
+        // Tilføj admin-objektet til modellen
+        model.addAttribute("admin", admin);
+        return "adminProfile";
     }
 }
 

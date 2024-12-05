@@ -16,7 +16,7 @@
             <span class="icon">○</span>
             <span class="text">Employees</span>
         </a>
-        <a href="/profile" class="menu-item active bottom">
+        <a href="/adminProfile" class="menu-item active bottom">
             <span class="icon">👤</span>
         </a>
     </aside>
@@ -31,9 +31,8 @@
         </header>
         <div class="main-area">
             <h2>Profile Details</h2>
-            <p><strong>Username:</strong> <span>AdminName</span></p>
-            <p><strong>Email:</strong> <span>admin@example.com</span></p>
-            <p><strong>Role:</strong> <span>Administrator</span></p>
+            <p><strong>Username:</strong> <span th:text="${admin.username}">AdminName</span></p>
+            <p><strong>Email:</strong> <span th:text="${admin.email}">admin@example.com</span></p>
 
         </div>
     </main>
