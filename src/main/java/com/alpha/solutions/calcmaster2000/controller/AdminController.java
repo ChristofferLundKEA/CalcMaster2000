@@ -59,9 +59,9 @@ public class AdminController {
     }
 
     // Viser profile-siden
-    @GetMapping("/profile")
+    @GetMapping("/adminProfile")
     public String showProfile() {
-        return "profile"; // Sender brugeren til profile.html
+        return "adminProfile"; // Sender brugeren til profile.html
     }
 }
 

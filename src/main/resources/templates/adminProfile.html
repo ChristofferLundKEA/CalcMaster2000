@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Profile</title>
+    <link rel="stylesheet" href="/static/css/adminProfile.css">
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/allProjects" class="menu-item">
+            <span class="icon">●</span>
+            <span class="text">Projects</span>
+        </a>
+        <a href="/employees" class="menu-item">
+            <span class="icon">○</span>
+            <span class="text">Employees</span>
+        </a>
+        <a href="/profile" class="menu-item active bottom">
+            <span class="icon">👤</span>
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <header class="header">
+            <h1>Admin Profile</h1>
+            <div class="header-actions">
+                <a href="/logout" class="logout">Log out</a>
+            </div>
+        </header>
+        <div class="main-area">
+            <h2>Profile Details</h2>
+            <p><strong>Username:</strong> <span>AdminName</span></p>
+            <p><strong>Email:</strong> <span>admin@example.com</span></p>
+            <p><strong>Role:</strong> <span>Administrator</span></p>
+
+        </div>
+    </main>
+</div>
+</body>
+</html>
