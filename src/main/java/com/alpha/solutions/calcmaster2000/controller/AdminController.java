@@ -24,6 +24,7 @@ public class AdminController {
         return "login"; // Sender brugeren til login.html
     }
 
+
     // Håndterer login-logik
     @PostMapping("/login")
     public String handleLogin(
@@ -56,5 +57,12 @@ public class AdminController {
         session.invalidate();
         return "redirect:/login"; // Send brugeren tilbage til login-siden
     }
+
+    // Viser profile-siden
+    @GetMapping("/profile")
+    public String showProfile() {
+        return "profile"; // Sender brugeren til profile.html
+    }
 }
+
 

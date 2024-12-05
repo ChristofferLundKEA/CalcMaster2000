@@ -18,7 +18,7 @@ public class ProjectRepository {
 
     public List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
-        String query = "SELECT ProjectID, Name, Description, StartDate, EndDate FROM Project";
+        String query = "SELECT ProjectID, Name, Description, StartDate, EndDate FROM Project ORDER BY EndDate ASC";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(query);

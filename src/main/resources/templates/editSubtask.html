@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Subtask</title>
+    <link rel="stylesheet" href="/static/css/editSubtask.css">
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/allProjects" class="menu-item">
+            <span class="icon">●</span>
+            <span class="text">Projects</span>
+        </a>
+        <a href="/employees" class="menu-item">
+            <span class="icon">○</span>
+            <span class="text">Employees</span>
+        </a>
+        <a href="/profile" class="menu-item bottom">
+            <span class="icon">👤</span>
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <header class="header">
+            <h1>Edit Task</h1>
+            <div class="header-actions">
+                <a href="/logout" class="logout">Log out</a>
+            </div>
+        </header>
+        <div class="main-area">
+            <h2>Update Subtask Details</h2>
+            <form th:action="@{/subtasks/edit}" method="post">
+                <!-- Hidden field for TaskID -->
+                <input type="hidden" name="subtaskID" th:value="${subtask.subtaskID}">
+                <input type="hidden" name="taskID" th:value="${subtask.taskID}">
+
+                <!-- Name -->
+                <label for="name">Subtask Name:</label>
+                <input type="text" id="name" name="name" th:value="${subtask.name}" required>
+                <br>
+
+                <!-- Description -->
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required th:text="${subtask.description}"></textarea>
+                <br>
+
+                <!-- Priority -->
+                <label for="priority">Priority (Low, Medium, High):</label>
+                <input type="text" id="priority" name="priority" th:value="${subtask.priority}" required>
+                <br>
+
+                <!-- Time Estimate -->
+                <label for="timeEstimate">Estimated Time (in days):</label>
+                <input type="number" id="timeEstimate" name="timeEstimate" th:value="${subtask.timeEstimate}" required>
+                <br>
+
+                <!-- Status -->
+                <label for="status">Status (Not Started, Ready, In Progress, In Review, Done):</label>
+                <input type="text" id="status" name="status" th:value="${subtask.status}" required>
+                <br>
+
+                <!-- Submit and Cancel -->
+                <button type="submit" class="button">Save Changes</button>
+                <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="btn-cancel">Cancel</a>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>
