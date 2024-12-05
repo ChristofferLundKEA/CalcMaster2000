@@ -46,5 +46,13 @@ public class ProjectService {
         return project;
     }
 
+    public void deleteProject(int id) {
+        projectRepository.deleteProject(id);
+    }
+
+    public void updateProject(Project project) {
+        projectRepository.updateProject(project); // Kald repository-laget for opdatering
+    }
+
 }
 

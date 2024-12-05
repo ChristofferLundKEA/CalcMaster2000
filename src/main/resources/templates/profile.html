@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin Profile</title>
-    <link rel="stylesheet" href="/static/css/profile.css">
+    <title>Project Details</title>
+    <link rel="stylesheet" href="/static/css/project.css"> <!-- Separat CSS til denne side -->
 </head>
 <body>
 <div class="container">
     <!-- Sidebar -->
     <aside class="sidebar">
-        <a href="/allProjects" class="menu-item">
+        <a href="/allProjects" class="menu-item active">
             <span class="icon">●</span>
             <span class="text">Projects</span>
         </a>
@@ -16,7 +16,7 @@
             <span class="icon">○</span>
             <span class="text">Employees</span>
         </a>
-        <a href="/profile" class="menu-item active bottom">
+        <a href="/profile" class="menu-item bottom">
             <span class="icon">👤</span>
         </a>
     </aside>
@@ -24,17 +24,24 @@
     <!-- Main Content -->
     <main class="content">
         <header class="header">
-            <h1>Admin Profile</h1>
+            <h1 th:text="${employee.name}">Employee Name</h1>
             <div class="header-actions">
+                <a th:href="@{/updateEmployee/{id}(id=${employee.employeeID})}" class="add-project-button">Edit Employee</a>
                 <a href="/logout" class="logout">Log out</a>
             </div>
         </header>
         <div class="main-area">
-            <h2>Profile Details</h2>
-            <p><strong>Username:</strong> <span>AdminName</span></p>
-            <p><strong>Email:</strong> <span>admin@example.com</span></p>
-            <p><strong>Role:</strong> <span>Administrator</span></p>
+            <h2>Employee Details</h2>
+            <img src="/static/images/default-profile-picture.png" alt="Default" width="200" height="200">
+            <p><strong>Name:<br></strong> <span th:text="${employee.name}"></span></p>
+            <p><strong>Email:<br></strong> <span th:text="${employee.email}"></span></p>
+            <p><strong>Phone:<br></strong> <span th:text="${employee.phone}"></span></p>
+            <p><strong>Skills:<br></strong> <span th:text="${employee.skill}"></span></p>
+            <a href="/employees" class="back-button">Back to All Employees</a>
 
+            <form th:action="@{/deleteEmployee/{id}(id=${employeeID})}" method="post">
+                <button type="submit" class="back-button">Delete Employee</button>
+            </form>
         </div>
     </main>
 </div>

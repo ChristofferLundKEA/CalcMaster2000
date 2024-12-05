@@ -30,6 +30,7 @@
             </div>
         </header>
         <div class="main-area">
+
             <!-- Project Details -->
             <section>
                 <h2>Project Details</h2>
@@ -84,9 +85,23 @@
             <!-- Back to All Projects -->
             <div class="back-button-container">
                 <a href="/allProjects" class="back-button">Back to All Projects</a>
+
+            <h2>Project Details</h2>
+            <p><strong>Description:<br></strong> <span th:text="${project.description}"></span></p>
+            <p><strong>Start Date:</strong> <span th:text="${project.startDate}"></span></p>
+            <p><strong>End Date:</strong> <span th:text="${project.endDate}"></span></p>
+            <div class="actions">
+                <a href="/allProjects" class="back-button">Back to All Projects</a>
+                <a th:href="@{/project/delete/{id}(id=${project.projectID})}"
+                   class="delete-button"
+                   onclick="return confirm('Are you sure you want to delete this project?')">Delete Project</a>
+                <a th:href="@{/project/edit/{id}(id=${project.projectID})}" class="edit-button">Edit Project</a>
+
+
             </div>
         </div>
     </main>
 </div>
 </body>
 </html>
+

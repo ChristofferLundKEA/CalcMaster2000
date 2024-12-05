@@ -10,9 +10,31 @@ import java.util.List;
 @Repository
 public class EmployeeRepository {
 
-    private String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
-    private String username = "Celinelundm";
-    private String password = "fredagsbar1234!";
+    private final String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
+    private final String username = "Celinelundm";
+    private final String password = "fredagsbar1234!";
+
+    public Employee getEmployeeByID(int id) {
+        String query = "SELECT EmployeeID, Name, PhoneNumber, Email, Skills FROM Employee WHERE EmployeeID = ?";
+        Employee emp = new Employee();
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = con.prepareStatement(query)){
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                emp.setEmployeeID(rs.getInt("EmployeeID"));
+                emp.setName(rs.getString("Name"));
+                emp.setPhone(rs.getInt("PhoneNumber"));
+                emp.setEmail(rs.getString("Email"));
+                emp.setSkill(rs.getString("Skills"));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return emp;
+    }
 
     public List<Employee> getAllEmployees() {
         List<Employee> listOfEmployees = new ArrayList<>();
@@ -35,5 +57,53 @@ public class EmployeeRepository {
             e.printStackTrace();
         }
         return listOfEmployees;
+    }
+
+    public void addNewEmployee(Employee employee) {
+        String query = "INSERT INTO Employee (Name, Email, PhoneNumber, Skills) VALUES (?, ?, ?, ?)";
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, employee.getName());
+            stmt.setString(2, employee.getEmail());
+            stmt.setInt(3, employee.getPhone());
+            stmt.setString(4, employee.getSkill());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteEmployeeById(int id) {
+        String query = "DELETE FROM Employee WHERE EmployeeID = ?";
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+        stmt.setInt(1, id);
+        stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEmployee(Employee employee) {
+        String query = "UPDATE Employee SET Name = ?, Email = ?, PhoneNumber = ?, Skills = ? WHERE EmployeeID = ?";
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = con.prepareStatement(query)){
+            stmt.setString(1, employee.getName());
+            stmt.setString(2, employee.getEmail());
+            stmt.setInt(3, employee.getPhone());
+            stmt.setString(4, employee.getSkill());
+            stmt.setInt(5, employee.getEmployeeID());
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 }
