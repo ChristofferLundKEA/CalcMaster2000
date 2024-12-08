@@ -56,6 +56,11 @@
                 <input type="number" id="timeEstimate" name="timeEstimate" th:value="${task.timeEstimate}" required>
                 <br>
 
+                <div class="time-estimation-checkbox">
+                    <label for="useSubtaskTime">Calculate time from subtasks:</label>
+                    <input type="checkbox" id="useSubtaskTime" name="useSubtaskTime" th:checked="${task.useSubtaskTime}" value="true">
+                </div>
+
                 <!-- Status -->
                 <label for="status">Status (Not Started, Ready, In Progress, In Review, Done):</label>
                 <input type="text" id="status" name="status" th:value="${task.status}" required>

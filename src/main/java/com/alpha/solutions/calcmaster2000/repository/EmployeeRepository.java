@@ -1,6 +1,7 @@
 package com.alpha.solutions.calcmaster2000.repository;
 
 import com.alpha.solutions.calcmaster2000.model.Employee;
+import com.alpha.solutions.calcmaster2000.model.Skill;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -15,7 +16,7 @@ public class EmployeeRepository {
     private final String password = "fredagsbar1234!";
 
     public Employee getEmployeeByID(int id) {
-        String query = "SELECT EmployeeID, Name, PhoneNumber, Email, Skills FROM Employee WHERE EmployeeID = ?";
+        String query = "SELECT EmployeeID, Name, PhoneNumber, Email FROM Employee WHERE EmployeeID = ?";
         Employee emp = new Employee();
         try (Connection con = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = con.prepareStatement(query)){
@@ -27,7 +28,7 @@ public class EmployeeRepository {
                 emp.setName(rs.getString("Name"));
                 emp.setPhone(rs.getInt("PhoneNumber"));
                 emp.setEmail(rs.getString("Email"));
-                emp.setSkill(rs.getString("Skills"));
+                emp.setSkill(getSkillForEmployee(id));
             }
         }
         catch (SQLException e) {
@@ -38,7 +39,7 @@ public class EmployeeRepository {
 
     public List<Employee> getAllEmployees() {
         List<Employee> listOfEmployees = new ArrayList<>();
-        String query = "SELECT EmployeeID, Name, PhoneNumber, Email, Skills FROM Employee";
+        String query = "SELECT EmployeeID, Name, PhoneNumber, Email FROM Employee";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(query);
@@ -50,7 +51,7 @@ public class EmployeeRepository {
                 employee.setName(rs.getString("Name"));
                 employee.setPhone(rs.getInt("PhoneNumber"));
                 employee.setEmail(rs.getString("Email"));
-                employee.setSkill(rs.getString("Skills"));
+                employee.setSkill(new ArrayList<>());
                 listOfEmployees.add(employee);
             }
         } catch (SQLException e) {
@@ -59,22 +60,34 @@ public class EmployeeRepository {
         return listOfEmployees;
     }
 
-    public void addNewEmployee(Employee employee) {
-        String query = "INSERT INTO Employee (Name, Email, PhoneNumber, Skills) VALUES (?, ?, ?, ?)";
+    public List<Skill> getSkillForEmployee(int employeeID){
+        List<Skill> skills = new ArrayList<>();
+        String query = "SELECT s.SkillID, s.Name, s.Description " +
+                "FROM Skill s " +
+                "JOIN Employee_Skill es ON s.SkillID = es.SkillID " +
+                "WHERE es.EmployeeID = ?";
 
         try (Connection con = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = con.prepareStatement(query)) {
+            PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, employee.getName());
-            stmt.setString(2, employee.getEmail());
-            stmt.setInt(3, employee.getPhone());
-            stmt.setString(4, employee.getSkill());
+            stmt.setInt(1, employeeID);
 
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+            try(ResultSet rs = stmt.executeQuery()){
+                while (rs.next()){
+                    Skill skill = new Skill();
+                    skill.setSkillID(rs.getInt("SkillID"));
+                    skill.setName(rs.getString("Name"));
+                    skill.setDescription(rs.getString("Description"));
+                    skills. add(skill);
+                }
+            }
+        } catch (SQLException e){
             e.printStackTrace();
         }
+
+        return skills;
     }
+
 
     public void deleteEmployeeById(int id) {
         String query = "DELETE FROM Employee WHERE EmployeeID = ?";
@@ -91,19 +104,92 @@ public class EmployeeRepository {
     }
 
     public void updateEmployee(Employee employee) {
-        String query = "UPDATE Employee SET Name = ?, Email = ?, PhoneNumber = ?, Skills = ? WHERE EmployeeID = ?";
+        String query = "UPDATE Employee SET Name = ?, Email = ?, PhoneNumber = ? WHERE EmployeeID = ?";
 
         try (Connection con = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = con.prepareStatement(query)){
             stmt.setString(1, employee.getName());
             stmt.setString(2, employee.getEmail());
             stmt.setInt(3, employee.getPhone());
-            stmt.setString(4, employee.getSkill());
-            stmt.setInt(5, employee.getEmployeeID());
+            stmt.setInt(4, employee.getEmployeeID());
             stmt.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
         }
-
     }
+
+    public void addSkillToEmployee(int employeeID, int skillID) {
+        String query = "INSERT INTO Employee_Skill (EmployeeID, SkillID) VALUES (?, ?)";
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, employeeID);
+            stmt.setInt(2, skillID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int addNewEmployeeAndGetIdBack(Employee employee) {
+        String query = "INSERT INTO Employee (Name, Email, PhoneNumber) VALUES (?, ?, ?)";
+        String getLastInsertedIdQuery = "SELECT LAST_INSERT_ID() AS EmployeeID";
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, employee.getName());
+            stmt.setString(2, employee.getEmail());
+            stmt.setInt(3, employee.getPhone());
+            stmt.executeUpdate();
+
+            try (PreparedStatement idStmt = con.prepareStatement(getLastInsertedIdQuery);
+                 ResultSet rs = idStmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("EmployeeID");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void deleteEmployeeSkills(int employeeID) {
+        String query = "DELETE FROM Employee_Skill WHERE EmployeeID = ?";
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, employeeID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public List<Skill> getSkillsForEmployee(int employeeID) {
+//        String query = "SELECT s.SkillID, s.Name, s.Description " +
+//                "FROM Skill s " +
+//                "JOIN Employee_Skill es ON s.SkillID = es.SkillID " +
+//                "WHERE es.EmployeeID = ?";
+//
+//        List<Skill> skills = new ArrayList<>();
+//
+//        try (Connection con = DriverManager.getConnection(url, username, password);
+//             PreparedStatement stmt = con.prepareStatement(query)) {
+//            stmt.setInt(1, employeeID);
+//            ResultSet rs = stmt.executeQuery();
+//            while (rs.next()) {
+//                Skill skill = new Skill();
+//                skill.setSkillID(rs.getInt("SkillID"));
+//                skill.setName(rs.getString("Name"));
+//                skill.setDescription(rs.getString("Description"));
+//                skills.add(skill);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return skills;
+//    }
+
 }

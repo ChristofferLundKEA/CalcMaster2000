@@ -1,11 +1,14 @@
 package com.alpha.solutions.calcmaster2000.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee {
     private int employeeID;
     private String name;
     private int phone;
     private String email;
-    private String skill;
+    private List<Skill> skill = new ArrayList<>();
 
     public int getEmployeeID() {
         return employeeID;
@@ -15,11 +18,11 @@ public class Employee {
         this.employeeID = employeeID;
     }
 
-    public String getSkill() {
+    public List<Skill> getSkill() {
         return skill;
     }
 
-    public void setSkill(String skill) {
+    public void setSkill(List<Skill> skill) {
         this.skill = skill;
     }
 

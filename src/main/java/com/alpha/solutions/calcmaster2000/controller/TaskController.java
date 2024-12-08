@@ -30,7 +30,7 @@ public class TaskController {
     @GetMapping("/tasks/addTask")
     public String showCreateTaskForm(@RequestParam("projectID") int projectID, Model model) {
         Project project = projectService.getProjectById(projectID); // Hent projekt baseret på ID
-        model.addAttribute("task", new Task(0, 0, "", "", "", 0, ""));
+        model.addAttribute("task", new Task(0, 0, "", "", "", 0, "", false, 0));
         model.addAttribute("project", project);
         return "addTask"; // Thymeleaf-skabelon til at oprette en task
     }

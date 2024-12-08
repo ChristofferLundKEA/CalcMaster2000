@@ -33,10 +33,16 @@
         <div class="main-area">
             <h2>Employee Details</h2>
             <img src="/static/images/default-profile-picture.png" alt="Default" width="200" height="200">
-            <p><strong>Name:<br></strong> <span th:text="${employee.name}"></span></p>
-            <p><strong>Email:<br></strong> <span th:text="${employee.email}"></span></p>
-            <p><strong>Phone:<br></strong> <span th:text="${employee.phone}"></span></p>
-            <p><strong>Skills:<br></strong> <span th:text="${employee.skill}"></span></p>
+            <p><strong>Name:<br></strong>
+                <span th:text="${employee.name}"></span></p>
+            <p><strong>Email:<br></strong>
+                <span th:text="${employee.email}"></span></p>
+            <p><strong>Phone:<br></strong>
+                <span th:text="${employee.phone}"></span></p>
+            <p><strong>Skills:</strong>
+            <ul>
+                <li th:each="skill : ${employee.skill}" th:text="${skill.name}"></li>
+            </ul>
             <a href="/employees" class="back-button">Back to All Employees</a>
 
             <form th:action="@{/deleteEmployee/{id}(id=${employeeID})}" method="post">
