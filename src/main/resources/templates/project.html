@@ -61,7 +61,11 @@
                         </td>
                         <td th:text="${task.description}">No description</td>
                         <td th:text="${task.priority}">No priority</td>
-                        <td th:text="${task.timeEstimate}">0</td>
+
+                        <!-- Tjekker om "useSubtaskTime" er true eller false og viser data derefter. -->
+                        <td th:text="${task.calculatedTimeEstimate}"></td>
+
+
                         <td th:text="${task.status}">No status</td>
                         <td>
                             <a th:href="@{/tasks/edit/{taskID}(taskID=${task.taskID})}" class="action-link">Edit</a> |
@@ -82,14 +86,7 @@
                 <a th:href="@{/tasks/addTask(projectID=${project.projectID})}" class="button">Add Task</a>
             </div>
 
-            <!-- Back to All Projects -->
-            <div class="back-button-container">
-                <a href="/allProjects" class="back-button">Back to All Projects</a>
-
-            <h2>Project Details</h2>
-            <p><strong>Description:<br></strong> <span th:text="${project.description}"></span></p>
-            <p><strong>Start Date:</strong> <span th:text="${project.startDate}"></span></p>
-            <p><strong>End Date:</strong> <span th:text="${project.endDate}"></span></p>
+            <!-- "All projects", delete and edit-buttons -->
             <div class="actions">
                 <a href="/allProjects" class="back-button">Back to All Projects</a>
                 <a th:href="@{/project/delete/{id}(id=${project.projectID})}"

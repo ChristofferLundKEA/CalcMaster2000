@@ -88,21 +88,6 @@ public class EmployeeRepository {
         return skills;
     }
 
-    public void addNewEmployee(Employee employee) {
-        String query = "INSERT INTO Employee (Name, Email, PhoneNumber) VALUES (?, ?, ?)";
-
-        try (Connection con = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setString(1, employee.getName());
-            stmt.setString(2, employee.getEmail());
-            stmt.setInt(3, employee.getPhone());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void deleteEmployeeById(int id) {
         String query = "DELETE FROM Employee WHERE EmployeeID = ?";
@@ -119,15 +104,14 @@ public class EmployeeRepository {
     }
 
     public void updateEmployee(Employee employee) {
-        String query = "UPDATE Employee SET Name = ?, Email = ?, PhoneNumber = ?, Skills = ? WHERE EmployeeID = ?";
+        String query = "UPDATE Employee SET Name = ?, Email = ?, PhoneNumber = ? WHERE EmployeeID = ?";
 
         try (Connection con = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = con.prepareStatement(query)){
             stmt.setString(1, employee.getName());
             stmt.setString(2, employee.getEmail());
             stmt.setInt(3, employee.getPhone());
-            stmt.setObject(4, employee.getSkill());
-            stmt.setInt(5, employee.getEmployeeID());
+            stmt.setInt(4, employee.getEmployeeID());
             stmt.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();

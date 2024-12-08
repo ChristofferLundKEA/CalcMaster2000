@@ -11,11 +11,14 @@ public class Task {
     private String priority;
     private int timeEstimate;
     private String status;
+    private boolean useSubtaskTime;
+    private int calculatedTimeEstimate; // er ikke i DB. Bliver brugt til at udregne samlet tid fra subtasks
 
     // Constructor
     public Task() {}
 
-    public Task(Integer taskID, int projectID, String name, String description, String priority, int timeEstimate, String status) {
+    public Task(Integer taskID, int projectID, String name, String description, String priority,
+                int timeEstimate, String status, boolean useSubtaskTime, int calculatedTimeEstimate) {
         this.taskID = taskID;
         this.projectID = projectID;
         this.name = name;
@@ -23,6 +26,8 @@ public class Task {
         this.priority = priority;
         this.timeEstimate = timeEstimate;
         this.status = status;
+        this.useSubtaskTime = useSubtaskTime;
+        this.calculatedTimeEstimate = calculatedTimeEstimate;
     }
 
     // Getters and Setters
@@ -81,4 +86,22 @@ public class Task {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public boolean isUseSubtaskTime() {
+        return useSubtaskTime;
+    }
+
+    public void setUseSubtaskTime(boolean useSubtaskTime) {
+        this.useSubtaskTime = useSubtaskTime;
+    }
+
+    public int getCalculatedTimeEstimate() {
+        return calculatedTimeEstimate;
+    }
+
+    public void setCalculatedTimeEstimate(int calculatedTimeEstimate) {
+        this.calculatedTimeEstimate = calculatedTimeEstimate;
+    }
+
+
 }

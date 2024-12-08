@@ -61,7 +61,6 @@ public class EmployeeController {
                                Model model){
         Employee employee = employeeService.getEmployeeByID(id);
         List<Skill> allSkills = skillService.getAllSkills();
-        System.out.println(employee.getSkill());
 
         model.addAttribute("employee", employee);
         model.addAttribute("allSkills", allSkills);

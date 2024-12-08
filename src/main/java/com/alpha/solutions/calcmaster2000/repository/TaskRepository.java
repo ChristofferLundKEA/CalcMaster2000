@@ -16,7 +16,7 @@ public class TaskRepository {
 
     //(C)Opret en task til et projekt
     public void createTask(Task task) {
-        String sql = "INSERT INTO Task (ProjectID, Name, Description, Priority, TimeEstimate, Status) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Task (ProjectID, Name, Description, Priority, TimeEstimate, Status, UseSubtaskTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -26,6 +26,7 @@ public class TaskRepository {
             stmt.setString(4, task.getPriority());
             stmt.setInt(5, task.getTimeEstimate());
             stmt.setString(6, task.getStatus());
+            stmt.setBoolean(7, task.isUseSubtaskTime());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -44,15 +45,16 @@ public class TaskRepository {
             stmt.setInt(1, projectID);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    Task task = new Task(
-                            rs.getInt("TaskID"),
-                            rs.getInt("ProjectID"),
-                            rs.getString("Name"),
-                            rs.getString("Description"),
-                            rs.getString("Priority"),
-                            rs.getInt("TimeEstimate"),
-                            rs.getString("Status")
-                    );
+                    Task task = new Task();
+                            task.setTaskID(rs.getInt("TaskID"));
+                            task.setProjectID(rs.getInt("ProjectID"));
+                            task.setName(rs.getString("Name"));
+                            task.setDescription(rs.getString("Description"));
+                            task.setPriority(rs.getString("Priority"));
+                            task.setTimeEstimate(rs.getInt("TimeEstimate"));
+                            task.setStatus(rs.getString("Status"));
+                            task.setUseSubtaskTime(rs.getBoolean("useSubtaskTime"));
+
                     tasks.add(task);
                 }
             }
@@ -66,7 +68,7 @@ public class TaskRepository {
 
     //(U)Opdater en task fra databasen
     public void updateTask(Task task) {
-        String sql = "UPDATE Task SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ? WHERE TaskID = ?";
+        String sql = "UPDATE Task SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ?, UseSubtaskTime = ? WHERE TaskID = ?";
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -75,7 +77,9 @@ public class TaskRepository {
             stmt.setString(3, task.getPriority());
             stmt.setInt(4, task.getTimeEstimate());
             stmt.setString(5, task.getStatus());
-            stmt.setInt(6, task.getTaskID());
+            stmt.setBoolean(6, task.isUseSubtaskTime());
+            stmt.setInt(7, task.getTaskID());
+
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -108,15 +112,15 @@ public class TaskRepository {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                task = new Task(
-                        rs.getInt("TaskID"),
-                        rs.getInt("ProjectID"),
-                        rs.getString("Name"),
-                        rs.getString("Description"),
-                        rs.getString("Priority"),
-                        rs.getInt("TimeEstimate"),
-                        rs.getString("Status")
-                );
+                task = new Task();
+                task.setTaskID(rs.getInt("TaskID"));
+                task.setProjectID(rs.getInt("ProjectID"));
+                task.setName(rs.getString("Name"));
+                task.setDescription(rs.getString("Description"));
+                task.setPriority(rs.getString("Priority"));
+                task.setTimeEstimate(rs.getInt("TimeEstimate"));
+                task.setStatus(rs.getString("Status"));
+                task.setUseSubtaskTime(rs.getBoolean("useSubtaskTime"));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved hentning af task med ID " + taskID, e);

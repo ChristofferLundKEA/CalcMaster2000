@@ -42,10 +42,6 @@ public class EmployeeService {
         return employeeRepository.getAllEmployees();
     }
 
-    public void addNewEmployee(Employee employee) {
-        employeeRepository.addNewEmployee(employee);
-    }
-
     public void deleteEmployeeById(int id) {
         employeeRepository.deleteEmployeeById(id);
     }

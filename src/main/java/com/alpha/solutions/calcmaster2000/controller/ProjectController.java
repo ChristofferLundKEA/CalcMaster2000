@@ -1,6 +1,7 @@
 package com.alpha.solutions.calcmaster2000.controller;
 
 import com.alpha.solutions.calcmaster2000.model.Project;
+import com.alpha.solutions.calcmaster2000.model.Subtask;
 import com.alpha.solutions.calcmaster2000.model.Task;
 import com.alpha.solutions.calcmaster2000.service.ProjectService;
 import com.alpha.solutions.calcmaster2000.service.SubtaskService;
@@ -63,15 +64,30 @@ public class ProjectController {
             // Hent projektet baseret på projekt-ID
             Project project = projectService.getProjectById(projectID);
 
+
+
             // Hent tasks, der tilhører projektet
             List<Task> tasks = taskService.getTasksByProjectID(projectID);
             if (tasks == null) {
                 tasks = new ArrayList<>(); // Initialiser en tom liste, hvis der ikke findes tasks
             }
 
+
+            for (Task task : tasks) { // looper over tasks som hører til projektet
+                if (task.isUseSubtaskTime()) { // hvis fluebenet er sat til
+                    List<Subtask> subtasks = subtaskService.getSubtasksByTaskID(task.getTaskID()); // lav List af alle subtasks som hører til tasken
+                    int sum = 0;
+                    for (Subtask subtask : subtasks) sum += subtask.getTimeEstimate(); // looper over alle subtasks og lægger alle tidsestimeringer sammen i "int sum"
+                    task.setCalculatedTimeEstimate(sum); // den enkelte task får "int sum" som sin tidsestimering.
+                } else {
+                    task.setCalculatedTimeEstimate(task.getTimeEstimate()); // hvis ikke fluebenet er sat til, vil den oprindelige tidsestimering blive brugt.
+                }
+            }
+
             // Tilføj data til modellen for Thymeleaf
             model.addAttribute("project", project);
             model.addAttribute("tasks", tasks);
+
 
             return "project"; // Returner Thymeleaf-skabelonen "project.html"
         } catch (RuntimeException e) {
