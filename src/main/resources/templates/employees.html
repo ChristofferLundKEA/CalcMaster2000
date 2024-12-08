@@ -44,17 +44,24 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Skill</th>
+                    <th>Skills</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="employee : ${employees}">
-                    <td><a th:href="@{/profile/{id}(id=${employee.employeeID})}" th:text="${employee.name}"></a></td>
-                    <td th:text="${employee.skill}"></td>
+                    <td>
+                        <a th:href="@{/profile/{id}(id=${employee.employeeID})}" th:text="${employee.name}"></a>
+                    </td>
+                    <td>
+                        <ul>
+                            <li th:each="skill : ${employee.skill}" th:text="${skill.name}"></li>
+                        </ul>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
     </main>
 </div>
 </body>
