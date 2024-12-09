@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Add employee</title>
     <link rel="stylesheet" href="/static/css/addProject.css">
@@ -62,6 +62,20 @@
                     <button type="submit" class="btn-submit">Add employee</button>
                 </div>
             </form>
+            <div class="form-group">
+                <h3>Create a New Skill</h3>
+                <form th:action="@{/addNewSkill}" method="post" class="form">
+                    <label for="skillName">Skill Name:</label>
+                    <input type="text" id="skillName" name="name" required />
+
+                    <label for="skillDescription">Description:</label>
+                    <textarea id="skillDescription" name="description" required></textarea>
+
+                    <input type="hidden" th:value="${employee.employeeID}" name="employeeID" /> <!-- skal bruge employeeID til at opdatere siden når ny skill er tilføjet-->
+
+                    <button type="submit" class="btn-submit">Create Skill</button>
+                </form>
+            </div>
         </div>
     </main>
 </div>
