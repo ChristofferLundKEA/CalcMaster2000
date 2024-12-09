@@ -1,69 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Edit Employee</title>
     <link rel="stylesheet" href="/static/css/addProject.css">
 </head>
 <body>
-<div class="container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <a href="/allProjects" class="menu-item">
-            <span class="icon">●</span>
-            <span class="text">Projects</span>
-        </a>
-        <a href="/employees" class="menu-item">
-            <span class="icon">○</span>
-            <span class="text">Employees</span>
-        </a>
-        <a href="/adminProfile" class="menu-item bottom">
-            <span class="icon">👤</span>
-        </a>
-    </aside>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/allProjects" class="menu-item">
+                <span class="icon">●</span>
+                <span class="text">Projects</span>
+            </a>
+            <a href="/employees" class="menu-item">
+                <span class="icon">○</span>
+                <span class="text">Employees</span>
+            </a>
+            <a href="/adminProfile" class="menu-item bottom">
+                <span class="icon">👤</span>
+            </a>
+        </aside>
 
-    <main class="content">
-        <header class="header">
-            <h1>Edit Employee</h1>
-            <a href="/logout" class="logout">Log out</a>
-        </header>
-        <div class="main-area">
-            <form th:action="@{/updateEmployee}" method="post" class="form">
-                <input type="hidden" id="employeeID" name="employeeID" th:value="${employee.employeeID}" />
+        <main class="content">
+            <header class="header">
+                <h1>Edit Employee</h1>
+                <a href="/logout" class="logout">Log out</a>
+            </header>
+            <div class="main-area">
+                <form th:action="@{/updateEmployee}" method="post" class="form">
+                    <input type="hidden" id="employeeID" name="employeeID" th:value="${employee.employeeID}" />
 
+                    <div class="form-group">
+                        <label for="name">Employee Name:</label>
+                        <input type="text" id="name" name="name" th:value="${employee.name}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" th:value="${employee.email}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="number" id="phone" name="phone" th:value="${employee.phone}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Skills:</label>
+                        <ul>
+                            <li th:each="skill : ${allSkills}">
+                                <label>
+                                    <input type="checkbox" name="skillIds" th:value="${skill.skillID}"
+                                           th:checked="${#lists.contains(employee.skill, skill)}">
+                                    <span th:text="${skill.name}"></span>
+                                </label>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">Update Employee</button>
+                    </div>
+                </form>
                 <div class="form-group">
-                    <label for="name">Employee Name:</label>
-                    <input type="text" id="name" name="name" th:value="${employee.name}" required>
-                </div>
+                    <h3>Create a New Skill</h3>
+                    <form th:action="@{/addNewSkill}" method="post" class="form">
+                        <label for="skillName">Skill Name:</label>
+                        <input type="text" id="skillName" name="name" required />
 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" th:value="${employee.email}" required>
-                </div>
+                        <label for="skillDescription">Description:</label>
+                        <textarea id="skillDescription" name="description" required></textarea>
 
-                <div class="form-group">
-                    <label for="phone">Phone Number:</label>
-                    <input type="number" id="phone" name="phone" th:value="${employee.phone}" required>
-                </div>
+                        <input type="hidden" th:value="${employee.employeeID}" name="employeeID" /> <!-- skal bruge employeeID til at opdatere siden når ny skill er tilføjet-->
 
-                <div class="form-group">
-                    <label>Skills:</label>
-                    <ul>
-                        <li th:each="skill : ${allSkills}">
-                            <label>
-                                <input type="checkbox" name="skillIds" th:value="${skill.skillID}"
-                                       th:checked="${#lists.contains(employee.skill, skill)}">
-                                <span th:text="${skill.name}"></span>
-                            </label>
-                        </li>
-                    </ul>
+                        <button type="submit" class="btn-submit">Create Skill</button>
+                    </form>
                 </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-submit">Update Employee</button>
-                </div>
-            </form>
-        </div>
-    </main>
-</div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+
+<head>
+    <meta charset="UTF-8">
+    <!DOCTYPE html>
+    <title>Employees</title>
+    <link rel="stylesheet" href="/static/css/allProjects.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/allProjects" class="menu-item active">
+                <span class="icon">●</span>
+                <span class="text">Projects</span>
+            </a>
+            <a href="/employees" class="menu-item">
+                <span class="icon">○</span>
+                <span class="text">Employees</span>
+            </a>
+            <a href="/adminProfile" class="menu-item bottom">
+                <span class="icon">👤</span>
+            </a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Employees</h1>
+                <div class="header-actions">
+                <a href="/createEmployee" class="add-project-button">Create Employee</a>
+                <a href="/logout" class="logout">Log out</a>
+                </div>
+            </header>
+            <div class="main-area">
+                <h1 th:text="'Logged in as ' + ${session.adminUsername}"></h1>
+                <h2>Employees available</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Skills</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="employee : ${employees}">
+                        <td>
+                            <a th:href="@{/profile/{id}(id=${employee.employeeID})}" th:text="${employee.name}"></a>
+                        </td>
+                        <td>
+                            <ul>
+                                <li th:each="skill : ${employee.skill}" th:text="${skill.name}"></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+
+
+
+
+</html>
