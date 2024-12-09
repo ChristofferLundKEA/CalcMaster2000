@@ -1,7 +1,8 @@
 package com.alpha.solutions.calcmaster2000.controller;
 
+import com.alpha.solutions.calcmaster2000.enums.Priority;
+import com.alpha.solutions.calcmaster2000.enums.Status;
 import com.alpha.solutions.calcmaster2000.model.Subtask;
-import com.alpha.solutions.calcmaster2000.service.ProjectService;
 import com.alpha.solutions.calcmaster2000.service.SubtaskService;
 import com.alpha.solutions.calcmaster2000.service.TaskService;
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,10 @@ public class SubtaskController {
     // Viser en formular til at oprette en ny subtask
     @GetMapping("/subtask/addSubtask")
     public String showCreateSubtaskForm(@RequestParam("taskID") int taskID, Model model) {
-        model.addAttribute("subtask", new Subtask(0, 0, "", "", "", 0, ""));
+        model.addAttribute("subtask", new Subtask());
         model.addAttribute("taskID", taskID);
+        model.addAttribute("status", Status.values());
+        model.addAttribute("priorities", Priority.values());
         return "addSubtask"; // Thymeleaf-skabelon til at oprette en subtask
     }
 
@@ -47,6 +50,8 @@ public class SubtaskController {
         Subtask subtask = subtaskService.getSubtaskById(subtaskID); // Hent subtask baseret på ID
         model.addAttribute("subtask", subtask); // Tilføj subtask til modellen
         model.addAttribute("taskID", subtask.getTaskID()); // Tilføj taskID til modellen
+        model.addAttribute("priorities", Priority.values());
+        model.addAttribute("status", Status.values());
         return "editSubtask"; // Returner Thymeleaf-skabelonen
     }
 

@@ -1,15 +1,20 @@
 package com.alpha.solutions.calcmaster2000.model;
 
+import com.alpha.solutions.calcmaster2000.enums.Priority;
+import com.alpha.solutions.calcmaster2000.enums.Status;
+
 public class Subtask {
     private Integer subtaskID;
     private int taskID;
     private String name;
     private String description;
-    private String priority;
+    private Priority priority;
     private int timeEstimate;
-    private String status;
+    private Status status;
 
-    public Subtask(Integer subtaskID, int taskID, String name, String description, String priority, int timeEstimate, String status) {
+    public Subtask(){}
+
+    public Subtask(Integer subtaskID, int taskID, String name, String description, Priority priority, int timeEstimate, Status status) {
         this.subtaskID = subtaskID;
         this.taskID = taskID;
         this.name = name;
@@ -51,11 +56,11 @@ public class Subtask {
         this.description = description;
     }
 
-    public String getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
@@ -67,11 +72,11 @@ public class Subtask {
         this.timeEstimate = timeEstimate;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

@@ -41,8 +41,13 @@
             </div>
 
             <div class="form-group">
-                <label for="priority">Priority (Low, Medium, High):</label>
-                <input type="text" id="priority" name="priority" required>
+                <label for="priority">Priority:</label>
+                <select name="priority" id="priority">
+                    <option th:each="priority : ${priorities}"
+                            th:value="${priority.name()}"
+                            th:text="${priority.getDisplayName()}">
+                    </option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -57,8 +62,13 @@
             </div>
 
             <div class="form-group">
-                <label for="status">Status (Not Started, Ready, In Progress, In Review, Done):</label>
-                <input type="text" id="status" name="status" required>
+                <label for="status">Status:</label>
+                <select name="status" id="status">
+                    <option th:each="status : ${status}"
+                            th:value="${status.name()}"
+                            th:text="${status.getDisplayName()}">
+                    </option>
+                </select>
             </div>
 
             <div class="form-actions">

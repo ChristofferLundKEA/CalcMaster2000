@@ -1,5 +1,7 @@
 package com.alpha.solutions.calcmaster2000.repository;
 
+import com.alpha.solutions.calcmaster2000.enums.Priority;
+import com.alpha.solutions.calcmaster2000.enums.Status;
 import com.alpha.solutions.calcmaster2000.model.Subtask;
 import org.springframework.stereotype.Repository;
 
@@ -23,9 +25,9 @@ public class SubtaskRepository {
             stmt.setInt(1, subtask.getTaskID());
             stmt.setString(2, subtask.getName());
             stmt.setString(3, subtask.getDescription());
-            stmt.setString(4, subtask.getPriority());
+            stmt.setString(4, subtask.getPriority().name());
             stmt.setInt(5, subtask.getTimeEstimate());
-            stmt.setString(6, subtask.getStatus());
+            stmt.setString(6, subtask.getStatus().name());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -49,9 +51,9 @@ public class SubtaskRepository {
                             rs.getInt("TaskID"),
                             rs.getString("Name"),
                             rs.getString("Description"),
-                            rs.getString("Priority"),
+                            Priority.valueOf(rs.getString("Priority").toUpperCase()),
                             rs.getInt("TimeEstimate"),
-                            rs.getString("Status")
+                            Status.valueOf(rs.getString("Status").toUpperCase())
                     );
                     subtasks.add(subtask);
                 }
@@ -60,7 +62,6 @@ public class SubtaskRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved hentning af subtasks", e);
         }
-
         return subtasks;
     }
 
@@ -72,9 +73,9 @@ public class SubtaskRepository {
 
             stmt.setString(1, subtask.getName());
             stmt.setString(2, subtask.getDescription());
-            stmt.setString(3, subtask.getPriority());
+            stmt.setString(3, subtask.getPriority().name());
             stmt.setInt(4, subtask.getTimeEstimate());
-            stmt.setString(5, subtask.getStatus());
+            stmt.setString(5, subtask.getStatus().name());
             stmt.setInt(6, subtask.getSubtaskID());
 
             stmt.executeUpdate();
@@ -112,9 +113,9 @@ public class SubtaskRepository {
                         rs.getInt("TaskID"),
                         rs.getString("Name"),
                         rs.getString("Description"),
-                        rs.getString("Priority"),
+                        Priority.valueOf(rs.getString("Priority").toUpperCase()),
                         rs.getInt("TimeEstimate"),
-                        rs.getString("Status")
+                        Status.valueOf(rs.getString("Status"))
                 );
             }
         } catch (SQLException e) {

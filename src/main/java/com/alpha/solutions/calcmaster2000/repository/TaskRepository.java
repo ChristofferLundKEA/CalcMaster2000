@@ -1,5 +1,7 @@
 package com.alpha.solutions.calcmaster2000.repository;
 
+import com.alpha.solutions.calcmaster2000.enums.Priority;
+import com.alpha.solutions.calcmaster2000.enums.Status;
 import com.alpha.solutions.calcmaster2000.model.Task;
 import org.springframework.stereotype.Repository;
 
@@ -23,9 +25,9 @@ public class TaskRepository {
             stmt.setInt(1, task.getProjectID());
             stmt.setString(2, task.getName());
             stmt.setString(3, task.getDescription());
-            stmt.setString(4, task.getPriority());
+            stmt.setString(4, task.getPriority().name());
             stmt.setInt(5, task.getTimeEstimate());
-            stmt.setString(6, task.getStatus());
+            stmt.setString(6, task.getStatus().name());
             stmt.setBoolean(7, task.isUseSubtaskTime());
             stmt.executeUpdate();
 
@@ -50,9 +52,9 @@ public class TaskRepository {
                             task.setProjectID(rs.getInt("ProjectID"));
                             task.setName(rs.getString("Name"));
                             task.setDescription(rs.getString("Description"));
-                            task.setPriority(rs.getString("Priority"));
+                            task.setPriority(Priority.valueOf(rs.getString("Priority").toUpperCase()));
                             task.setTimeEstimate(rs.getInt("TimeEstimate"));
-                            task.setStatus(rs.getString("Status"));
+                            task.setStatus(Status.valueOf(rs.getString("Status")));
                             task.setUseSubtaskTime(rs.getBoolean("useSubtaskTime"));
 
                     tasks.add(task);
@@ -74,9 +76,9 @@ public class TaskRepository {
 
             stmt.setString(1, task.getName());
             stmt.setString(2, task.getDescription());
-            stmt.setString(3, task.getPriority());
+            stmt.setString(3, task.getPriority().name());
             stmt.setInt(4, task.getTimeEstimate());
-            stmt.setString(5, task.getStatus());
+            stmt.setString(5, task.getStatus().name());
             stmt.setBoolean(6, task.isUseSubtaskTime());
             stmt.setInt(7, task.getTaskID());
 
@@ -117,9 +119,9 @@ public class TaskRepository {
                 task.setProjectID(rs.getInt("ProjectID"));
                 task.setName(rs.getString("Name"));
                 task.setDescription(rs.getString("Description"));
-                task.setPriority(rs.getString("Priority"));
+                task.setPriority(Priority.valueOf(rs.getString("Priority").toUpperCase()));
                 task.setTimeEstimate(rs.getInt("TimeEstimate"));
-                task.setStatus(rs.getString("Status"));
+                task.setStatus(Status.valueOf(rs.getString("Status")));
                 task.setUseSubtaskTime(rs.getBoolean("useSubtaskTime"));
             }
         } catch (SQLException e) {

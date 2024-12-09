@@ -14,9 +14,9 @@
 <section class="task-details">
   <h2>Task Details</h2>
   <p><strong>Description:</strong> <span th:text="${task.description}"></span></p>
-  <p><strong>Priority:</strong> <span th:text="${task.priority}"></span></p>
+  <p><strong>Priority:</strong> <span th:text="${task.priority.displayName}"></span></p>
   <p><strong>Time Estimate:</strong> <span th:text="${task.timeEstimate}"></span> days</p>
-  <p><strong>Status:</strong> <span th:text="${task.status}"></span></p>
+  <p><strong>Status:</strong> <span th:text="${task.status.displayName}"></span></p>
 </section>
 
 <section class="subtasks">
@@ -36,9 +36,9 @@
     <tr th:each="subtask : ${subtasks}">
       <td th:text="${subtask.name}">No name</td>
       <td th:text="${subtask.description}">No description</td>
-      <td th:text="${subtask.priority}">No priority</td>
+      <td th:text="${subtask.priority.displayName}">No priority</td>
       <td th:text="${subtask.timeEstimate}">0</td>
-      <td th:text="${subtask.status}">No status</td>
+      <td th:text="${subtask.status.displayName}">No status</td>
       <td>
         <a th:href="@{/subtasks/edit/{subtaskID}(subtaskID=${subtask.subtaskID})}">Edit</a> |
         <a th:href="@{/subtasks/delete/{subtaskID}(subtaskID=${subtask.subtaskID}, taskID=${task.taskID})}"
