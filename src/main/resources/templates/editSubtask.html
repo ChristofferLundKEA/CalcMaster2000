@@ -24,7 +24,7 @@
     <!-- Main Content -->
     <main class="content">
         <header class="header">
-            <h1>Edit Task</h1>
+            <h1>Edit Subtask</h1>
             <div class="header-actions">
                 <a href="/logout" class="logout">Log out</a>
             </div>
@@ -47,8 +47,15 @@
                 <br>
 
                 <!-- Priority -->
-                <label for="priority">Priority (Low, Medium, High):</label>
-                <input type="text" id="priority" name="priority" th:value="${subtask.priority}" required>
+                <label for="priority">Priority:</label>
+                <select name="priority" id="priority">
+                    <option th:each="priority : ${priorities}"
+                            th:value="${priority.name()}"
+                            th:text="${priority.getDisplayName()}"
+                            th:selected="${priority == subtask.priority}"> <!-- det her er ThymeLeaf syntax ->
+                            Det ligner at den kun sammenligner values, men når sammenligningen passer, så vælger den også den value til preselction i dropdown. -->
+                    </option>
+                </select>
                 <br>
 
                 <!-- Time Estimate -->
@@ -57,8 +64,15 @@
                 <br>
 
                 <!-- Status -->
-                <label for="status">Status (Not Started, Ready, In Progress, In Review, Done):</label>
-                <input type="text" id="status" name="status" th:value="${subtask.status}" required>
+                <label for="status">Status:</label>
+                <select name="status" id="status">
+                    <option th:each="status : ${status}"
+                            th:value="${status.name()}"
+                            th:text="${status.getDisplayName()}"
+                            th:selected="${status == subtask.status}"> <!-- det her er ThymeLeaf syntax ->
+                            Det ligner at den kun sammenligner values, men når sammenligningen passer, så vælger den også den value til preselction i dropdown. -->
+                    </option>
+                </select>
                 <br>
 
                 <!-- Submit and Cancel -->

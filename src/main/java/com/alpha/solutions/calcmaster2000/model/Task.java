@@ -1,24 +1,24 @@
 package com.alpha.solutions.calcmaster2000.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.alpha.solutions.calcmaster2000.enums.Priority;
+import com.alpha.solutions.calcmaster2000.enums.Status;
 
 public class Task {
     private Integer taskID;
     private int projectID;
     private String name;
     private String description;
-    private String priority;
+    private Priority priority;
     private int timeEstimate;
-    private String status;
+    private Status status;
     private boolean useSubtaskTime;
     private int calculatedTimeEstimate; // er ikke i DB. Bliver brugt til at udregne samlet tid fra subtasks
 
     // Constructor
     public Task() {}
 
-    public Task(Integer taskID, int projectID, String name, String description, String priority,
-                int timeEstimate, String status, boolean useSubtaskTime, int calculatedTimeEstimate) {
+    public Task(Integer taskID, int projectID, String name, String description, Priority priority,
+                int timeEstimate, Status status, boolean useSubtaskTime, int calculatedTimeEstimate) {
         this.taskID = taskID;
         this.projectID = projectID;
         this.name = name;
@@ -63,11 +63,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
@@ -79,11 +79,11 @@ public class Task {
         this.timeEstimate = timeEstimate;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -102,6 +102,4 @@ public class Task {
     public void setCalculatedTimeEstimate(int calculatedTimeEstimate) {
         this.calculatedTimeEstimate = calculatedTimeEstimate;
     }
-
-
 }

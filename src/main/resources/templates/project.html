@@ -60,13 +60,11 @@
                             <a th:href="@{/tasks/{taskID}(taskID=${task.taskID})}" th:text="${task.name}">Task Name</a>
                         </td>
                         <td th:text="${task.description}">No description</td>
-                        <td th:text="${task.priority}">No priority</td>
+                        <td th:text="${task.priority.displayName}">No priority</td>
 
-                        <!-- Tjekker om "useSubtaskTime" er true eller false og viser data derefter. -->
                         <td th:text="${task.calculatedTimeEstimate}"></td>
 
-
-                        <td th:text="${task.status}">No status</td>
+                        <td th:text="${task.status.displayName}">No status</td>
                         <td>
                             <a th:href="@{/tasks/edit/{taskID}(taskID=${task.taskID})}" class="action-link">Edit</a> |
                             <a th:href="@{/tasks/delete/{taskID}(taskID=${task.taskID}, projectID=${project.projectID})}"

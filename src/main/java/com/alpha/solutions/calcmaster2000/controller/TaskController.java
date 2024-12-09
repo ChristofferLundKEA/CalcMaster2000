@@ -1,5 +1,7 @@
 package com.alpha.solutions.calcmaster2000.controller;
 
+import com.alpha.solutions.calcmaster2000.enums.Priority;
+import com.alpha.solutions.calcmaster2000.enums.Status;
 import com.alpha.solutions.calcmaster2000.model.Project;
 import com.alpha.solutions.calcmaster2000.model.Subtask;
 import com.alpha.solutions.calcmaster2000.model.Task;
@@ -30,8 +32,10 @@ public class TaskController {
     @GetMapping("/tasks/addTask")
     public String showCreateTaskForm(@RequestParam("projectID") int projectID, Model model) {
         Project project = projectService.getProjectById(projectID); // Hent projekt baseret på ID
-        model.addAttribute("task", new Task(0, 0, "", "", "", 0, "", false, 0));
+        model.addAttribute("task", new Task());
         model.addAttribute("project", project);
+        model.addAttribute("priorities", Priority.values());
+        model.addAttribute("status", Status.values());
         return "addTask"; // Thymeleaf-skabelon til at oprette en task
     }
 
@@ -54,6 +58,8 @@ public class TaskController {
     public String showEditTaskForm(@PathVariable int taskID, Model model) {
         Task task = taskService.getTaskById(taskID); // Hent task baseret på ID
         model.addAttribute("task", task); //Tilføj task  til modellen
+        model.addAttribute("priorities", Priority.values());
+        model.addAttribute("status", Status.values());
         return "editTask"; // Thymeleaf-skabelon til at redigere task
     }
 
