@@ -32,7 +32,7 @@
         <div class="main-area">
             <h2>Update Subtask Details</h2>
             <form th:action="@{/subtasks/edit}" method="post">
-                <!-- Hidden field for TaskID -->
+                <!-- Hidden field for SubtaskID -->
                 <input type="hidden" name="subtaskID" th:value="${subtask.subtaskID}">
                 <input type="hidden" name="taskID" th:value="${subtask.taskID}">
 
@@ -52,8 +52,7 @@
                     <option th:each="priority : ${priorities}"
                             th:value="${priority.name()}"
                             th:text="${priority.getDisplayName()}"
-                            th:selected="${priority == subtask.priority}"> <!-- det her er ThymeLeaf syntax ->
-                            Det ligner at den kun sammenligner values, men når sammenligningen passer, så vælger den også den value til preselction i dropdown. -->
+                            th:selected="${priority == subtask.priority}">
                     </option>
                 </select>
                 <br>
@@ -69,15 +68,25 @@
                     <option th:each="status : ${status}"
                             th:value="${status.name()}"
                             th:text="${status.getDisplayName()}"
-                            th:selected="${status == subtask.status}"> <!-- det her er ThymeLeaf syntax ->
-                            Det ligner at den kun sammenligner values, men når sammenligningen passer, så vælger den også den value til preselction i dropdown. -->
+                            th:selected="${status == subtask.status}">
+                    </option>
+                </select>
+                <br>
+
+                <!-- Employee Dropdown -->
+                <label for="employeeID">Assigned Employee:</label>
+                <select name="employeeID" id="employeeID">
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.employeeID}"
+                            th:text="${employee.name}"
+                            th:selected="${employee.employeeID == currentEmployeeID}">
                     </option>
                 </select>
                 <br>
 
                 <!-- Submit and Cancel -->
                 <button type="submit" class="button">Save Changes</button>
-                <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="btn-cancel">Cancel</a>
+                <a th:href="@{/tasks/{taskID}(taskID=${subtask.taskID})}" class="btn-cancel">Cancel</a>
             </form>
         </div>
     </main>

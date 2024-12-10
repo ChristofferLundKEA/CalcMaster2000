@@ -1,6 +1,5 @@
 package com.alpha.solutions.calcmaster2000.service;
 
-import com.alpha.solutions.calcmaster2000.model.Subtask;
 import com.alpha.solutions.calcmaster2000.model.Task;
 import com.alpha.solutions.calcmaster2000.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import java.util.List;
 @Service
 public class TaskService {
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     @Autowired // Constructor injection
     public TaskService(TaskRepository taskRepository) {
@@ -24,31 +23,37 @@ public class TaskService {
         taskRepository.createTask(task);
     }
 
+
     // Henter alle tasks for et specifikt projekt
     public List<Task> getTasksByProjectID(int projectID) {
         List<Task> tasks = taskRepository.getTasksByProjectID(projectID);
-
-        // Returner en tom liste, hvis der ikke findes tasks
-        if (tasks == null) {
-            return new ArrayList<>();
-        }
-
-        return tasks;
+        return tasks != null ? tasks : new ArrayList<>();
     }
 
-
-    //Opdatere en task
+    // Opdaterer en task
     public void updateTask(Task task) {
         taskRepository.updateTask(task);
     }
 
-    //Sletter en task
+    // Sletter en task
     public void deleteTaskById(int taskID) {
         taskRepository.deleteTaskById(taskID);
     }
 
+    // Henter en task baseret på ID
     public Task getTaskById(int taskID) {
         return taskRepository.getTaskById(taskID);
     }
+
+    // Tildeler en medarbejder til en task
+    public void assignEmployeeToTask(int taskID, int employeeID) {
+        taskRepository.assignEmployeeToTask(taskID, employeeID); // Kalder repository-metoden
+    }
+
+    public Integer getAssignedEmployeeID(int taskID) {
+        return taskRepository.getAssignedEmployeeID(taskID);
+    }
+
+
 
 }

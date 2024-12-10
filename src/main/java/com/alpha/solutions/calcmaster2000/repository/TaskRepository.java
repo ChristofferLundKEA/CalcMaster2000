@@ -16,11 +16,10 @@ public class TaskRepository {
     private String username = "Celinelundm";
     private String password = "fredagsbar1234!";
 
-    //(C)Opret en task til et projekt
     public void createTask(Task task) {
         String sql = "INSERT INTO Task (ProjectID, Name, Description, Priority, TimeEstimate, Status, UseSubtaskTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, task.getProjectID());
             stmt.setString(2, task.getName());
@@ -31,12 +30,20 @@ public class TaskRepository {
             stmt.setBoolean(7, task.isUseSubtaskTime());
             stmt.executeUpdate();
 
+            // Hent det genererede ID og opdater task-objektet
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    task.setTaskID(rs.getInt(1)); // Sæt det genererede ID i task-objektet
+                }
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved oprettelse af task", e);
         }
     }
 
-    //(R)Se alle tasks for et specifikt projekt
+
+    // her kan man se alle tasks for et specifikt projekt
     public List<Task> getTasksByProjectID(int projectID) {
         List<Task> tasks = new ArrayList<>();
         String sql = "SELECT * FROM Task WHERE ProjectID = ?";
@@ -68,7 +75,7 @@ public class TaskRepository {
         return tasks;
     }
 
-    //(U)Opdater en task fra databasen
+    // opdaterer en task fra databasen
     public void updateTask(Task task) {
         String sql = "UPDATE Task SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ?, UseSubtaskTime = ? WHERE TaskID = ?";
         try (Connection conn = DriverManager.getConnection(url, username, password);
@@ -130,5 +137,35 @@ public class TaskRepository {
 
         return task;
     }
+
+    public void assignEmployeeToTask(int taskID, int employeeID) {
+        String sql = "INSERT INTO Task_Assignment (TaskID, EmployeeID) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, taskID);
+            stmt.setInt(2, employeeID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Fejl ved tildeling af medarbejder til task", e);
+        }
+    }
+
+    public Integer getAssignedEmployeeID(int taskID) {
+        String sql = "SELECT EmployeeID FROM Task_Assignment WHERE TaskID = ?";
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, taskID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("EmployeeID");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fejl ved hentning af tildelt medarbejder for task " + taskID, e);
+        }
+        return null; // Ingen medarbejder tildelt
+    }
+
+
 
 }

@@ -12,15 +12,15 @@ import java.util.List;
 @Repository
 public class SubtaskRepository {
 
-    private String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
-    private String username = "Celinelundm";
-    private String password = "fredagsbar1234!";
+    private final String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
+    private final String username = "Celinelundm";
+    private final String password = "fredagsbar1234!";
 
-    //(C)Opret en subtask til en task
+    // opretter en subtask til en task
     public void createSubtask(Subtask subtask) {
         String sql = "INSERT INTO Subtask (TaskID, Name, Description, Priority, TimeEstimate, Status) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, subtask.getTaskID());
             stmt.setString(2, subtask.getName());
@@ -30,12 +30,19 @@ public class SubtaskRepository {
             stmt.setString(6, subtask.getStatus().name());
             stmt.executeUpdate();
 
+            // henter genereret ID og sæt det på subtask-objektet
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    subtask.setSubtaskID(generatedKeys.getInt(1));
+                }
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved oprettelse af subtask", e);
         }
     }
 
-    //(R)Se alle subtasks for en specifik task
+    //her kan man se subtasks for en specifik task
     public List<Subtask> getSubtasksByTaskID(int taskID) {
         List<Subtask> subtasks = new ArrayList<>();
         String sql = "SELECT * FROM Subtask WHERE TaskID = ?";
@@ -65,7 +72,7 @@ public class SubtaskRepository {
         return subtasks;
     }
 
-    //(U)Opdater en subtask fra databasen
+    // opdaterer en subtask fra databasen
     public void updateSubtask(Subtask subtask) {
         String sql = "UPDATE Subtask SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ? WHERE SubtaskID = ?";
         try (Connection conn = DriverManager.getConnection(url, username, password);
@@ -84,7 +91,7 @@ public class SubtaskRepository {
         }
     }
 
-    //(D)Slet en subtask fra databasen
+    // sletter en subtask fra databasen
     public void deleteSubtaskById(int subtaskID) {
         String sql = "DELETE FROM Subtask WHERE SubtaskID = ?";
         try (Connection conn = DriverManager.getConnection(url, username, password);
@@ -96,7 +103,7 @@ public class SubtaskRepository {
         }
     }
 
-    //henter en  subtask baseret på ID
+    // henter en subtask baseret på ID
     public Subtask getSubtaskById(int subtaskID) {
         String sql = "SELECT * FROM Subtask WHERE SubtaskID = ?";
         Subtask subtask = null;
@@ -105,23 +112,53 @@ public class SubtaskRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, subtaskID);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                subtask = new Subtask(
-                        rs.getInt("SubtaskID"),
-                        rs.getInt("TaskID"),
-                        rs.getString("Name"),
-                        rs.getString("Description"),
-                        Priority.valueOf(rs.getString("Priority").toUpperCase()),
-                        rs.getInt("TimeEstimate"),
-                        Status.valueOf(rs.getString("Status"))
-                );
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    subtask = new Subtask(
+                            rs.getInt("SubtaskID"),
+                            rs.getInt("TaskID"),
+                            rs.getString("Name"),
+                            rs.getString("Description"),
+                            Priority.valueOf(rs.getString("Priority").toUpperCase()),
+                            rs.getInt("TimeEstimate"),
+                            Status.valueOf(rs.getString("Status").toUpperCase())
+                    );
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved hentning af subtask med ID " + subtaskID, e);
         }
 
         return subtask;
+    }
+
+    // tildeler en medarbejder til en subtask
+    public void assignEmployeeToSubtask(int subtaskID, int employeeID) {
+        String sql = "INSERT INTO Subtask_Assignment (SubtaskID, EmployeeID) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, subtaskID);
+            stmt.setInt(2, employeeID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Fejl ved tildeling af medarbejder til subtask", e);
+        }
+    }
+
+    // henter  medarbejderen, der er tildelt en subtask
+    public Integer getAssignedEmployeeID(int subtaskID) {
+        String sql = "SELECT EmployeeID FROM Subtask_Assignment WHERE SubtaskID = ?";
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, subtaskID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("EmployeeID");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fejl ved hentning af medarbejder tildelt subtask", e);
+        }
+        return null;
     }
 }

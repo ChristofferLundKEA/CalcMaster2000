@@ -65,6 +65,17 @@
                 </select>
             </div>
 
+            <!-- Employee Dropdown -->
+            <div class="form-group">
+                <label for="employeeID">Assign Employee:</label>
+                <select name="employeeID" id="employeeID">
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.employeeID}"
+                            th:text="${employee.name}">
+                    </option>
+                </select>
+            </div>
+
             <div class="form-actions">
                 <button type="submit" class="btn-submit">Create Subtask</button>
                 <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="btn-cancel">Cancel</a>
@@ -74,3 +85,4 @@
 </div>
 </body>
 </html>
+
