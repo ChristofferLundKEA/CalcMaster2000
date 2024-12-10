@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS CalcMaster2000;
+DROP DATABASE IF EXISTS calcMaster2000;
 
 CREATE DATABASE CalcMaster2000;
 
@@ -30,6 +30,7 @@ CREATE TABLE Task (
     Priority VARCHAR(50),
     TimeEstimate INT,
     Status VARCHAR(50),
+    UseSubtaskTime BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID) ON DELETE CASCADE
 );
 
@@ -48,9 +49,23 @@ CREATE TABLE Employee (
     EmployeeID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     PhoneNumber VARCHAR(15),
-    Email VARCHAR(100) UNIQUE,
-    Skills VARCHAR(255)
+    Email VARCHAR(100) UNIQUE
 );
+
+CREATE TABLE Skill (
+    SkillID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Description VARCHAR(100)
+);
+
+CREATE TABLE Employee_Skill (
+    EmployeeID INT NOT NULL,
+    SkillID INT NOT NULL,
+    PRIMARY KEY (EmployeeID, SkillID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID) ON DELETE CASCADE,
+    FOREIGN KEY (SkillID) REFERENCES Skill(SkillID) ON DELETE CASCADE
+);
+
 
 CREATE TABLE Task_Assignment (
     TaskID INT NOT NULL,

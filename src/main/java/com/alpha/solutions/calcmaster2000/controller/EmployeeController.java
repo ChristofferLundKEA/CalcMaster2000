@@ -25,7 +25,7 @@ public class EmployeeController {
     public String listAllEmployees(Model model){
         List<Employee> employees = employeeService.getAllEmployeeWithSkills();
         model.addAttribute("employees", employees);
-        return "employees";
+        return "allEmployees";
     }
 
     @GetMapping("/profile/{employeeID}")

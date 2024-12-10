@@ -14,6 +14,8 @@ public class SkillRepository {
     private final String username = "Celinelundm";
     private final String password = "fredagsbar1234!";
 
+
+
     public List<Skill> getAllSkills() {
         List<Skill> listOfSkills = new ArrayList<>();
 
@@ -34,5 +36,34 @@ public class SkillRepository {
             e.printStackTrace();
         }
         return listOfSkills;
+    }
+
+    public void addSkill(Skill skill) {
+        String query = "INSERT INTO skill (Name, Description) VALUES (?,?)";
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+        PreparedStatement stmt = con.prepareStatement(query)){
+
+            stmt.setString(1, skill.getName());
+            stmt.setString(2, skill.getDescription());
+            stmt.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSkillById(int skillId) {
+        String query = "DELETE FROM skill WHERE SkillID = ?";
+
+        try(Connection con = DriverManager.getConnection(url, username, password);
+        PreparedStatement stmt = con.prepareStatement(query)){
+
+        stmt.setInt(1, skillId);
+        stmt.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

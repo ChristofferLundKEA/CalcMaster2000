@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Employee Skills</title>
+    <link rel="stylesheet" href="/static/css/allProjects.css">
+</head>
+
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/allProjects" class="menu-item active">
+            <span class="icon">●</span>
+            <span class="text">Projects</span>
+        </a>
+        <a href="/employees" class="menu-item">
+            <span class="icon">○</span>
+            <span class="text">Employees</span>
+        </a>
+        <a href="/adminProfile" class="menu-item bottom">
+            <span class="icon">👤</span>
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <header class="header">
+            <h1>Skills</h1>
+            <div class="header-actions">
+                <a href="/logout" class="logout">Log out</a>
+            </div>
+        </header>
+        <div class="main-area">
+            <h1 th:text="'Welcome, ' + ${session.adminUsername} + '!'"></h1>
+            <h2>Your projects</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Skill</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="skill : ${skills}">
+                    <td th:text="${skill.name}"></td>
+                    <td th:text="${skill.description}"></td>
+                    <td>
+                        <a th:href="@{delete/{skillID}(skillID=${skill.skillID})}"
+                           onclick="return confirm('Are you sure you want to delete this skill?');">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="form-group">
+                <h3>Create a New Skill</h3>
+                <form th:action="@{/addNewSkillToAllSkills}" method="post" class="form">
+
+                    <label for="skillName">Skill Name:</label>
+                    <input type="text" id="skillName" name="name" required />
+
+                    <label for="skillDescription">Description:</label>
+                    <textarea id="skillDescription" name="description" placeholder="max 100 characters" required></textarea>
+
+                    <button type="submit" class="btn-submit">Create Skill</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
+
