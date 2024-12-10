@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class TaskController {
     private final TaskService taskService;
     private final ProjectService projectService;
     private final SubtaskService subtaskService;
-    private final EmployeeService employeeService; // Tilføjet EmployeeService
+    private final EmployeeService employeeService;
 
     public TaskController(TaskService taskService, ProjectService projectService, SubtaskService subtaskService, EmployeeService employeeService) {
         this.taskService = taskService;
@@ -32,58 +33,87 @@ public class TaskController {
         this.employeeService = employeeService;
     }
 
-    // viser formular til at oprette en ny task
+    // Viser formular til at oprette en ny task
     @GetMapping("/tasks/addTask")
-    public String showCreateTaskForm(@RequestParam("projectID") int projectID, Model model) {
-        Project project = projectService.getProjectById(projectID);
-        List<Employee> employees = employeeService.getAllEmployees(); // Hent alle medarbejdere
+    public String showCreateTaskForm(@RequestParam("projectID") int projectID, Model model, HttpSession session) {
+        if (!Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
+            return "redirect:/login";
+        }
 
+        Project project = projectService.getProjectById(projectID);
+        List<Employee> employees = employeeService.getAllEmployees();
+
+        session.setAttribute("currentProjectID", projectID);
         model.addAttribute("task", new Task());
         model.addAttribute("project", project);
-        model.addAttribute("employees", employees); // Tilføj medarbejdere til modellen
+        model.addAttribute("employees", employees);
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("status", Status.values());
         return "addTask";
     }
 
-    // håndterer oprettelsen og redigeringen af en task
+    // Håndterer oprettelsen og redigeringen af en task
     @PostMapping("/tasks/edit")
-    public String updateTask(@ModelAttribute Task task, @RequestParam("employeeID") int employeeID) {
-        taskService.updateTask(task); // Opdater task-data
-        taskService.assignEmployeeToTask(task.getTaskID(), employeeID); // Tildel eller opdater medarbejder
+    public String updateTask(@ModelAttribute Task task, @RequestParam("employeeID") int employeeID, HttpSession session) {
+        if (!Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
+            return "redirect:/login";
+        }
+
+        Integer currentProjectID = (Integer) session.getAttribute("currentProjectID");
+        if (currentProjectID != null) {
+            task.setProjectID(currentProjectID);
+        }
+        taskService.updateTask(task);
+        taskService.assignEmployeeToTask(task.getTaskID(), employeeID);
         return "redirect:/project/" + task.getProjectID();
     }
 
     // Sletter en task
     @GetMapping("/tasks/delete/{taskID}")
-    public String deleteTask(@PathVariable int taskID, @RequestParam int projectID) {
+    public String deleteTask(@PathVariable int taskID, @RequestParam int projectID, HttpSession session) {
+        if (!Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
+            return "redirect:/login";
+        }
+
         taskService.deleteTaskById(taskID);
+        session.removeAttribute("currentTaskID");
         return "redirect:/project/" + projectID;
     }
 
-    // viser formularen til at redigere en task
+    // Viser formularen til at redigere en task
     @GetMapping("/tasks/edit/{taskID}")
-    public String showEditTaskForm(@PathVariable int taskID, Model model) {
+    public String showEditTaskForm(@PathVariable int taskID, Model model, HttpSession session) {
+        if (!Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
+            return "redirect:/login";
+        }
+
         Task task = taskService.getTaskById(taskID);
         List<Employee> employees = employeeService.getAllEmployees();
-        Integer currentEmployeeID = taskService.getAssignedEmployeeID(taskID); // Få aktuelt tildelt medarbejder
+        Integer currentEmployeeID = taskService.getAssignedEmployeeID(taskID);
 
+        session.setAttribute("currentTaskID", taskID);
         model.addAttribute("task", task);
         model.addAttribute("employees", employees);
-        model.addAttribute("currentEmployeeID", currentEmployeeID); // Tilføj aktuelt tildelt medarbejder til modellen
+        model.addAttribute("currentEmployeeID", currentEmployeeID);
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("status", Status.values());
         return "editTask";
     }
 
     @GetMapping("/tasks/{taskID}")
-    public String getTaskDetails(@PathVariable int taskID, Model model) {
+    public String getTaskDetails(@PathVariable int taskID, Model model, HttpSession session) {
+        if (!Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
+            return "redirect:/login";
+        }
+
         try {
             Task task = taskService.getTaskById(taskID);
             List<Subtask> subtasks = subtaskService.getSubtasksByTaskID(taskID);
             if (subtasks == null) {
                 subtasks = new ArrayList<>();
             }
+
+            session.setAttribute("currentTaskID", taskID);
             model.addAttribute("task", task);
             model.addAttribute("subtasks", subtasks);
             return "taskDetails";
