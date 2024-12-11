@@ -32,4 +32,9 @@ class DatabaseTest {
             }
         }
     }
+    @Test
+    void testDatabaseConnection() throws SQLException {
+        System.out.println("Database URL: " + dataSource.getConnection().getMetaData().getURL());
+    }
+
 }
