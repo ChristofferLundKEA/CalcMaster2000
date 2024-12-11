@@ -10,6 +10,16 @@ public class Employee {
     private String email;
     private List<Skill> skill = new ArrayList<>();
 
+    public Employee(){}
+
+    public Employee(int employeeID, String name, int phone, String email, List<Skill> skill) {
+        this.employeeID = employeeID;
+        this.skill = skill;
+        this.email = email;
+        this.phone = phone;
+        this.name = name;
+    }
+
     public int getEmployeeID() {
         return employeeID;
     }

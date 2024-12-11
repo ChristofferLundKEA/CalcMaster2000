@@ -6,7 +6,15 @@ public class Skill {
     private int skillID;
     private String name;
     private String description;
-    
+
+    public Skill() {
+    }
+
+    public Skill(int skillID, String name, String description) {
+        this.skillID = skillID;
+        this.name = name;
+        this.description = description;
+    }
 
     public int getSkillID() {
         return skillID;

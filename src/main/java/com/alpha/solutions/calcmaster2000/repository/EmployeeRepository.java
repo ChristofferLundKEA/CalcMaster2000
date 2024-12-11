@@ -2,6 +2,7 @@ package com.alpha.solutions.calcmaster2000.repository;
 
 import com.alpha.solutions.calcmaster2000.model.Employee;
 import com.alpha.solutions.calcmaster2000.model.Skill;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -11,9 +12,14 @@ import java.util.List;
 @Repository
 public class EmployeeRepository {
 
-    private final String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
-    private final String username = "Celinelundm";
-    private final String password = "fredagsbar1234!";
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
 
     public Employee getEmployeeByID(int id) {
         String query = "SELECT EmployeeID, Name, PhoneNumber, Email FROM Employee WHERE EmployeeID = ?";
@@ -78,7 +84,7 @@ public class EmployeeRepository {
                     skill.setSkillID(rs.getInt("SkillID"));
                     skill.setName(rs.getString("Name"));
                     skill.setDescription(rs.getString("Description"));
-                    skills. add(skill);
+                    skills.add(skill);
                 }
             }
         } catch (SQLException e){
