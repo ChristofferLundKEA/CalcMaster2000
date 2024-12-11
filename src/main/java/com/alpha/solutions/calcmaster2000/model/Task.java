@@ -96,6 +96,9 @@ public class Task {
         this.useSubtaskTime = useSubtaskTime;
     }
 
+    public int getCalculatedTimeEstimate() {
+        return calculatedTimeEstimate;
+    }
 
     public void setCalculatedTimeEstimate(int calculatedTimeEstimate) {
         this.calculatedTimeEstimate = calculatedTimeEstimate;
