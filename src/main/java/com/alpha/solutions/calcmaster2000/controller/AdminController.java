@@ -20,10 +20,13 @@ public class AdminController {
 
     // Viser login-siden
     @GetMapping("/login")
-    public String showLoginPage() {
-        return "login"; // Sender brugeren til login.html
+    public String showLoginPage(HttpSession session) {
+        // Hvis brugeren allerede er logget ind, omdiriger til /allProjects
+        if (Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
+            return "redirect:/allProjects";
+        }
+        return "login";
     }
-
 
     // Håndterer login-logik
     @PostMapping("/login")
@@ -33,43 +36,38 @@ public class AdminController {
             HttpSession session,
             Model model
     ) {
-        // Validerer admin-login via AdminService
         Admin admin = adminService.validateLogin(username, password);
 
         if (admin != null) {
-            // Hvis login er korrekt, gem admin-info i sessionen
             session.setAttribute("adminUsername", admin.getUsername());
+            session.setAttribute("adminEmail", admin.getEmail());
             session.setAttribute("isAdminLoggedIn", true);
-
-            // Omdirigér til /allProjects
             return "redirect:/allProjects";
         } else {
-            // Hvis login fejler, vis en fejlbesked på login-siden
             model.addAttribute("error", "Forkert brugernavn eller adgangskode");
-            return "login"; // Bliv på login-siden
+            return "login";
         }
     }
 
     // Håndterer logout
     @GetMapping("/logout")
     public String handleLogout(HttpSession session) {
-        // Invalider sessionen for at logge brugeren ud
         session.invalidate();
-        return "redirect:/login"; // Send brugeren tilbage til login-siden
+        return "redirect:/login";
     }
 
-    // Viser profile-siden
+    // Viser admin-profilen
     @GetMapping("/adminProfile")
-    public String showProfile(Model model) {
-        // Simuler en admin-bruger for demonstration
-        Admin admin = new Admin();
-        admin.setUsername("AdminName");
-        admin.setEmail("admin@example.com");
+    public String showProfile(HttpSession session, Model model) {
+        if (!Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
+            return "redirect:/login";
+        }
 
-        // Tilføj admin-objektet til modellen
+        Admin admin = new Admin();
+        admin.setUsername((String) session.getAttribute("adminUsername"));
+        admin.setEmail((String) session.getAttribute("adminEmail"));
+
         model.addAttribute("admin", admin);
         return "adminProfile";
     }
 }
-
-
