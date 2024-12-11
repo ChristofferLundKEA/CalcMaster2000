@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
 <head>
   <title>Task Details</title>
   <link rel="stylesheet" href="/static/css/taskDetails.css">
@@ -17,6 +17,7 @@
   <p><strong>Priority:</strong> <span th:text="${task.priority.displayName}"></span></p>
   <p><strong>Time Estimate:</strong> <span th:text="${task.timeEstimate}"></span> days</p>
   <p><strong>Status:</strong> <span th:text="${task.status.displayName}"></span></p>
+  <p><strong>Price:</strong> <span th:text="${task.price}">0.0</span> DKK</p>
 </section>
 
 <section class="subtasks">

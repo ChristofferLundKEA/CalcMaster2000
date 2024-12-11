@@ -31,6 +31,7 @@ CREATE TABLE Task (
     TimeEstimate INT,
     Status VARCHAR(50),
     UseSubtaskTime BOOLEAN DEFAULT FALSE,
+    Price DECIMAL(10,2) DEFAULT 0.00,
     FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID) ON DELETE CASCADE
 );
 
@@ -42,6 +43,7 @@ CREATE TABLE Subtask (
     Priority VARCHAR(50),
     TimeEstimate INT,
     Status VARCHAR(50),
+    Price DECIMAL(10,2) DEFAULT 0.00,
     FOREIGN KEY (TaskID) REFERENCES Task(TaskID) ON DELETE CASCADE
 );
 

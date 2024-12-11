@@ -17,7 +17,7 @@ public class TaskRepository {
     private String password = "fredagsbar1234!";
 
     public void createTask(Task task) {
-        String sql = "INSERT INTO Task (ProjectID, Name, Description, Priority, TimeEstimate, Status, UseSubtaskTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Task (ProjectID, Name, Description, Priority, TimeEstimate, Status, UseSubtaskTime, Price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -28,6 +28,7 @@ public class TaskRepository {
             stmt.setInt(5, task.getTimeEstimate());
             stmt.setString(6, task.getStatus().name());
             stmt.setBoolean(7, task.isUseSubtaskTime());
+            stmt.setDouble(8, task.getPrice());
             stmt.executeUpdate();
 
             // Hent det genererede ID og opdater task-objektet
@@ -63,7 +64,7 @@ public class TaskRepository {
                             task.setTimeEstimate(rs.getInt("TimeEstimate"));
                             task.setStatus(Status.valueOf(rs.getString("Status")));
                             task.setUseSubtaskTime(rs.getBoolean("useSubtaskTime"));
-
+                            task.setPrice(rs.getDouble("Price"));
                     tasks.add(task);
                 }
             }
@@ -77,7 +78,7 @@ public class TaskRepository {
 
     // opdaterer en task fra databasen
     public void updateTask(Task task) {
-        String sql = "UPDATE Task SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ?, UseSubtaskTime = ? WHERE TaskID = ?";
+        String sql = "UPDATE Task SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ?, UseSubtaskTime = ?, Price = ? WHERE TaskID = ?";
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -87,7 +88,8 @@ public class TaskRepository {
             stmt.setInt(4, task.getTimeEstimate());
             stmt.setString(5, task.getStatus().name());
             stmt.setBoolean(6, task.isUseSubtaskTime());
-            stmt.setInt(7, task.getTaskID());
+            stmt.setDouble(7, task.getPrice());
+            stmt.setInt(8, task.getTaskID());
 
 
             stmt.executeUpdate();
@@ -130,6 +132,7 @@ public class TaskRepository {
                 task.setTimeEstimate(rs.getInt("TimeEstimate"));
                 task.setStatus(Status.valueOf(rs.getString("Status")));
                 task.setUseSubtaskTime(rs.getBoolean("useSubtaskTime"));
+                task.setPrice(rs.getDouble("Price"));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved hentning af task med ID " + taskID, e);
@@ -139,16 +142,32 @@ public class TaskRepository {
     }
 
     public void assignEmployeeToTask(int taskID, int employeeID) {
-        String sql = "INSERT INTO Task_Assignment (TaskID, EmployeeID) VALUES (?, ?)";
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, taskID);
-            stmt.setInt(2, employeeID);
-            stmt.executeUpdate();
+        String checkSql = "SELECT COUNT(*) FROM Task_Assignment WHERE TaskID = ? AND EmployeeID = ?";
+        String insertSql = "INSERT INTO Task_Assignment (TaskID, EmployeeID) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            // Tjek, om kombinationen allerede findes
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                checkStmt.setInt(1, taskID);
+                checkStmt.setInt(2, employeeID);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    // Kombinationsposten findes allerede, så vi gør ingenting
+                    return;
+                }
+            }
+
+            // Indsæt en ny kombination, hvis den ikke findes
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                insertStmt.setInt(1, taskID);
+                insertStmt.setInt(2, employeeID);
+                insertStmt.executeUpdate();
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved tildeling af medarbejder til task", e);
         }
     }
+
 
     public Integer getAssignedEmployeeID(int taskID) {
         String sql = "SELECT EmployeeID FROM Task_Assignment WHERE TaskID = ?";
@@ -165,7 +184,4 @@ public class TaskRepository {
         }
         return null; // Ingen medarbejder tildelt
     }
-
-
-
 }

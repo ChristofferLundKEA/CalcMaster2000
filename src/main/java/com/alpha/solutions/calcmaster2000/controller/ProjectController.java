@@ -76,14 +76,17 @@ public class ProjectController {
 
         try {
             Project project = projectService.getProjectById(projectID);
+
+            // Hent tasks, der tilhører projektet
             List<Task> tasks = taskService.getTasksByProjectID(projectID);
             if (tasks == null) tasks = new ArrayList<>();
 
-            for (Task task : tasks) {
-                if (task.isUseSubtaskTime()) {
-                    List<Subtask> subtasks = subtaskService.getSubtasksByTaskID(task.getTaskID());
-                    int sum = subtasks.stream().mapToInt(Subtask::getTimeEstimate).sum();
-                    task.setCalculatedTimeEstimate(sum);
+            for (Task task : tasks) { // looper over tasks som hører til projektet
+                if (task.isUseSubtaskTime()) { // hvis fluebenet er sat til
+                    List<Subtask> subtasks = subtaskService.getSubtasksByTaskID(task.getTaskID()); // lav List af alle subtasks som hører til tasken
+                    int sum = 0;
+                    for (Subtask subtask : subtasks) sum += subtask.getTimeEstimate(); // looper over alle subtasks og lægger alle tidsestimeringer sammen i "int sum"
+                    task.setCalculatedTimeEstimate(sum); // den enkelte task får "int sum" som sin tidsestimering.
                 } else {
                     task.setCalculatedTimeEstimate(task.getTimeEstimate());
                 }
@@ -91,8 +94,12 @@ public class ProjectController {
 
             model.addAttribute("project", project);
             model.addAttribute("tasks", tasks);
+
+ 
+
             session.setAttribute("lastViewedProject", project); // Gem sidste sete projekt i sessionen
-            return "project";
+            return "project";// Returner Thymeleaf-skabelonen "project.html"
+
         } catch (RuntimeException e) {
             model.addAttribute("error", e.getMessage());
             return "errorPage";

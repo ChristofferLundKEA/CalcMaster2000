@@ -13,6 +13,7 @@ public class Task {
     private Status status;
     private boolean useSubtaskTime;
     private int calculatedTimeEstimate; // er ikke i DB. Bliver brugt til at udregne samlet tid fra subtasks
+    private Double price;
 
     // Constructor
     public Task() {}
@@ -95,11 +96,16 @@ public class Task {
         this.useSubtaskTime = useSubtaskTime;
     }
 
-    public int getCalculatedTimeEstimate() {
-        return calculatedTimeEstimate;
-    }
 
     public void setCalculatedTimeEstimate(int calculatedTimeEstimate) {
         this.calculatedTimeEstimate = calculatedTimeEstimate;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }
