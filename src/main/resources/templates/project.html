@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
 <head>
     <title>Project Details</title>
     <link rel="stylesheet" href="/static/css/project.css">
@@ -37,6 +37,8 @@
                 <p><strong>Description:<br></strong> <span th:text="${project.description}"></span></p>
                 <p><strong>Start Date:</strong> <span th:text="${project.startDate}"></span></p>
                 <p><strong>End Date:</strong> <span th:text="${project.endDate}"></span></p>
+                <p><strong>Total Price:</strong> <span th:text="${project.totalPrice}">0.0</span> DKK</p>
+
             </section>
 
             <!-- Task List Section -->
@@ -50,6 +52,7 @@
                         <th>Priority</th>
                         <th>Time Estimate</th>
                         <th>Status</th>
+                        <th>Price</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -65,6 +68,7 @@
                         <td th:text="${task.calculatedTimeEstimate}"></td>
 
                         <td th:text="${task.status.displayName}">No status</td>
+                        <td th:text="${task.price}">0.0</td>
                         <td>
                             <a th:href="@{/tasks/edit/{taskID}(taskID=${task.taskID})}" class="action-link">Edit</a> |
                             <a th:href="@{/tasks/delete/{taskID}(taskID=${task.taskID}, projectID=${project.projectID})}"

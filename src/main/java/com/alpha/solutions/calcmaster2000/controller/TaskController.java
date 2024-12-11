@@ -46,6 +46,13 @@ public class TaskController {
         return "addTask";
     }
 
+    // Håndterer oprettelsen af en task
+    @PostMapping("/tasks/addTask")
+    public String createTask(@ModelAttribute Task task) {
+        taskService.createTask(task); // Gem tasken med prisen i databasen
+        return "redirect:/project/" + task.getProjectID(); // Tilbage til projektets side
+    }
+
     // håndterer oprettelsen og redigeringen af en task
     @PostMapping("/tasks/edit")
     public String updateTask(@ModelAttribute Task task, @RequestParam("employeeID") int employeeID) {

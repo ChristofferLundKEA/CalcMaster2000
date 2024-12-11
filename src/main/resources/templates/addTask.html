@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
 <head>
     <title>Create Task</title>
     <link rel="stylesheet" href="/static/css/addTask.css">
@@ -69,6 +69,12 @@
                     </option>
                 </select>
             </div>
+
+            <div class="form-group">
+                <label for="price">Price (in DKK):</label>
+                <input type="number" id="price" name="price" step="0.01" min="0" required>
+            </div>
+
 
             <!-- Dropdown for medarbejdere -->
             <div class="form-group">

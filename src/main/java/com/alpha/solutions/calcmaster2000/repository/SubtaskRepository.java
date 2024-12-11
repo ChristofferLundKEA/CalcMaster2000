@@ -18,7 +18,7 @@ public class SubtaskRepository {
 
     // opretter en subtask til en task
     public void createSubtask(Subtask subtask) {
-        String sql = "INSERT INTO Subtask (TaskID, Name, Description, Priority, TimeEstimate, Status) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Subtask (TaskID, Name, Description, Priority, TimeEstimate, Status, Price) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -28,6 +28,7 @@ public class SubtaskRepository {
             stmt.setString(4, subtask.getPriority().name());
             stmt.setInt(5, subtask.getTimeEstimate());
             stmt.setString(6, subtask.getStatus().name());
+            stmt.setDouble(7, subtask.getPrice());
             stmt.executeUpdate();
 
             // henter genereret ID og sæt det på subtask-objektet
@@ -46,7 +47,6 @@ public class SubtaskRepository {
     public List<Subtask> getSubtasksByTaskID(int taskID) {
         List<Subtask> subtasks = new ArrayList<>();
         String sql = "SELECT * FROM Subtask WHERE TaskID = ?";
-
         try (Connection con = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -60,7 +60,8 @@ public class SubtaskRepository {
                             rs.getString("Description"),
                             Priority.valueOf(rs.getString("Priority").toUpperCase()),
                             rs.getInt("TimeEstimate"),
-                            Status.valueOf(rs.getString("Status").toUpperCase())
+                            Status.valueOf(rs.getString("Status").toUpperCase()),
+                            rs.getDouble("Price")
                     );
                     subtasks.add(subtask);
                 }
@@ -74,7 +75,7 @@ public class SubtaskRepository {
 
     // opdaterer en subtask fra databasen
     public void updateSubtask(Subtask subtask) {
-        String sql = "UPDATE Subtask SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ? WHERE SubtaskID = ?";
+        String sql = "UPDATE Subtask SET Name = ?, Description = ?, Priority = ?, TimeEstimate = ?, Status = ?, Price = ? WHERE SubtaskID = ?";
         try (Connection conn = DriverManager.getConnection(url, username, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -83,7 +84,8 @@ public class SubtaskRepository {
             stmt.setString(3, subtask.getPriority().name());
             stmt.setInt(4, subtask.getTimeEstimate());
             stmt.setString(5, subtask.getStatus().name());
-            stmt.setInt(6, subtask.getSubtaskID());
+            stmt.setDouble(6, subtask.getPrice());
+            stmt.setInt(7, subtask.getSubtaskID());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -121,7 +123,8 @@ public class SubtaskRepository {
                             rs.getString("Description"),
                             Priority.valueOf(rs.getString("Priority").toUpperCase()),
                             rs.getInt("TimeEstimate"),
-                            Status.valueOf(rs.getString("Status").toUpperCase())
+                            Status.valueOf(rs.getString("Status").toUpperCase()),
+                            rs.getDouble("Price")
                     );
                 }
             }
@@ -134,16 +137,32 @@ public class SubtaskRepository {
 
     // tildeler en medarbejder til en subtask
     public void assignEmployeeToSubtask(int subtaskID, int employeeID) {
-        String sql = "INSERT INTO Subtask_Assignment (SubtaskID, EmployeeID) VALUES (?, ?)";
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, subtaskID);
-            stmt.setInt(2, employeeID);
-            stmt.executeUpdate();
+        String checkSql = "SELECT COUNT(*) FROM Subtask_Assignment WHERE SubtaskID = ? AND EmployeeID = ?";
+        String insertSql = "INSERT INTO Subtask_Assignment (SubtaskID, EmployeeID) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            // Tjek, om kombinationen allerede findes
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                checkStmt.setInt(1, subtaskID);
+                checkStmt.setInt(2, employeeID);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    // Kombinationsposten findes allerede, så vi gør ingenting
+                    return;
+                }
+            }
+
+            // Indsæt en ny kombination, hvis den ikke findes
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                insertStmt.setInt(1, subtaskID);
+                insertStmt.setInt(2, employeeID);
+                insertStmt.executeUpdate();
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Fejl ved tildeling af medarbejder til subtask", e);
         }
     }
+
 
     // henter  medarbejderen, der er tildelt en subtask
     public Integer getAssignedEmployeeID(int subtaskID) {

@@ -64,14 +64,11 @@ public class ProjectController {
             // Hent projektet baseret på projekt-ID
             Project project = projectService.getProjectById(projectID);
 
-
-
             // Hent tasks, der tilhører projektet
             List<Task> tasks = taskService.getTasksByProjectID(projectID);
             if (tasks == null) {
                 tasks = new ArrayList<>(); // Initialiser en tom liste, hvis der ikke findes tasks
             }
-
 
             for (Task task : tasks) { // looper over tasks som hører til projektet
                 if (task.isUseSubtaskTime()) { // hvis fluebenet er sat til
@@ -87,7 +84,6 @@ public class ProjectController {
             // Tilføj data til modellen for Thymeleaf
             model.addAttribute("project", project);
             model.addAttribute("tasks", tasks);
-
 
             return "project"; // Returner Thymeleaf-skabelonen "project.html"
         } catch (RuntimeException e) {

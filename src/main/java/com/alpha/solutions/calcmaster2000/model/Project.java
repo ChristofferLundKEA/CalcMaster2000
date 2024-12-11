@@ -8,6 +8,7 @@ public class Project {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
+    private double totalPrice;
 
     // Getters og setters
     public int getProjectID() {
@@ -48,5 +49,13 @@ public class Project {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
