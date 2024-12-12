@@ -4,9 +4,11 @@ import com.alpha.solutions.calcmaster2000.model.Project;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +16,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Sql(scripts = "/schema.sql") // Sikrer, at H2-databasen bruger det korrekte schema
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ActiveProfiles("test")
 public class ProjectRepositoryTest {
 
     @Autowired
@@ -34,7 +37,6 @@ public class ProjectRepositoryTest {
     @Test
     public void testAddProject() {
         projectRepository.addProject(testProject);
-
         List<Project> projects = projectRepository.getAllProjects();
         assertThat(projects).isNotEmpty();
         assertThat(projects.get(0).getName()).isEqualTo("Test Project");
@@ -43,17 +45,16 @@ public class ProjectRepositoryTest {
     @Test
     public void testGetAllProjects() {
         projectRepository.addProject(testProject);
-
         List<Project> projects = projectRepository.getAllProjects();
-        assertThat(projects).hasSize(1);
+        for (Project project:projects) System.out.println(project.getName());
+        assertThat(projects).hasSize(3);
         assertThat(projects.get(0).getDescription()).isEqualTo("This is a test project.");
     }
 
     @Test
     public void testGetProjectById() {
         projectRepository.addProject(testProject);
-        Project fetchedProject = projectRepository.getProjectById(1); // Antag ID 1
-
+        Project fetchedProject = projectRepository.getProjectById(3);
         assertThat(fetchedProject).isNotNull();
         assertThat(fetchedProject.getName()).isEqualTo("Test Project");
     }
@@ -75,14 +76,11 @@ public class ProjectRepositoryTest {
 
     @Test
     public void testDeleteProject() {
-        projectRepository.addProject(testProject);
-
         List<Project> projectsBefore = projectRepository.getAllProjects();
-        assertThat(projectsBefore).hasSize(1);
-
+        projectRepository.addProject(testProject);
+        assertThat(projectsBefore).hasSize(2);
         projectRepository.deleteProject(1);
-
         List<Project> projectsAfter = projectRepository.getAllProjects();
-        assertThat(projectsAfter).isEmpty();
+        assertThat(projectsAfter).hasSize(2);
     }
 }
