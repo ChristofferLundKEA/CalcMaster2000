@@ -8,6 +8,98 @@ body, html {
     background-size: cover;
 }
 
+/* Sidebar */
+.sidebar {
+    width: 60px;
+    background-color: #333;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebar .menu-item {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.sidebar .menu-item:hover {
+    background-color: #444;
+}
+
+.sidebar .menu-item .icon {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Hvid baggrund med let transparens */
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Gør header fast */
+    width: calc(100% - 60px); /* Trækker sidebarens bredde fra */
+    left: 60px; /* Justerer placeringen ift. sidebaren */
+    z-index: 10;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.task-details {
+    margin-left: 80px;
+    padding: 20px;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.actions .delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.actions .edit-button {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.actions .delete-button:hover {
+    background-color: darkred;
+}
+
+.actions .edit-button:hover {
+    background-color: gold;
+}
+
 /* Header styling */
 header {
     display: flex;
