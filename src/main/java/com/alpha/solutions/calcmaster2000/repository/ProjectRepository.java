@@ -1,6 +1,7 @@
 package com.alpha.solutions.calcmaster2000.repository;
 
 import com.alpha.solutions.calcmaster2000.model.Project;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -12,9 +13,14 @@ import java.util.List;
 @Repository
 public class ProjectRepository {
 
-    private String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
-    private String username = "Celinelundm";
-    private String password = "fredagsbar1234!";
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
 
     public List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
