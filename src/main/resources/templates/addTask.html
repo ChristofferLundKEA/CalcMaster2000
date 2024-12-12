@@ -80,7 +80,6 @@
             <div class="form-group">
                 <label for="employeeID">Assign Employee:</label>
                 <select name="employeeID" id="employeeID" required>
-                    <option value="" disabled selected>Select an employee</option>
                     <option th:each="employee : ${employees}"
                             th:value="${employee.employeeID}"
                             th:text="${employee.name}">

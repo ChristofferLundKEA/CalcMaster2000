@@ -43,6 +43,12 @@ public class TaskController {
         Project project = projectService.getProjectById(projectID);
         List<Employee> employees = employeeService.getAllEmployees();
 
+        // Tilføj en "None"-valgmulighed
+        Employee noneOption = new Employee();
+        noneOption.setEmployeeID(0); // Brug ID 0 som "None"
+        noneOption.setName("None");
+        employees.add(0, noneOption); // Tilføj "None" som første valgmulighed
+
         session.setAttribute("currentProjectID", projectID);
         model.addAttribute("task", new Task());
         model.addAttribute("project", project);
@@ -51,6 +57,7 @@ public class TaskController {
         model.addAttribute("status", Status.values());
         return "addTask";
     }
+
 
     // Håndterer oprettelsen af en task
     @PostMapping("/tasks/addTask")
@@ -96,6 +103,13 @@ public class TaskController {
 
         Task task = taskService.getTaskById(taskID);
         List<Employee> employees = employeeService.getAllEmployees();
+
+        // Tilføj en "None"-valgmulighed
+        Employee noneOption = new Employee();
+        noneOption.setEmployeeID(0); // Brug ID 0 som "None"
+        noneOption.setName("None");
+        employees.add(0, noneOption); // Tilføj "None" som første valgmulighed
+
         Integer currentEmployeeID = taskService.getAssignedEmployeeID(taskID);
 
         session.setAttribute("currentTaskID", taskID);
@@ -107,6 +121,7 @@ public class TaskController {
         return "editTask";
     }
 
+
     @GetMapping("/tasks/{taskID}")
     public String getTaskDetails(@PathVariable int taskID, Model model, HttpSession session) {
         if (!Boolean.TRUE.equals(session.getAttribute("isAdminLoggedIn"))) {
@@ -114,19 +129,35 @@ public class TaskController {
         }
 
         try {
+            // Hent tasken
             Task task = taskService.getTaskById(taskID);
+
+            // Hent subtasks
             List<Subtask> subtasks = subtaskService.getSubtasksByTaskID(taskID);
             if (subtasks == null) {
                 subtasks = new ArrayList<>();
             }
 
+            // Hent tildelt medarbejder til tasken
+            Integer assignedEmployeeID = taskService.getAssignedEmployeeID(taskID);
+            Employee assignedEmployee = null;
+            if (assignedEmployeeID != null) {
+                assignedEmployee = employeeService.getEmployeeByID(assignedEmployeeID);
+            }
+
+            // Tilføj data til modellen
             session.setAttribute("currentTaskID", taskID);
             model.addAttribute("task", task);
             model.addAttribute("subtasks", subtasks);
+            model.addAttribute("assignedEmployee", assignedEmployee); // Tilføj taskens medarbejder
+
             return "taskDetails";
         } catch (RuntimeException e) {
             model.addAttribute("error", e.getMessage());
             return "errorPage";
         }
     }
+
+
 }
+

@@ -46,9 +46,17 @@ public class TaskService {
     }
 
     // Tildeler en medarbejder til en task
+// Tildeler en medarbejder til en task eller fjerner tildelingen, hvis employeeID er 0
     public void assignEmployeeToTask(int taskID, int employeeID) {
-        taskRepository.assignEmployeeToTask(taskID, employeeID); // Kalder repository-metoden
+        if (employeeID == 0) {
+            // Fjern tildeling ved at sætte employeeID til null i databasen
+            taskRepository.removeEmployeeFromTask(taskID);
+        } else {
+            // Tilknyt medarbejderen til tasken
+            taskRepository.assignEmployeeToTask(taskID, employeeID);
+        }
     }
+
 
     public Integer getAssignedEmployeeID(int taskID) {
         return taskRepository.getAssignedEmployeeID(taskID);

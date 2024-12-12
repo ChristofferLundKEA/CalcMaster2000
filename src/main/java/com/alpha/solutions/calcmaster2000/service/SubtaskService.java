@@ -1,6 +1,8 @@
 package com.alpha.solutions.calcmaster2000.service;
 
+import com.alpha.solutions.calcmaster2000.model.Employee;
 import com.alpha.solutions.calcmaster2000.model.Subtask;
+import com.alpha.solutions.calcmaster2000.service.EmployeeService;
 import com.alpha.solutions.calcmaster2000.repository.SubtaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,12 @@ import java.util.List;
 public class SubtaskService {
 
     private final SubtaskRepository subtaskRepository;
+    private final EmployeeService employeeService;
 
     @Autowired // Constructor injection
-    public SubtaskService(SubtaskRepository subtaskRepository) {
+    public SubtaskService(SubtaskRepository subtaskRepository, EmployeeService employeeService) {
         this.subtaskRepository = subtaskRepository;
+        this.employeeService = employeeService;
     }
 
     // Opretter en ny subtask
@@ -47,8 +51,17 @@ public class SubtaskService {
         subtaskRepository.assignEmployeeToSubtask(subtaskID, employeeID);
     }
 
-    // henter den medarbejder, der er tildelt en specifik subtask
     public Integer getAssignedEmployeeID(int subtaskID) {
         return subtaskRepository.getAssignedEmployeeID(subtaskID);
+    }
+
+
+    public String getAssignedEmployeeName(int subtaskID) {
+        Integer employeeID = subtaskRepository.getAssignedEmployeeID(subtaskID);
+        if (employeeID != null) {
+            Employee employee = employeeService.getEmployeeByID(employeeID);
+            return employee.getName();
+        }
+        return "None"; // Ingen medarbejder tildelt
     }
 }

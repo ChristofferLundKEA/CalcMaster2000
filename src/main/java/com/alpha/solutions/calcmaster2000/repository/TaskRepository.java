@@ -184,4 +184,17 @@ public class TaskRepository {
         }
         return null; // Ingen medarbejder tildelt
     }
+
+
+    public void removeEmployeeFromTask(int taskID) {
+        String sql = "DELETE FROM Task_Assignment WHERE TaskID = ?";
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, taskID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Fejl ved fjernelse af medarbejder fra task " + taskID, e);
+        }
+    }
+
 }

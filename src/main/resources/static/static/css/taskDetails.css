@@ -4,11 +4,10 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-    background: url('../images/background.jpg') no-repeat center center fixed;
-    background-size: cover;
+    background-color: #0d2049; /* Blå baggrund */
+
 }
 
-/* Sidebar */
 .sidebar {
     width: 60px;
     background-color: #333;
@@ -16,10 +15,12 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    justify-content: space-between; /* Fordeler menupunkter med plads imellem */
+    padding: 20px 0;
     position: fixed;
-    height: 100%;
+    height: 100vh; /* Gør sidebarens højde til hele viewport-højden */
 }
+
 
 .sidebar .menu-item {
     width: 100%;
@@ -48,11 +49,10 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Hvid baggrund med let transparens */
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
     position: fixed; /* Gør header fast */
     width: calc(100% - 60px); /* Trækker sidebarens bredde fra */
-    left: 60px; /* Justerer placeringen ift. sidebaren */
+    left: 58px; /* Justerer placeringen ift. sidebaren */
     z-index: 10;
 }
 
