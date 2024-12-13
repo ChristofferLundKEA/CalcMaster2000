@@ -6,6 +6,7 @@ import com.alpha.solutions.calcmaster2000.model.Subtask;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 
 public class SubtaskRepositoryTest {
@@ -77,7 +78,6 @@ public class SubtaskRepositoryTest {
     @Test
     void testGetAssignedEmployeeID() {
         Integer employeeID = subtaskRepository.getAssignedEmployeeID(1);
-
         assertNotNull(employeeID, "EmployeeID should be retrieved for SubtaskID 1");
         assertEquals(1, employeeID);
     }

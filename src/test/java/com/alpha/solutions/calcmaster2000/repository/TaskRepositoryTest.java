@@ -6,8 +6,8 @@ import com.alpha.solutions.calcmaster2000.model.Task;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
@@ -16,8 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //integrationsteste som tester interaktionen mellem repository-metoderne og databasen
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:schema.sql", "classpath:data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TaskRepositoryTest {
 
     @Autowired
