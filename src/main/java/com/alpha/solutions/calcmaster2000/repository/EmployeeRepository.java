@@ -172,30 +172,4 @@ public class EmployeeRepository {
             e.printStackTrace();
         }
     }
-
-//    public List<Skill> getSkillsForEmployee(int employeeID) {
-//        String query = "SELECT s.SkillID, s.Name, s.Description " +
-//                "FROM Skill s " +
-//                "JOIN Employee_Skill es ON s.SkillID = es.SkillID " +
-//                "WHERE es.EmployeeID = ?";
-//
-//        List<Skill> skills = new ArrayList<>();
-//
-//        try (Connection con = DriverManager.getConnection(url, username, password);
-//             PreparedStatement stmt = con.prepareStatement(query)) {
-//            stmt.setInt(1, employeeID);
-//            ResultSet rs = stmt.executeQuery();
-//            while (rs.next()) {
-//                Skill skill = new Skill();
-//                skill.setSkillID(rs.getInt("SkillID"));
-//                skill.setName(rs.getString("Name"));
-//                skill.setDescription(rs.getString("Description"));
-//                skills.add(skill);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return skills;
-//    }
-
 }

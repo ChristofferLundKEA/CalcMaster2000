@@ -1,0 +1,208 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SkillRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: SkillRepository (com.alpha.solutions.calcmaster2000.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SkillRepository</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30.8%
+  </span>
+  <span class="absValue">
+    (8/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (27/30)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SkillRepository$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30.8%
+  </span>
+  <span class="absValue">
+    (8/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (27/30)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.repository;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Skill;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Repository
+<b class="fc">&nbsp;public class SkillRepository {</b>
+&nbsp;
+&nbsp;    @Value(&quot;${spring.datasource.url}&quot;)
+&nbsp;    private String url;
+&nbsp;
+&nbsp;    @Value(&quot;${spring.datasource.username}&quot;)
+&nbsp;    private String username;
+&nbsp;
+&nbsp;    @Value(&quot;${spring.datasource.password}&quot;)
+&nbsp;    private String password;
+&nbsp;
+&nbsp;
+&nbsp;    public List&lt;Skill&gt; getAllSkills() {
+<b class="fc">&nbsp;        List&lt;Skill&gt; listOfSkills = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        String query = &quot;SELECT SkillID, Name, Description FROM Skill&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try(Connection con = DriverManager.getConnection(url, username, password);</b>
+<b class="fc">&nbsp;            PreparedStatement stmt = con.prepareStatement(query)){</b>
+<b class="fc">&nbsp;            ResultSet rs = stmt.executeQuery();</b>
+&nbsp;
+<b class="fc">&nbsp;            while (rs.next()) {</b>
+<b class="fc">&nbsp;                Skill skill = new Skill();</b>
+<b class="fc">&nbsp;                skill.setSkillID(rs.getInt(&quot;SkillID&quot;));</b>
+<b class="fc">&nbsp;                skill.setName(rs.getString(&quot;Name&quot;));</b>
+<b class="fc">&nbsp;                skill.setDescription(rs.getString(&quot;Description&quot;));</b>
+<b class="fc">&nbsp;                listOfSkills.add(skill);</b>
+&nbsp;            }
+<b class="pc">&nbsp;        } catch (SQLException e){</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return listOfSkills;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addSkill(Skill skill) {
+<b class="fc">&nbsp;        String query = &quot;INSERT INTO skill (Name, Description) VALUES (?,?)&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try (Connection con = DriverManager.getConnection(url, username, password);</b>
+<b class="fc">&nbsp;        PreparedStatement stmt = con.prepareStatement(query)){</b>
+&nbsp;
+<b class="fc">&nbsp;            stmt.setString(1, skill.getName());</b>
+<b class="fc">&nbsp;            stmt.setString(2, skill.getDescription());</b>
+<b class="fc">&nbsp;            stmt.executeUpdate();</b>
+&nbsp;
+<b class="pc">&nbsp;        } catch (SQLException e){</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void deleteSkillById(int skillId) {
+<b class="fc">&nbsp;        String query = &quot;DELETE FROM skill WHERE SkillID = ?&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try(Connection con = DriverManager.getConnection(url, username, password);</b>
+<b class="fc">&nbsp;        PreparedStatement stmt = con.prepareStatement(query)){</b>
+&nbsp;
+<b class="fc">&nbsp;        stmt.setInt(1, skillId);</b>
+<b class="fc">&nbsp;        stmt.executeUpdate();</b>
+&nbsp;
+<b class="pc">&nbsp;        } catch (SQLException e){</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

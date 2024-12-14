@@ -7,13 +7,14 @@ import com.alpha.solutions.calcmaster2000.repository.SubtaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
+@ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class SubtaskServiceTest {
 
     @Autowired
@@ -39,7 +40,7 @@ public class SubtaskServiceTest {
         subtaskService.deleteSubtaskById(subtask.getSubtaskID());
 
         // Assert
-        Subtask deletedSubtask = subtaskRepository.getSubtaskById(subtask.getSubtaskID());
+        Subtask deletedSubtask = subtaskService.getSubtaskById(subtask.getSubtaskID());
         assertNull(deletedSubtask);
     }
 
@@ -52,7 +53,7 @@ public class SubtaskServiceTest {
         subtaskService.assignEmployeeToSubtask(subtaskID, employeeID);
 
 
-        Integer assignedEmployeeID = subtaskRepository.getAssignedEmployeeID(subtaskID);
+        Integer assignedEmployeeID = subtaskService.getAssignedEmployeeID(subtaskID);
         assertNotNull(assignedEmployeeID, "An employee should be assigned to the subtask");
         assertEquals(employeeID, assignedEmployeeID, "The correct employee should be assigned to the subtask");
     }

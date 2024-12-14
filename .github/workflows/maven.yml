@@ -27,8 +27,8 @@ jobs:
         java-version: '22'
         distribution: 'temurin'
         cache: maven
-    - name: Build without tests 
-      run: mvn -B package -DskipTests=true
+    - name: Build and run tests
+      run: mvn -B package
   
     - name: Upload Surefire Reports
       if: always()  # Sørg for, at rapporterne uploades, selvom testen fejler

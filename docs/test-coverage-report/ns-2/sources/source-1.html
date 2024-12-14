@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AdminController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: AdminController (com.alpha.solutions.calcmaster2000.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AdminController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    59.1%
+  </span>
+  <span class="absValue">
+    (13/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.controller;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Admin;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.AdminService;
+&nbsp;import jakarta.servlet.http.HttpSession;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.ui.Model;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;
+&nbsp;@Controller
+&nbsp;public class AdminController {
+&nbsp;
+&nbsp;    private final AdminService adminService;
+&nbsp;
+<b class="fc">&nbsp;    public AdminController(AdminService adminService) {</b>
+<b class="fc">&nbsp;        this.adminService = adminService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Viser login-siden
+&nbsp;    @GetMapping(&quot;/login&quot;)
+&nbsp;    public String showLoginPage(HttpSession session) {
+&nbsp;        // Hvis brugeren allerede er logget ind, omdiriger til /allProjects
+<b class="fc">&nbsp;        if (Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="fc">&nbsp;            return &quot;redirect:/allProjects&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return &quot;login&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Håndterer login-logik
+&nbsp;    @PostMapping(&quot;/login&quot;)
+&nbsp;    public String handleLogin(
+&nbsp;            @RequestParam(&quot;username&quot;) String username,
+&nbsp;            @RequestParam(&quot;password&quot;) String password,
+&nbsp;            HttpSession session,
+&nbsp;            Model model
+&nbsp;    ) {
+<b class="fc">&nbsp;        Admin admin = adminService.validateLogin(username, password);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (admin != null) {</b>
+<b class="fc">&nbsp;            session.setAttribute(&quot;adminUsername&quot;, admin.getUsername());</b>
+<b class="fc">&nbsp;            session.setAttribute(&quot;adminEmail&quot;, admin.getEmail());</b>
+<b class="fc">&nbsp;            session.setAttribute(&quot;isAdminLoggedIn&quot;, true);</b>
+<b class="fc">&nbsp;            return &quot;redirect:/allProjects&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;Forkert brugernavn eller adgangskode&quot;);</b>
+<b class="nc">&nbsp;            return &quot;login&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // Håndterer logout
+&nbsp;    @GetMapping(&quot;/logout&quot;)
+&nbsp;    public String handleLogout(HttpSession session) {
+<b class="fc">&nbsp;        session.invalidate();</b>
+<b class="fc">&nbsp;        return &quot;redirect:/login&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Viser admin-profilen
+&nbsp;    @GetMapping(&quot;/adminProfile&quot;)
+&nbsp;    public String showProfile(HttpSession session, Model model) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Admin admin = new Admin();</b>
+<b class="nc">&nbsp;        admin.setUsername((String) session.getAttribute(&quot;adminUsername&quot;));</b>
+<b class="nc">&nbsp;        admin.setEmail((String) session.getAttribute(&quot;adminEmail&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        model.addAttribute(&quot;admin&quot;, admin);</b>
+<b class="nc">&nbsp;        return &quot;adminProfile&quot;;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

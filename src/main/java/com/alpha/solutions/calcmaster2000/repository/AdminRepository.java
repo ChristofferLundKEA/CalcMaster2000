@@ -1,6 +1,7 @@
 package com.alpha.solutions.calcmaster2000.repository;
 
 import com.alpha.solutions.calcmaster2000.model.Admin;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -10,35 +11,15 @@ import java.util.List;
 @Repository
 public class AdminRepository {
 
-    private String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
-    private String username = "Celinelundm";
-    private String password = "fredagsbar1234!";
+    @Value("${spring.datasource.url}")
+    private String url;
 
-    // Henter alle admins fra databasen
-    public List<Admin> fetchAllAdmins() {
-        List<Admin> admins = new ArrayList<>();
-        String sql = "SELECT * FROM Admin";
+    @Value("${spring.datasource.username}")
+    private String username;
 
-        try (Connection con = DriverManager.getConnection(url, username, password);
-             PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+    @Value("${spring.datasource.password}")
+    private String password;
 
-            while (rs.next()) {
-                Admin admin = new Admin(
-                        rs.getString("Username"),
-                        rs.getString("Password"),
-                        rs.getString("Email")
-                );
-                admins.add(admin);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Fejl ved hentning af admins", e);
-        }
-
-        return admins;
-    }
 
     // Henter en specifik admin baseret på brugernavn
     public Admin getAdminByUsername(String username) {
@@ -63,7 +44,6 @@ public class AdminRepository {
             e.printStackTrace();
             throw new RuntimeException("Fejl ved hentning af admin", e);
         }
-
         return admin;
     }
 

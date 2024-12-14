@@ -3,6 +3,7 @@ package com.alpha.solutions.calcmaster2000.repository;
 import com.alpha.solutions.calcmaster2000.enums.Priority;
 import com.alpha.solutions.calcmaster2000.enums.Status;
 import com.alpha.solutions.calcmaster2000.model.Subtask;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -12,9 +13,14 @@ import java.util.List;
 @Repository
 public class SubtaskRepository {
 
-    private final String url = "jdbc:mysql://calcmaster2000.mysql.database.azure.com:3306/calcmaster2000";
-    private final String username = "Celinelundm";
-    private final String password = "fredagsbar1234!";
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
 
     // opretter en subtask til en task
     public void createSubtask(Subtask subtask) {
