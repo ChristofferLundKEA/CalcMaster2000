@@ -1,2 +1,3 @@
 ## Test Coverage
-En detaljeret rapport over testdækningen kan findes her: [Test Coverage Report](docs/test-coverage-report/index.html).
+Du kan se den genererede test coverage-rapport her:  
+[Test Coverage Report](https://christofferlundkea.github.io/CalcMaster2000/test-coverage-report/)
