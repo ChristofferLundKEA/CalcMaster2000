@@ -1,3 +1,3 @@
 ## Test Coverage
-Du kan se den genererede test coverage-rapport her:  
+Testdækningen for projektet kan findes her: 
 [Test Coverage Report](https://christofferlundkea.github.io/CalcMaster2000/test-coverage-report/)
