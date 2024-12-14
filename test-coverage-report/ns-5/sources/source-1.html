@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AdminRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: AdminRepository (com.alpha.solutions.calcmaster2000.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AdminRepository</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.9%
+  </span>
+  <span class="absValue">
+    (1/17)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AdminRepository$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.9%
+  </span>
+  <span class="absValue">
+    (1/17)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.repository;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Admin;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Repository
+<b class="fc">&nbsp;public class AdminRepository {</b>
+&nbsp;
+&nbsp;    @Value(&quot;${spring.datasource.url}&quot;)
+&nbsp;    private String url;
+&nbsp;
+&nbsp;    @Value(&quot;${spring.datasource.username}&quot;)
+&nbsp;    private String username;
+&nbsp;
+&nbsp;    @Value(&quot;${spring.datasource.password}&quot;)
+&nbsp;    private String password;
+&nbsp;
+&nbsp;
+&nbsp;    // Henter en specifik admin baseret på brugernavn
+&nbsp;    public Admin getAdminByUsername(String username) {
+<b class="nc">&nbsp;        String sql = &quot;SELECT * FROM Admin WHERE Username = ?&quot;;</b>
+<b class="nc">&nbsp;        Admin admin = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        try (Connection con = DriverManager.getConnection(url, this.username, password);</b>
+<b class="nc">&nbsp;             PreparedStatement stmt = con.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            stmt.setString(1, username);</b>
+<b class="nc">&nbsp;            try (ResultSet rs = stmt.executeQuery()) {</b>
+<b class="nc">&nbsp;                if (rs.next()) {</b>
+<b class="nc">&nbsp;                    admin = new Admin(</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;Username&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;Password&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;Email&quot;)</b>
+&nbsp;                    );
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Fejl ved hentning af admin&quot;, e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return admin;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

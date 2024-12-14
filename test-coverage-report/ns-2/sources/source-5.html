@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubtaskController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: SubtaskController (com.alpha.solutions.calcmaster2000.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubtaskController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.5%
+  </span>
+  <span class="absValue">
+    (4/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.controller;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Priority;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Status;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Employee;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Subtask;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.EmployeeService;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.SubtaskService;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.TaskService;
+&nbsp;import jakarta.servlet.http.HttpSession;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.ui.Model;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Controller
+&nbsp;public class SubtaskController {
+&nbsp;
+&nbsp;    private final SubtaskService subtaskService;
+&nbsp;    private final TaskService taskService;
+&nbsp;    private final EmployeeService employeeService;
+&nbsp;
+<b class="fc">&nbsp;    public SubtaskController(SubtaskService subtaskService, TaskService taskService, EmployeeService employeeService) {</b>
+<b class="fc">&nbsp;        this.subtaskService = subtaskService;</b>
+<b class="fc">&nbsp;        this.taskService = taskService;</b>
+<b class="fc">&nbsp;        this.employeeService = employeeService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Viser formularen til at oprette en ny subtask
+&nbsp;    @GetMapping(&quot;/subtask/addSubtask&quot;)
+&nbsp;    public String showCreateSubtaskForm(@RequestParam(&quot;taskID&quot;) int taskID, Model model, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        List&lt;Employee&gt; employees = employeeService.getAllEmployees();</b>
+<b class="nc">&nbsp;        session.setAttribute(&quot;currentTaskID&quot;, taskID);</b>
+&nbsp;
+<b class="nc">&nbsp;        model.addAttribute(&quot;subtask&quot;, new Subtask());</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;taskID&quot;, taskID);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;employees&quot;, employees);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;status&quot;, Status.values());</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;priorities&quot;, Priority.values());</b>
+<b class="nc">&nbsp;        return &quot;addSubtask&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Håndterer oprettelsen af en ny subtask
+&nbsp;    @PostMapping(&quot;/subtask/addSubtask&quot;)
+&nbsp;    public String createSubtask(@ModelAttribute Subtask subtask, @RequestParam(&quot;employeeID&quot;) int employeeID, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Integer currentTaskID = (Integer) session.getAttribute(&quot;currentTaskID&quot;);</b>
+<b class="nc">&nbsp;        if (currentTaskID != null) {</b>
+<b class="nc">&nbsp;            subtask.setTaskID(currentTaskID);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        subtaskService.createSubtask(subtask);</b>
+<b class="nc">&nbsp;        subtaskService.assignEmployeeToSubtask(subtask.getSubtaskID(), employeeID);</b>
+<b class="nc">&nbsp;        return &quot;redirect:/tasks/&quot; + subtask.getTaskID();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Sletter en subtask
+&nbsp;    @GetMapping(&quot;/subtasks/delete/{subtaskID}&quot;)
+&nbsp;    public String deleteSubtask(@PathVariable int subtaskID, @RequestParam(&quot;taskID&quot;) int taskID, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        subtaskService.deleteSubtaskById(subtaskID);</b>
+<b class="nc">&nbsp;        session.removeAttribute(&quot;currentSubtaskID&quot;);</b>
+<b class="nc">&nbsp;        return &quot;redirect:/tasks/&quot; + taskID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Opdaterer en subtask
+&nbsp;    @GetMapping(&quot;/subtasks/edit/{subtaskID}&quot;)
+&nbsp;    public String showEditSubtaskForm(@PathVariable int subtaskID, Model model, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Subtask subtask = subtaskService.getSubtaskById(subtaskID);</b>
+<b class="nc">&nbsp;        List&lt;Employee&gt; employees = employeeService.getAllEmployees();</b>
+<b class="nc">&nbsp;        Integer currentEmployeeID = subtaskService.getAssignedEmployeeID(subtaskID);</b>
+&nbsp;
+<b class="nc">&nbsp;        session.setAttribute(&quot;currentSubtaskID&quot;, subtaskID);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;subtask&quot;, subtask);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;employees&quot;, employees);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;currentEmployeeID&quot;, currentEmployeeID);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;priorities&quot;, Priority.values());</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;status&quot;, Status.values());</b>
+<b class="nc">&nbsp;        return &quot;editSubtask&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Håndterer opdateringen af en subtask
+&nbsp;    @PostMapping(&quot;/subtasks/edit&quot;)
+&nbsp;    public String updateSubtask(@ModelAttribute Subtask subtask, @RequestParam(&quot;employeeID&quot;) int employeeID, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Integer currentTaskID = (Integer) session.getAttribute(&quot;currentTaskID&quot;);</b>
+<b class="nc">&nbsp;        if (currentTaskID != null) {</b>
+<b class="nc">&nbsp;            subtask.setTaskID(currentTaskID);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        subtaskService.updateSubtask(subtask);</b>
+<b class="nc">&nbsp;        subtaskService.assignEmployeeToSubtask(subtask.getSubtaskID(), employeeID);</b>
+<b class="nc">&nbsp;        return &quot;redirect:/tasks/&quot; + subtask.getTaskID();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

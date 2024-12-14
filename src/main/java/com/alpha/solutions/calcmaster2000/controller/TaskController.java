@@ -102,7 +102,7 @@ public class TaskController {
         }
 
         Task task = taskService.getTaskById(taskID);
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<Employee> employees = new ArrayList<>(employeeService.getAllEmployees());
 
         // Tilføj en "None"-valgmulighed
         Employee noneOption = new Employee();

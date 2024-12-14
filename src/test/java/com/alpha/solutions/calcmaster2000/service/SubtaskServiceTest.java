@@ -40,7 +40,7 @@ public class SubtaskServiceTest {
         subtaskService.deleteSubtaskById(subtask.getSubtaskID());
 
         // Assert
-        Subtask deletedSubtask = subtaskRepository.getSubtaskById(subtask.getSubtaskID());
+        Subtask deletedSubtask = subtaskService.getSubtaskById(subtask.getSubtaskID());
         assertNull(deletedSubtask);
     }
 
@@ -53,7 +53,7 @@ public class SubtaskServiceTest {
         subtaskService.assignEmployeeToSubtask(subtaskID, employeeID);
 
 
-        Integer assignedEmployeeID = subtaskRepository.getAssignedEmployeeID(subtaskID);
+        Integer assignedEmployeeID = subtaskService.getAssignedEmployeeID(subtaskID);
         assertNotNull(assignedEmployeeID, "An employee should be assigned to the subtask");
         assertEquals(employeeID, assignedEmployeeID, "The correct employee should be assigned to the subtask");
     }

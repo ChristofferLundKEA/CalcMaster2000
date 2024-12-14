@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubtaskService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.service</a>
+</div>
+
+<h1>Coverage Summary for Class: SubtaskService (com.alpha.solutions.calcmaster2000.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubtaskService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (5/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    46.7%
+  </span>
+  <span class="absValue">
+    (7/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.service;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Employee;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Subtask;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.EmployeeService;
+&nbsp;import com.alpha.solutions.calcmaster2000.repository.SubtaskRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class SubtaskService {
+&nbsp;
+&nbsp;    private final SubtaskRepository subtaskRepository;
+&nbsp;    private final EmployeeService employeeService;
+&nbsp;
+&nbsp;    @Autowired // Constructor injection
+<b class="fc">&nbsp;    public SubtaskService(SubtaskRepository subtaskRepository, EmployeeService employeeService) {</b>
+<b class="fc">&nbsp;        this.subtaskRepository = subtaskRepository;</b>
+<b class="fc">&nbsp;        this.employeeService = employeeService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Opretter en ny subtask
+&nbsp;    public void createSubtask(Subtask subtask) {
+<b class="nc">&nbsp;        subtaskRepository.createSubtask(subtask);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Henter alle subtasks for en specifik task
+&nbsp;    public List&lt;Subtask&gt; getSubtasksByTaskID(int taskID) {
+<b class="nc">&nbsp;        return subtaskRepository.getSubtasksByTaskID(taskID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Opdaterer en subtask
+&nbsp;    public void updateSubtask(Subtask subtask) {
+<b class="nc">&nbsp;        subtaskRepository.updateSubtask(subtask);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Sletter en subtask
+&nbsp;    public void deleteSubtaskById(int subtaskID) {
+<b class="fc">&nbsp;        subtaskRepository.deleteSubtaskById(subtaskID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Henter en specifik subtask baseret på ID
+&nbsp;    public Subtask getSubtaskById(int subtaskID) {
+<b class="fc">&nbsp;        return subtaskRepository.getSubtaskById(subtaskID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // tildeler en medarbejder til en subtask
+&nbsp;    public void assignEmployeeToSubtask(int subtaskID, int employeeID) {
+<b class="fc">&nbsp;        subtaskRepository.assignEmployeeToSubtask(subtaskID, employeeID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getAssignedEmployeeID(int subtaskID) {
+<b class="fc">&nbsp;        return subtaskRepository.getAssignedEmployeeID(subtaskID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public String getAssignedEmployeeName(int subtaskID) {
+<b class="nc">&nbsp;        Integer employeeID = subtaskRepository.getAssignedEmployeeID(subtaskID);</b>
+<b class="nc">&nbsp;        if (employeeID != null) {</b>
+<b class="nc">&nbsp;            Employee employee = employeeService.getEmployeeByID(employeeID);</b>
+<b class="nc">&nbsp;            return employee.getName();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return &quot;None&quot;; // Ingen medarbejder tildelt</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Task</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Task (com.alpha.solutions.calcmaster2000.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Task</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.4%
+  </span>
+  <span class="absValue">
+    (19/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.3%
+  </span>
+  <span class="absValue">
+    (19/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.model;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Priority;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Status;
+&nbsp;
+&nbsp;public class Task {
+&nbsp;    private Integer taskID;
+&nbsp;    private int projectID;
+&nbsp;    private String name;
+&nbsp;    private String description;
+&nbsp;    private Priority priority;
+&nbsp;    private int timeEstimate;
+&nbsp;    private Status status;
+&nbsp;    private boolean useSubtaskTime;
+&nbsp;    private int calculatedTimeEstimate; // er ikke i DB. Bliver brugt til at udregne samlet tid fra subtasks
+&nbsp;    private Double price;
+&nbsp;
+&nbsp;    // Constructor
+<b class="fc">&nbsp;    public Task() {}</b>
+&nbsp;
+&nbsp;    public Task(Integer taskID, int projectID, String name, String description, Priority priority,
+<b class="nc">&nbsp;                int timeEstimate, Status status, boolean useSubtaskTime, int calculatedTimeEstimate) {</b>
+<b class="nc">&nbsp;        this.taskID = taskID;</b>
+<b class="nc">&nbsp;        this.projectID = projectID;</b>
+<b class="nc">&nbsp;        this.name = name;</b>
+<b class="nc">&nbsp;        this.description = description;</b>
+<b class="nc">&nbsp;        this.priority = priority;</b>
+<b class="nc">&nbsp;        this.timeEstimate = timeEstimate;</b>
+<b class="nc">&nbsp;        this.status = status;</b>
+<b class="nc">&nbsp;        this.useSubtaskTime = useSubtaskTime;</b>
+<b class="nc">&nbsp;        this.calculatedTimeEstimate = calculatedTimeEstimate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Getters and Setters
+&nbsp;    public Integer getTaskID() {
+<b class="fc">&nbsp;        return taskID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTaskID(Integer taskID) {
+<b class="fc">&nbsp;        this.taskID = taskID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getProjectID() {
+<b class="fc">&nbsp;        return projectID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setProjectID(int projectID) {
+<b class="fc">&nbsp;        this.projectID = projectID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getName() {
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setName(String name) {
+<b class="fc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getDescription() {
+<b class="fc">&nbsp;        return description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDescription(String description) {
+<b class="fc">&nbsp;        this.description = description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Priority getPriority() {
+<b class="fc">&nbsp;        return priority;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPriority(Priority priority) {
+<b class="fc">&nbsp;        this.priority = priority;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getTimeEstimate() {
+<b class="fc">&nbsp;        return timeEstimate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTimeEstimate(int timeEstimate) {
+<b class="fc">&nbsp;        this.timeEstimate = timeEstimate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Status getStatus() {
+<b class="fc">&nbsp;        return status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStatus(Status status) {
+<b class="fc">&nbsp;        this.status = status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isUseSubtaskTime() {
+<b class="fc">&nbsp;        return useSubtaskTime;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUseSubtaskTime(boolean useSubtaskTime) {
+<b class="fc">&nbsp;        this.useSubtaskTime = useSubtaskTime;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getCalculatedTimeEstimate() {
+<b class="nc">&nbsp;        return calculatedTimeEstimate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCalculatedTimeEstimate(int calculatedTimeEstimate) {
+<b class="nc">&nbsp;        this.calculatedTimeEstimate = calculatedTimeEstimate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Double getPrice() {
+<b class="fc">&nbsp;        return price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPrice(Double price) {
+<b class="fc">&nbsp;        this.price = price;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

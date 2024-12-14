@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Subtask</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Subtask (com.alpha.solutions.calcmaster2000.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Subtask</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (27/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.model;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Priority;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Status;
+&nbsp;
+&nbsp;public class Subtask {
+&nbsp;    private Integer subtaskID;
+&nbsp;    private int taskID;
+&nbsp;    private String name;
+&nbsp;    private String description;
+&nbsp;    private Priority priority;
+&nbsp;    private int timeEstimate;
+&nbsp;    private Status status;
+<b class="fc">&nbsp;    private Double price = 0.0;</b>
+&nbsp;
+<b class="fc">&nbsp;    public Subtask(){}</b>
+&nbsp;
+<b class="fc">&nbsp;    public Subtask(Integer subtaskID, int taskID, String name, String description, Priority priority, int timeEstimate, Status status, double Price) {</b>
+<b class="fc">&nbsp;        this.subtaskID = subtaskID;</b>
+<b class="fc">&nbsp;        this.taskID = taskID;</b>
+<b class="fc">&nbsp;        this.name = name;</b>
+<b class="fc">&nbsp;        this.description = description;</b>
+<b class="fc">&nbsp;        this.priority = priority;</b>
+<b class="fc">&nbsp;        this.timeEstimate = timeEstimate;</b>
+<b class="fc">&nbsp;        this.status = status;</b>
+<b class="fc">&nbsp;        this.price = price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getSubtaskID() {
+<b class="fc">&nbsp;        return subtaskID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSubtaskID(Integer subtaskID) {
+<b class="fc">&nbsp;        this.subtaskID = subtaskID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getTaskID() {
+<b class="fc">&nbsp;        return taskID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTaskID(int taskID) {
+<b class="fc">&nbsp;        this.taskID = taskID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getName() {
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setName(String name) {
+<b class="fc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getDescription() {
+<b class="fc">&nbsp;        return description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDescription(String description) {
+<b class="fc">&nbsp;        this.description = description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Priority getPriority() {
+<b class="fc">&nbsp;        return priority;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPriority(Priority priority) {
+<b class="fc">&nbsp;        this.priority = priority;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getTimeEstimate() {
+<b class="fc">&nbsp;        return timeEstimate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTimeEstimate(int timeEstimate) {
+<b class="fc">&nbsp;        this.timeEstimate = timeEstimate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Status getStatus() {
+<b class="fc">&nbsp;        return status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStatus(Status status) {
+<b class="fc">&nbsp;        this.status = status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Double getPrice() {
+<b class="fc">&nbsp;        return price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPrice(Double price) {
+<b class="fc">&nbsp;        this.price = price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

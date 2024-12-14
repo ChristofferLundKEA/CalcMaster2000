@@ -1,0 +1,279 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TaskController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: TaskController (com.alpha.solutions.calcmaster2000.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TaskController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (6/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43.8%
+  </span>
+  <span class="absValue">
+    (7/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60.9%
+  </span>
+  <span class="absValue">
+    (42/69)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.controller;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Priority;
+&nbsp;import com.alpha.solutions.calcmaster2000.enums.Status;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Employee;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Project;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Subtask;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Task;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.EmployeeService;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.ProjectService;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.SubtaskService;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.TaskService;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.ui.Model;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import jakarta.servlet.http.HttpSession;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Controller
+&nbsp;public class TaskController {
+&nbsp;
+&nbsp;    private final TaskService taskService;
+&nbsp;    private final ProjectService projectService;
+&nbsp;    private final SubtaskService subtaskService;
+&nbsp;    private final EmployeeService employeeService;
+&nbsp;
+<b class="fc">&nbsp;    public TaskController(TaskService taskService, ProjectService projectService, SubtaskService subtaskService, EmployeeService employeeService) {</b>
+<b class="fc">&nbsp;        this.taskService = taskService;</b>
+<b class="fc">&nbsp;        this.projectService = projectService;</b>
+<b class="fc">&nbsp;        this.subtaskService = subtaskService;</b>
+<b class="fc">&nbsp;        this.employeeService = employeeService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Viser formular til at oprette en ny task
+&nbsp;    @GetMapping(&quot;/tasks/addTask&quot;)
+&nbsp;    public String showCreateTaskForm(@RequestParam(&quot;projectID&quot;) int projectID, Model model, HttpSession session) {
+<b class="pc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="fc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Project project = projectService.getProjectById(projectID);</b>
+<b class="nc">&nbsp;        List&lt;Employee&gt; employees = employeeService.getAllEmployees();</b>
+&nbsp;
+&nbsp;        // Tilføj en &quot;None&quot;-valgmulighed
+<b class="nc">&nbsp;        Employee noneOption = new Employee();</b>
+<b class="nc">&nbsp;        noneOption.setEmployeeID(0); // Brug ID 0 som &quot;None&quot;</b>
+<b class="nc">&nbsp;        noneOption.setName(&quot;None&quot;);</b>
+<b class="nc">&nbsp;        employees.add(0, noneOption); // Tilføj &quot;None&quot; som første valgmulighed</b>
+&nbsp;
+<b class="nc">&nbsp;        session.setAttribute(&quot;currentProjectID&quot;, projectID);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;task&quot;, new Task());</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;project&quot;, project);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;employees&quot;, employees);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;priorities&quot;, Priority.values());</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;status&quot;, Status.values());</b>
+<b class="nc">&nbsp;        return &quot;addTask&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // Håndterer oprettelsen af en task
+&nbsp;    @PostMapping(&quot;/tasks/addTask&quot;)
+&nbsp;    public String createTask(@ModelAttribute Task task) {
+<b class="fc">&nbsp;        taskService.createTask(task); // Gem tasken med prisen i databasen</b>
+<b class="fc">&nbsp;        return &quot;redirect:/project/&quot; + task.getProjectID(); // Tilbage til projektets side</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Håndterer oprettelsen og redigeringen af en task
+&nbsp;    @PostMapping(&quot;/tasks/edit&quot;)
+&nbsp;    public String updateTask(@ModelAttribute Task task, @RequestParam(&quot;employeeID&quot;) int employeeID, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Integer currentProjectID = (Integer) session.getAttribute(&quot;currentProjectID&quot;);</b>
+<b class="nc">&nbsp;        if (currentProjectID != null) {</b>
+<b class="nc">&nbsp;            task.setProjectID(currentProjectID);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        taskService.updateTask(task);</b>
+<b class="nc">&nbsp;        taskService.assignEmployeeToTask(task.getTaskID(), employeeID);</b>
+<b class="nc">&nbsp;        return &quot;redirect:/project/&quot; + task.getProjectID();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Sletter en task
+&nbsp;    @GetMapping(&quot;/tasks/delete/{taskID}&quot;)
+&nbsp;    public String deleteTask(@PathVariable int taskID, @RequestParam int projectID, HttpSession session) {
+<b class="pc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        taskService.deleteTaskById(taskID);</b>
+<b class="fc">&nbsp;        session.removeAttribute(&quot;currentTaskID&quot;);</b>
+<b class="fc">&nbsp;        return &quot;redirect:/project/&quot; + projectID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Viser formularen til at redigere en task
+&nbsp;    @GetMapping(&quot;/tasks/edit/{taskID}&quot;)
+&nbsp;    public String showEditTaskForm(@PathVariable int taskID, Model model, HttpSession session) {
+<b class="pc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Task task = taskService.getTaskById(taskID);</b>
+<b class="fc">&nbsp;        List&lt;Employee&gt; employees = new ArrayList&lt;&gt;(employeeService.getAllEmployees());</b>
+&nbsp;
+&nbsp;        // Tilføj en &quot;None&quot;-valgmulighed
+<b class="fc">&nbsp;        Employee noneOption = new Employee();</b>
+<b class="fc">&nbsp;        noneOption.setEmployeeID(0); // Brug ID 0 som &quot;None&quot;</b>
+<b class="fc">&nbsp;        noneOption.setName(&quot;None&quot;);</b>
+<b class="fc">&nbsp;        employees.add(0, noneOption); // Tilføj &quot;None&quot; som første valgmulighed</b>
+&nbsp;
+<b class="fc">&nbsp;        Integer currentEmployeeID = taskService.getAssignedEmployeeID(taskID);</b>
+&nbsp;
+<b class="fc">&nbsp;        session.setAttribute(&quot;currentTaskID&quot;, taskID);</b>
+<b class="fc">&nbsp;        model.addAttribute(&quot;task&quot;, task);</b>
+<b class="fc">&nbsp;        model.addAttribute(&quot;employees&quot;, employees);</b>
+<b class="fc">&nbsp;        model.addAttribute(&quot;currentEmployeeID&quot;, currentEmployeeID);</b>
+<b class="fc">&nbsp;        model.addAttribute(&quot;priorities&quot;, Priority.values());</b>
+<b class="fc">&nbsp;        model.addAttribute(&quot;status&quot;, Status.values());</b>
+<b class="fc">&nbsp;        return &quot;editTask&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping(&quot;/tasks/{taskID}&quot;)
+&nbsp;    public String getTaskDetails(@PathVariable int taskID, Model model, HttpSession session) {
+<b class="fc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="fc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+&nbsp;            // Hent tasken
+<b class="fc">&nbsp;            Task task = taskService.getTaskById(taskID);</b>
+&nbsp;
+&nbsp;            // Hent subtasks
+<b class="fc">&nbsp;            List&lt;Subtask&gt; subtasks = subtaskService.getSubtasksByTaskID(taskID);</b>
+<b class="pc">&nbsp;            if (subtasks == null) {</b>
+<b class="nc">&nbsp;                subtasks = new ArrayList&lt;&gt;();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // Hent tildelt medarbejder til tasken
+<b class="fc">&nbsp;            Integer assignedEmployeeID = taskService.getAssignedEmployeeID(taskID);</b>
+<b class="fc">&nbsp;            Employee assignedEmployee = null;</b>
+<b class="pc">&nbsp;            if (assignedEmployeeID != null) {</b>
+<b class="fc">&nbsp;                assignedEmployee = employeeService.getEmployeeByID(assignedEmployeeID);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // Tilføj data til modellen
+<b class="fc">&nbsp;            session.setAttribute(&quot;currentTaskID&quot;, taskID);</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;task&quot;, task);</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;subtasks&quot;, subtasks);</b>
+<b class="fc">&nbsp;            model.addAttribute(&quot;assignedEmployee&quot;, assignedEmployee); // Tilføj taskens medarbejder</b>
+&nbsp;
+<b class="fc">&nbsp;            return &quot;taskDetails&quot;;</b>
+<b class="nc">&nbsp;        } catch (RuntimeException e) {</b>
+<b class="nc">&nbsp;            model.addAttribute(&quot;error&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;            return &quot;errorPage&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>

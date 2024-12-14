@@ -1,0 +1,264 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProjectController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.alpha.solutions.calcmaster2000.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ProjectController (com.alpha.solutions.calcmaster2000.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProjectController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    6.9%
+  </span>
+  <span class="absValue">
+    (4/58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpha.solutions.calcmaster2000.controller;
+&nbsp;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Project;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Subtask;
+&nbsp;import com.alpha.solutions.calcmaster2000.model.Task;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.ProjectService;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.SubtaskService;
+&nbsp;import com.alpha.solutions.calcmaster2000.service.TaskService;
+&nbsp;import jakarta.servlet.http.HttpSession;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.ui.Model;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Controller
+&nbsp;public class ProjectController {
+&nbsp;
+&nbsp;    private final ProjectService projectService;
+&nbsp;    private final TaskService taskService;
+&nbsp;    private final SubtaskService subtaskService;
+&nbsp;
+<b class="fc">&nbsp;    public ProjectController(ProjectService projectService, TaskService taskService, SubtaskService subtaskService) {</b>
+<b class="fc">&nbsp;        this.projectService = projectService;</b>
+<b class="fc">&nbsp;        this.taskService = taskService;</b>
+<b class="fc">&nbsp;        this.subtaskService = subtaskService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // GET: Vis oversigten over projekter
+&nbsp;    @GetMapping(&quot;/allProjects&quot;)
+&nbsp;    public String showAllProjects(Model model, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        model.addAttribute(&quot;projects&quot;, projectService.getAllProjects());</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;lastViewedProject&quot;, session.getAttribute(&quot;lastViewedProject&quot;)); // Session-attribut</b>
+<b class="nc">&nbsp;        return &quot;allProjects&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // GET: Vis formularen til at oprette et nyt projekt
+&nbsp;    @GetMapping(&quot;/addproject&quot;)
+&nbsp;    public String showAddProjectForm(Model model, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        model.addAttribute(&quot;project&quot;, new Project());</b>
+<b class="nc">&nbsp;        return &quot;addProject&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // POST: Håndter oprettelse af et nyt projekt
+&nbsp;    @PostMapping(&quot;/addproject&quot;)
+&nbsp;    public String handleAddProjectForm(@ModelAttribute Project project, Model model, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            projectService.addProject(project);</b>
+<b class="nc">&nbsp;            session.setAttribute(&quot;lastAddedProject&quot;, project); // Gem sidst tilføjede projekt i sessionen</b>
+<b class="nc">&nbsp;            return &quot;redirect:/allProjects&quot;;</b>
+<b class="nc">&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc">&nbsp;            model.addAttribute(&quot;error&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;            return &quot;addProject&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // GET: Vis detaljer om et projekt
+&nbsp;    @GetMapping(&quot;/project/{projectID}&quot;)
+&nbsp;    public String getProjectDetails(@PathVariable int projectID, Model model, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            Project project = projectService.getProjectById(projectID);</b>
+&nbsp;
+&nbsp;            // Hent tasks, der tilhører projektet
+<b class="nc">&nbsp;            List&lt;Task&gt; tasks = taskService.getTasksByProjectID(projectID);</b>
+<b class="nc">&nbsp;            if (tasks == null) tasks = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Task task : tasks) { // looper over tasks som hører til projektet</b>
+<b class="nc">&nbsp;                if (task.isUseSubtaskTime()) { // hvis fluebenet er sat til</b>
+<b class="nc">&nbsp;                    List&lt;Subtask&gt; subtasks = subtaskService.getSubtasksByTaskID(task.getTaskID()); // lav List af alle subtasks som hører til tasken</b>
+<b class="nc">&nbsp;                    int sum = 0;</b>
+<b class="nc">&nbsp;                    for (Subtask subtask : subtasks) sum += subtask.getTimeEstimate(); // looper over alle subtasks og lægger alle tidsestimeringer sammen i &quot;int sum&quot;</b>
+<b class="nc">&nbsp;                    task.setCalculatedTimeEstimate(sum); // den enkelte task får &quot;int sum&quot; som sin tidsestimering.</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    task.setCalculatedTimeEstimate(task.getTimeEstimate());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            model.addAttribute(&quot;project&quot;, project);</b>
+<b class="nc">&nbsp;            model.addAttribute(&quot;tasks&quot;, tasks);</b>
+&nbsp;
+&nbsp; 
+&nbsp;
+<b class="nc">&nbsp;            session.setAttribute(&quot;lastViewedProject&quot;, project); // Gem sidste sete projekt i sessionen</b>
+<b class="nc">&nbsp;            return &quot;project&quot;;// Returner Thymeleaf-skabelonen &quot;project.html&quot;</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (RuntimeException e) {</b>
+<b class="nc">&nbsp;            model.addAttribute(&quot;error&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;            return &quot;errorPage&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // GET: Slet et projekt
+&nbsp;    @GetMapping(&quot;/project/delete/{id}&quot;)
+&nbsp;    public String deleteProject(@PathVariable(&quot;id&quot;) int id, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        projectService.deleteProject(id);</b>
+<b class="nc">&nbsp;        session.removeAttribute(&quot;lastViewedProject&quot;); // Fjern session-attribut, hvis relevant</b>
+<b class="nc">&nbsp;        return &quot;redirect:/allProjects&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // GET: Vis formularen til at redigere et projekt
+&nbsp;    @GetMapping(&quot;/project/edit/{id}&quot;)
+&nbsp;    public String showEditProjectForm(@PathVariable(&quot;id&quot;) int id, Model model, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Project project = projectService.getProjectById(id);</b>
+<b class="nc">&nbsp;        if (project == null) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/allProjects&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        model.addAttribute(&quot;project&quot;, project);</b>
+<b class="nc">&nbsp;        return &quot;editProject&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // POST: Håndter opdatering af projekt
+&nbsp;    @PostMapping(&quot;/project/edit/{id}&quot;)
+&nbsp;    public String handleEditProjectForm(@PathVariable(&quot;id&quot;) int id, @ModelAttribute Project project, HttpSession session) {
+<b class="nc">&nbsp;        if (!Boolean.TRUE.equals(session.getAttribute(&quot;isAdminLoggedIn&quot;))) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        project.setProjectID(id);</b>
+<b class="nc">&nbsp;        projectService.updateProject(project);</b>
+<b class="nc">&nbsp;        session.setAttribute(&quot;lastEditedProject&quot;, project); // Gem opdateret projekt i sessionen</b>
+<b class="nc">&nbsp;        return &quot;redirect:/project/&quot; + id;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-14 17:06</div>
+</div>
+</body>
+</html>
