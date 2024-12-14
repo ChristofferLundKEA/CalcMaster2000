@@ -1,65 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Combined View</title>
-    <link rel="stylesheet" href="/static/css/allProjects.css">
+    <title>All Projects</title>
+    <link rel="stylesheet" href="/static/css/taskDetails.css"> <!-- Reuse CSS for consistent styling -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div class="container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+    <!-- Top Menu -->
+    <div class="menu-top">
         <a href="/allProjects" class="menu-item active">
-            <span class="icon">●</span>
+            <span class="icon"><i class="fa fa-folder"></i></span> <!-- Folder Icon -->
             <span class="text">Projects</span>
         </a>
         <a href="/employees" class="menu-item">
-            <span class="icon">○</span>
+            <span class="icon"><i class="fa fa-users"></i></span> <!-- Users Icon -->
             <span class="text">Employees</span>
         </a>
         <a href="/allSkills" class="menu-item">
-            <span class="icon">○</span>
+            <span class="icon"><i class="fa fa-lightbulb"></i></span> <!-- Skills Icon -->
             <span class="text">Skills</span>
         </a>
-        <a href="/adminProfile" class="menu-item bottom">
-            <span class="icon">👤</span>
-        </a>
-    </aside>
+    </div>
 
-    <!-- Main Content -->
-    <main class="content">
-        <header class="header">
-            <h1>Projects</h1>
-            <div class="header-actions">
-                <a href="/addproject" class="add-project-button">Add Project</a>
-                <a href="/logout" class="logout">Log out</a>
-            </div>
-        </header>
-        <div class="main-area">
-            <h1 th:text="'Welcome, ' + ${session.adminUsername} + '!'"></h1>
-            <h2>Your projects</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Project Name</th>
-                    <th>End Date</th>
-                    <th>Total Price</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="project : ${projects}">
-                    <td th:text="${project.name}"></td>
-                    <td th:text="${project.endDate}"></td>
-                    <td th:text="${project.totalPrice}">0.0</td>
-                    <td>
-                        <a th:href="@{/project/{id}(id=${project.projectID})}" class="view-details">Administrate Project</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-</div>
+    <!-- Bottom Menu -->
+    <div class="menu-bottom">
+        <a href="/adminProfile" class="menu-item">
+            <span class="icon"><i class="fa fa-user"></i></span> <!-- Profile Icon -->
+            <span class="text">Admin Profile</span>
+        </a>
+        <a href="/logout" class="menu-item">
+            <span class="icon"><i class="fa fa-sign-out-alt"></i></span> <!-- Logout Icon -->
+            <span class="text">Log Out</span>
+        </a>
+    </div>
+</aside>
+
+<!-- Header -->
+<header>
+    <h1>All Projects</h1>
+</header>
+
+<!-- Main Content -->
+<section class="task-details">
+    <h2>Your Projects</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Project Name</th>
+            <th>End Date</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.name}">Project Name</td>
+            <td th:text="${project.endDate}">End Date</td>
+            <td th:text="${project.totalPrice}">0.0</td>
+            <td>
+                <a th:href="@{/project/{id}(id=${project.projectID})}" class="edit-button">Administrate</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${projects.isEmpty()}">No projects found.</p>
+
+    <!-- Add Project Button -->
+    <div class="actions">
+        <a href="/addproject" class="add-subtask-link">Add Project</a>
+    </div>
+</section>
+
 </body>
 </html>
-
