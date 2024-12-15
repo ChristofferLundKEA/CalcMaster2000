@@ -27,7 +27,7 @@ public class SkillController {
 
         skillService.addSkill(skill);
         session.setAttribute("lastEmployeeID", employeeID); // Gem employeeID i sessionen
-        return "redirect:/updateEmployee/" + employeeID;
+        return "redirect:/allSkills/";
     }
 
     @PostMapping("/addNewSkillToAllSkills")

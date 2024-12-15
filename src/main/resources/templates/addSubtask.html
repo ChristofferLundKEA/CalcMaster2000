@@ -2,88 +2,112 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="eng">
 <head>
     <title>Create Subtask</title>
-    <link rel="stylesheet" href="/static/css/addSubtask.css">
+    <link rel="stylesheet" href="/static/css/taskDetails.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="container">
     <!-- Sidebar -->
     <aside class="sidebar">
-        <a href="/allProjects" class="menu-item">
-            <span class="icon">●</span>
-            <span class="text">Projects</span>
-        </a>
-        <a href="/employees" class="menu-item">
-            <span class="icon">○</span>
-            <span class="text">Employees</span>
-        </a>
-<a href="/adminProfile" class="menu-item bottom">
-            <span class="icon">👤</span>
-        </a>
+        <!-- Top Menu -->
+        <div class="menu-top">
+            <a href="/allProjects" class="menu-item">
+                <span class="icon"><i class="fa fa-folder"></i></span>
+                <span class="text">Projects</span>
+            </a>
+            <a href="/employees" class="menu-item">
+                <span class="icon"><i class="fa fa-users"></i></span>
+                <span class="text">Employees</span>
+            </a>
+            <a href="/allSkills" class="menu-item">
+                <span class="icon"><i class="fa fa-lightbulb"></i></span>
+                <span class="text">Skills</span>
+            </a>
+        </div>
+
+        <!-- Bottom Menu -->
+        <div class="menu-bottom">
+            <a href="/adminProfile" class="menu-item">
+                <span class="icon">👤</span>
+                <span class="text">Admin Profile</span>
+            </a>
+            <a href="/logout" class="menu-item">
+                <span class="icon">🔓</span>
+                <span class="text">Log Ud</span>
+            </a>
+        </div>
     </aside>
 
     <!-- Main Content -->
     <main class="content">
         <header class="header">
+            <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="back-link">
+                <i class="fa fa-arrow-left"></i>
+            </a>
             <h1>Create Subtask</h1>
-            <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="back-link">Back to Task</a>
         </header>
-        <form th:action="@{/subtask/addSubtask}" method="post" class="form">
-            <input type="hidden" name="taskID" th:value="${taskID}">
 
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+        <section class="task-details">
+            <form th:action="@{/subtask/addSubtask}" method="post" class="form">
+                <input type="hidden" name="taskID" th:value="${taskID}">
 
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description"></textarea>
-            </div>
+                <div class="form-left">
+                    <div class="form-group">
+                        <label for="name">Subtask Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
 
-            <div class="form-group">
-                <label for="priority">Priority:</label>
-                <select name="priority" id="priority">
-                    <option th:each="priority : ${priorities}"
-                            th:value="${priority.name()}"
-                            th:text="${priority.getDisplayName()}">
-                    </option>
-                </select>
-            </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" rows="4"></textarea>
+                    </div>
 
-            <div class="form-group">
-                <label for="timeEstimate">Estimated time (in days):</label>
-                <input type="number" id="timeEstimate" name="timeEstimate" required>
-            </div>
+                    <div class="form-group">
+                        <label for="priority">Priority:</label>
+                        <select name="priority" id="priority">
+                            <option th:each="priority : ${priorities}"
+                                    th:value="${priority.name()}"
+                                    th:text="${priority.getDisplayName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="status">Status:</label>
-                <select name="status" id="status">
-                    <option th:each="status : ${status}"
-                            th:value="${status.name()}"
-                            th:text="${status.getDisplayName()}">
-                    </option>
-                </select>
-            </div>
+                <div class="form-right">
+                    <div class="form-group">
+                        <label for="timeEstimate">Estimated Time (hours):</label>
+                        <input type="number" id="timeEstimate" name="timeEstimate" required>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select name="status" id="status">
+                            <option th:each="status : ${status}"
+                                    th:value="${status.name()}"
+                                    th:text="${status.getDisplayName()}">
+                            </option>
+                        </select>
+                    </div>
 
-            <!-- Employee Dropdown -->
-            <div class="form-group">
-                <label for="employeeID">Assign Employee:</label>
-                <select name="employeeID" id="employeeID">
-                    <option th:each="employee : ${employees}"
-                            th:value="${employee.employeeID}"
-                            th:text="${employee.name}">
-                    </option>
-                </select>
-            </div>
+                    <div class="form-group">
+                        <label for="employeeID">Assign Employee:</label>
+                        <select name="employeeID" id="employeeID">
+                            <option value="" disabled selected>Select an employee</option>
+                            <option th:each="employee : ${employees}"
+                                    th:value="${employee.employeeID}"
+                                    th:text="${employee.name}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">Create Subtask</button>
-                <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="btn-cancel">Cancel</a>
-            </div>
-        </form>
+                <div class="actions">
+                    <button type="submit" class="btn">Create Subtask</button>
+                    <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </section>
     </main>
-</div>
+</div> <!-- Lukning af container -->
 </body>
 </html>
-

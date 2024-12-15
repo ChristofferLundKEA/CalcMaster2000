@@ -19,7 +19,7 @@ body a:hover {
 
 
 .sidebar {
-    width: 60px;
+    width: 80px;
     background-color: #333;
     color: white;
     display: flex;
@@ -55,82 +55,92 @@ body a:hover {
 }
 
 .sidebar .menu-bottom {
-    margin-bottom: 20px; /* Juster denne værdi for at tilpasse afstanden */
+    margin-bottom: 40px; /* Juster denne værdi for at tilpasse afstanden */
 }
 
 
 /* Header styling */
 header {
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 1240px;
-    background-color:white; /* Transparent hvid bagwgrund */
-    position: relative; /* Sørger for, at "Back to Project" linket kan placeres */
+    padding: 8px 20px; /* Moderat padding for lidt mere højde */
+    margin: 10px auto; /* Reduceret margin for mindre ekstra plads */
+    max-width: 1200px; /* Behold bredden */
+    background-color: white;
+    position: relative;
     border-radius: 10px;
+    display: flex; /* Sørg for centrering */
+    align-items: center; /* Centrer teksten vertikalt */
+    height: 80px; /* Giv en moderat fast højde */
 }
 
 /* H1 styling */
 header h1 {
-    font-size: 36px;
+    font-size: 45px; /* Behold skrifttypestørrelsen */
     color: #333;
-    margin-right: 0;
-    margin-left: 5px;
+    margin: 0; /* Fjern ekstra margin */
     text-align: center;
     flex-grow: 1;
 }
+
+
 
 .task-details {
     margin-left: 80px;
     padding: 20px;
 }
 
-.actions {
-    display: flex;
-    justify-content: flex-start; /* Juster til venstre */
-    gap: 10px; /* Giver afstand mellem knapperne */
-    margin-top: 20px; /* Plads over knapperne */
-}
-
-/* Juster knapstørrelse */
-    .delete-button,
-    .edit-button {
-    background-color: #b11717;
-    color: white;
-    border: none;
-    padding: 8px 12px; /* Reduceret padding */
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px; /* Reduceret skrifttype */
-}
-
-    .edit-button {
-    background-color: #9c811a;
-    color: white;
-}
-
-     .delete-button:hover {
-    background-color: darkred;
-}
-
-     .edit-button:hover {
-    background-color: #8f7f26;
-}
-
-/* Add Subtask button */
-.add-subtask-link {
+.btn {
     display: inline-block;
     text-decoration: none;
-    background-color: #207a32;
+    background-color: #207a32; /* Grøn som standard */
     color: white;
     padding: 8px 12px;
     border-radius: 5px;
-    margin-top: 20px;
     font-size: 14px;
     text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.add-subtask-link:hover {
-    background-color: #2b7543;
+.btn:hover {
+    background-color: #2b7543; /* Mørkere grøn ved hover */
+}
+
+/* Specifik styling for DELETE-knapper */
+.btn-delete {
+    background-color: #b11717; /* Rød */
+}
+
+.btn-delete:hover {
+    background-color: darkred;
+}
+
+/* Specifik styling for EDIT-knapper */
+.btn-edit, .btn-admin {
+    background-color: #9c811a; /* Gul */
+}
+
+.btn-edit:hover, .btn-admin:hover {
+    background-color: #8f7f26;
+}
+
+/* Specifik styling for CANCEL-knap */
+.btn-cancel {
+    background-color: #666; /* Neutral grå farve */
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #555; /* Mørkere grå ved hover */
 }
 
 
@@ -139,7 +149,7 @@ header h1 {
     text-decoration: none;
     color: #3a79a1;
     margin-right: 20px; /* Afstand mellem pil og overskrift */
-    margin-left: 5px;
+    margin-left: 10px;
     display: flex;
     align-items: center;
     transition: color 0.3s ease;
@@ -215,4 +225,69 @@ th {
     margin-top: 10px;
     font-style: italic;
 }
+
+//* Formular-styling */
+/* Ensartet styling for alle form-felter og dropdowns */
+form label {
+    display: block; /* Gør labels til blok-elementer */
+    margin-bottom: 8px; /* Afstand mellem label og input */
+    font-weight: bold; /* Fremhæv labels */
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%; /* Fyld bredden ud */
+    padding: 10px; /* Indre afstand i felterne */
+    margin-bottom: 20px; /* Afstand mellem felterne */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box; /* Sørg for padding ikke påvirker bredde */
+}
+
+/* Checkbox til time estimation */
+.time-estimation-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Afstand under checkbox */
+}
+
+.time-estimation-checkbox label {
+    margin-left: 8px; /* Lidt luft mellem checkbox og tekst */
+}
+.form-group input[type="checkbox"] {
+    display: inline-block;
+    width: auto; /* Fjern breddejustering */
+    vertical-align: middle; /* Sørg for, at checkboxen justeres lodret */
+    margin-right: 8px; /* Lidt luft til højre for at adskille teksten */
+}
+
+
+
+/* Ensartede knapper i bunden */
+.actions {
+    display: flex;
+    gap: 10px; /* Luft mellem knapper */
+    margin-top: 20px; /* Afstand over knapper */
+}
+
+
+/* Styling for textareas */
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: none; /* Forhindrer at brugeren ændrer størrelsen */
+    margin-bottom: 10px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #207a32; /* Fremhæv textarea med grøn farve */
+    box-shadow: 0 0 5px rgba(32, 122, 50, 0.5);
+}
+
 

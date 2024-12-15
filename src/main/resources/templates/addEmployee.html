@@ -1,83 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Add employee</title>
-    <link rel="stylesheet" href="/static/css/addProject.css">
+    <title>Add Employee</title>
+    <link rel="stylesheet" href="/static/css/taskDetails.css"> <!-- Brug taskDetails.css for konsistens -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div class="container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="menu-top">
         <a href="/allProjects" class="menu-item">
-            <span class="icon">●</span>
+            <span class="icon"><i class="fa fa-folder"></i></span>
             <span class="text">Projects</span>
         </a>
-        <a href="/employees" class="menu-item">
-            <span class="icon">○</span>
+        <a href="/employees" class="menu-item active">
+            <span class="icon"><i class="fa fa-users"></i></span>
             <span class="text">Employees</span>
         </a>
-        <a href="/adminProfile" class="menu-item bottom">
-            <span class="icon">👤</span>
+        <a href="/allSkills" class="menu-item">
+            <span class="icon"><i class="fa fa-lightbulb"></i></span>
+            <span class="text">Skills</span>
         </a>
-    </aside>
+    </div>
+    <div class="menu-bottom">
+        <a href="/adminProfile" class="menu-item">
+            <span class="icon">👤</span>
+            <span class="text">Admin Profile</span>
+        </a>
+        <a href="/logout" class="menu-item">
+            <span class="icon">🔓</span>
+            <span class="text">Log Out</span>
+        </a>
+    </div>
+</aside>
 
-    <!-- indholdet -->
-    <main class="content">
-        <header class="header">
-            <h1>Add Employee</h1>
-            <a href="/logout" class="logout">Log out</a>
-        </header>
-        <div class="main-area">
-            <form th:action="@{/createEmployee}" method="post" class="form">
-                <div class="form-group">
-                    <label for="name">Employee Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
+<!-- Header -->
+<header>
+    <a href="/employees" class="back-link">
+        <i class="fa fa-arrow-left"></i> <!-- Tilbage-knap som pil -->
+    </a>
+    <h1>Add Employee</h1>
+</header>
 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number:</label>
-                    <input type="number" id="phone" name="phone" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Skills:</label>
-                    <div>
-                        <ul>
-                            <li th:each="skill : ${skills}">
-                                <label>
-                                    <input type="checkbox" name="skillIds" th:value="${skill.skillID}">
-                                    <span th:text="${skill.name}"></span>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-submit">Add employee</button>
-                </div>
-            </form>
+<!-- Main Content -->
+<section class="task-details">
+    <h2>Add a New Employee</h2>
+    <form th:action="@{/createEmployee}" method="post" class="form">
+        <!-- Venstre side: inputfelter -->
+        <div class="form-left">
             <div class="form-group">
-                <h3>Create a New Skill</h3>
-                <form th:action="@{/addNewSkill}" method="post" class="form">
-                    <label for="skillName">Skill Name:</label>
-                    <input type="text" id="skillName" name="name" required />
+                <label for="name">Employee Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
 
-                    <label for="skillDescription">Description:</label>
-                    <textarea id="skillDescription" name="description" required></textarea>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+            </div>
 
-                    <input type="hidden" th:value="${employee.employeeID}" name="employeeID" /> <!-- skal bruge employeeID til at opdatere siden når ny skill er tilføjet-->
-
-                    <button type="submit" class="btn-submit">Create Skill</button>
-                </form>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="number" id="phone" name="phone" required>
             </div>
         </div>
-    </main>
-</div>
+
+        <!-- Højre side: skills -->
+        <div class="form-right">
+            <label><strong>Skills:</strong></label>
+            <ul>
+                <li th:each="skill : ${skills}">
+                    <label>
+                        <input type="checkbox" name="skillIds" th:value="${skill.skillID}">
+                        <span th:text="${skill.name}"></span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Knappen placeres her under begge sektioner -->
+        <div class="actions">
+            <button type="submit" class="btn">Add Employee</button>
+        </div>
+    </form>
+
+        <!-- Hidden Employee ID -->
+        <input type="hidden" th:value="${employee.employeeID}" name="employeeID">
+
+</section>
 </body>
 </html>
+

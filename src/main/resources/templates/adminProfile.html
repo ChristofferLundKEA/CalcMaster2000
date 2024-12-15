@@ -1,41 +1,54 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Admin Profile</title>
-    <link rel="stylesheet" href="/static/css/adminProfile.css">
+    <link rel="stylesheet" href="/static/css/taskDetails.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div class="container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <a href="/allProjects" class="menu-item">
-            <span class="icon">●</span>
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="menu-top">
+        <a href="/allProjects" class="menu-item active">
+            <span class="icon"><i class="fa fa-folder"></i></span>
             <span class="text">Projects</span>
         </a>
         <a href="/employees" class="menu-item">
-            <span class="icon">○</span>
+            <span class="icon"><i class="fa fa-users"></i></span>
             <span class="text">Employees</span>
         </a>
-        <a href="/adminProfile" class="menu-item active bottom">
-            <span class="icon">👤</span>
+        <a href="/allSkills" class="menu-item">
+            <span class="icon"><i class="fa fa-lightbulb"></i></span>
+            <span class="text">Skills</span>
         </a>
-    </aside>
+    </div>
+    <div class="menu-bottom">
+        <a href="/adminProfile" class="menu-item">
+            <span class="icon">👤</span>
+            <span class="text">Admin Profile</span>
+        </a>
+        <a href="/logout" class="menu-item">
+            <span class="icon">🔓</span>
+            <span class="text">Log Out</span>
+        </a>
+    </div>
+</aside>
+<!-- Main Content -->
+<main class="content">
+    <!-- Header -->
+    <header class="header">
+        <h1>Admin Profile</h1>
+    </header>
 
-    <!-- Main Content -->
-    <main class="content">
-        <header class="header">
-            <h1>Admin Profile</h1>
-            <div class="header-actions">
-                <a href="/logout" class="logout">Log out</a>
-            </div>
-        </header>
-        <div class="main-area">
-            <h2>Profile Details</h2>
+    <!-- Profile Details -->
+    <section class="task-details">
+        <h2>Profile Details</h2>
+        <div class="form-left">
+
             <p><strong>Username:</strong> <span th:text="${admin.username}">AdminName</span></p>
             <p><strong>Email:</strong> <span th:text="${admin.email}">admin@example.com</span></p>
-
         </div>
-    </main>
-</div>
+    </section>
+</main>
 </body>
 </html>

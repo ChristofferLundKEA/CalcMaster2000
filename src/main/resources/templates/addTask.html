@@ -1,48 +1,63 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Create Task</title>
-    <link rel="stylesheet" href="/static/css/addTask.css">
+    <link rel="stylesheet" href="/static/css/taskDetails.css"> <!-- Genbrug CSS for konsistens -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div class="container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <a href="/allProjects" class="menu-item">
-            <span class="icon">●</span>
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="menu-top">
+        <a href="/allProjects" class="menu-item active">
+            <span class="icon"><i class="fa fa-folder"></i></span>
             <span class="text">Projects</span>
         </a>
         <a href="/employees" class="menu-item">
-            <span class="icon">○</span>
+            <span class="icon"><i class="fa fa-users"></i></span>
             <span class="text">Employees</span>
         </a>
-        <a href="/adminProfile" class="menu-item bottom">
-            <span class="icon">👤</span>
+        <a href="/allSkills" class="menu-item">
+            <span class="icon"><i class="fa fa-lightbulb"></i></span>
+            <span class="text">Skills</span>
         </a>
-    </aside>
+    </div>
+    <div class="menu-bottom">
+        <a href="/adminProfile" class="menu-item">
+            <span class="icon">👤</span>
+            <span class="text">Admin Profile</span>
+        </a>
+        <a href="/logout" class="menu-item">
+            <span class="icon">🔓</span>
+            <span class="text">Log Out</span>
+        </a>
+    </div>
+</aside>
 
-    <!-- Main Content -->
-    <main class="content">
-        <header class="header">
-            <h1 th:text="'Create Task for ' + ${project.name}">Create Task</h1>
-            <a th:href="@{/project/{projectID}(projectID=${project.projectID})}" class="back-link">Back to Project</a>
-        </header>
-        <form th:action="@{/tasks/addTask}" method="post" class="form">
-            <input type="hidden" name="projectID" th:value="${project.projectID}">
+<!-- Header -->
+<header>
+    <a th:href="@{/project/{projectID}(projectID=${project.projectID})}" class="back-link">
+        <i class="fa fa-arrow-left"></i> <!-- Tilbage-knap -->
+    </a>
+    <h1>Create Task</h1>
+</header>
 
+<!-- Main Content -->
+<section class="task-details">
+    <h2>Create New Task for <span th:text="${project.name}"></span></h2>
+    <form th:action="@{/tasks/addTask}" method="post" class="form">
+        <input type="hidden" name="projectID" th:value="${project.projectID}">
+
+        <!-- Venstre side -->
+        <div class="form-left">
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">Task Name:</label>
                 <input type="text" id="name" name="name" required>
             </div>
 
             <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
-            </div>
-
-            <div class="form-group">
                 <label for="priority">Priority:</label>
-                <select name="priority" id="priority">
+                <select name="priority" id="priority" required>
                     <option th:each="priority : ${priorities}"
                             th:value="${priority.name()}"
                             th:text="${priority.getDisplayName()}">
@@ -51,18 +66,26 @@
             </div>
 
             <div class="form-group">
-                <label for="timeEstimate">Estimated time (in days):</label>
+                <label for="timeEstimate">Estimated Time (hours):</label>
                 <input type="number" id="timeEstimate" name="timeEstimate" required>
             </div>
 
-            <div class="time-estimation-checkbox">
-                <label for="useSubtaskTime">Calculate time from subtasks:</label>
-                <input type="checkbox" id="useSubtaskTime" name="useSubtaskTime" value="true">
+            <div class="form-group">
+                <label for="price">Price (DKK):</label>
+                <input type="number" id="price" name="price" step="0.01" min="0" required>
+            </div>
+        </div>
+
+        <!-- Højre side -->
+        <div class="form-right">
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="3" required></textarea>
             </div>
 
             <div class="form-group">
                 <label for="status">Status:</label>
-                <select name="status" id="status">
+                <select name="status" id="status" required>
                     <option th:each="status : ${status}"
                             th:value="${status.name()}"
                             th:text="${status.getDisplayName()}">
@@ -70,13 +93,6 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="price">Price (in DKK):</label>
-                <input type="number" id="price" name="price" step="0.01" min="0" required>
-            </div>
-
-
-            <!-- Dropdown for medarbejdere -->
             <div class="form-group">
                 <label for="employeeID">Assign Employee:</label>
                 <select name="employeeID" id="employeeID" required>
@@ -87,13 +103,21 @@
                 </select>
             </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">Create Task</button>
-                <a th:href="@{/project/{projectID}(projectID=${project.projectID})}" class="btn-cancel">Cancel</a>
+            <div class="form-group">
+                <label for="useSubtaskTime">
+                    <input type="checkbox" id="useSubtaskTime" name="useSubtaskTime" value="true">
+                    Calculate time from subtasks
+                </label>
             </div>
-        </form>
-    </main>
-</div>
+        </div>
+
+        <!-- Actions -->
+        <!-- Actions -->
+        <div class="actions">
+            <button type="submit" class="btn">Create Task</button>
+            <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</section>
 </body>
 </html>
-

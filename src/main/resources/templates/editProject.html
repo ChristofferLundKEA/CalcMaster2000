@@ -1,61 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Edit Project</title>
-    <link rel="stylesheet" href="/static/css/addProject.css"> <!-- Genbrug CSS fra Add Project da det giver god mening-->
+    <link rel="stylesheet" href="/static/css/taskDetails.css"> <!-- Genbrug taskDetails.css for konsistens -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div class="container">
-
-    <aside class="sidebar">
-        <a href="/allProjects" class="menu-item">
-            <span class="icon">●</span>
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="menu-top">
+        <a href="/allProjects" class="menu-item active">
+            <span class="icon"><i class="fa fa-folder"></i></span>
             <span class="text">Projects</span>
         </a>
         <a href="/employees" class="menu-item">
-            <span class="icon">○</span>
+            <span class="icon"><i class="fa fa-users"></i></span>
             <span class="text">Employees</span>
         </a>
-        <a href="/adminProfile" class="menu-item bottom">
-            <span class="icon">👤</span>
+        <a href="/allSkills" class="menu-item">
+            <span class="icon"><i class="fa fa-lightbulb"></i></span>
+            <span class="text">Skills</span>
         </a>
-    </aside>
+    </div>
+    <div class="menu-bottom">
+        <a href="/adminProfile" class="menu-item">
+            <span class="icon">👤</span>
+            <span class="text">Admin Profile</span>
+        </a>
+        <a href="/logout" class="menu-item">
+            <span class="icon">🔓</span>
+            <span class="text">Log Out</span>
+        </a>
+    </div>
+</aside>
 
-    <!-- Main content og formular -->
-    <main class="content">
-        <header class="header">
-            <h1>Edit Project</h1>
-            <a href="/logout" class="logout">Log out</a>
-        </header>
-        <div class="main-area">
-            <form th:action="@{/project/edit/{id}(id=${project.projectID})}" method="post" class="form">
-                <div class="form-group">
-                    <label for="name">Project Name:</label>
-                    <input type="text" id="name" name="name" th:value="${project.name}" placeholder="Enter project name" required>
-                </div>
+<!-- Header -->
+<header>
+    <a href="/allProjects" class="back-link">
+        <i class="fa fa-arrow-left"></i> <!-- Tilbage-knap som pil -->
+    </a>
+    <h1>Edit Project</h1>
+</header>
 
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" placeholder="Enter project description" th:text="${project.description}" required></textarea>
-                </div>
+<!-- Main Content -->
+<section class="task-details">
+    <h2>Update Project Information</h2>
+    <form th:action="@{/project/edit/{id}(id=${project.projectID})}" method="post" class="form">
+        <!-- Venstre side -->
+        <div class="form-left">
+            <div class="form-group">
+                <label for="name">Project Name:</label>
+                <input type="text" id="name" name="name" th:value="${project.name}" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="startDate">Start Date:</label>
-                    <input type="date" id="startDate" name="startDate" th:value="${project.startDate}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="endDate">End Date:</label>
-                    <input type="date" id="endDate" name="endDate" th:value="${project.endDate}" required>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-submit">Save Changes</button>
-                </div>
-            </form>
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" th:value="${project.startDate}" required>
+            </div>
         </div>
-    </main>
-</div>
+
+        <!-- Højre side -->
+        <div class="form-right">
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="3" required
+                          th:text="${project.description}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" th:value="${project.endDate}" required>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="actions">
+            <button type="submit" class="btn">Save Changes</button>
+        </div>
+    </form>
+</section>
 </body>
 </html>
-

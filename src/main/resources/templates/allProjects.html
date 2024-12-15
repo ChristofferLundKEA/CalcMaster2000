@@ -28,11 +28,11 @@
     <!-- Bottom Menu -->
     <div class="menu-bottom">
         <a href="/adminProfile" class="menu-item">
-            <span class="icon"><i class="fa fa-user"></i></span> <!-- Profile Icon -->
+            <span class="icon">👤</span><!-- Admin Profile Icon -->
             <span class="text">Admin Profile</span>
         </a>
         <a href="/logout" class="menu-item">
-            <span class="icon"><i class="fa fa-sign-out-alt"></i></span> <!-- Logout Icon -->
+            <span class="icon">🔓</span> <!-- Log Out Icon -->
             <span class="text">Log Out</span>
         </a>
     </div>
@@ -61,7 +61,7 @@
             <td th:text="${project.endDate}">End Date</td>
             <td th:text="${project.totalPrice}">0.0</td>
             <td>
-                <a th:href="@{/project/{id}(id=${project.projectID})}" class="edit-button">Administrate</a>
+                <a th:href="@{/project/{id}(id=${project.projectID})}" class="btn btn-admin">Administrate</a>
             </td>
         </tr>
         </tbody>
@@ -70,9 +70,11 @@
 
     <!-- Add Project Button -->
     <div class="actions">
-        <a href="/addproject" class="add-subtask-link">Add Project</a>
+        <a href="/addproject" class="btn">Add Project</a>
     </div>
 </section>
 
 </body>
 </html>
+
+
