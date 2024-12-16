@@ -112,10 +112,9 @@
         </div>
 
         <!-- Actions -->
-        <!-- Actions -->
         <div class="actions">
             <button type="submit" class="btn">Create Task</button>
-            <a th:href="@{/tasks/{taskID}(taskID=${taskID})}" class="btn-cancel">Cancel</a>
+            <a th:href="@{/project/{projectID}(projectID=${project.projectID})}" class="btn-cancel">Cancel</a>
         </div>
     </form>
 </section>

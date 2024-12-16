@@ -137,6 +137,7 @@ header h1 {
     text-align: center;
     border: none;
     cursor: pointer;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
@@ -246,6 +247,40 @@ form textarea {
     font-size: 14px;
     box-sizing: border-box; /* Sørg for padding ikke påvirker bredde */
 }
+
+/* Juster styling for checkbox-lister */
+.form-right ul {
+    list-style: none; /* Fjern de små prikker */
+    padding: 0;
+    margin: 0;
+}
+
+.form-right li {
+    display: flex; /* Juster checkbox og tekst i række */
+    align-items: center; /* Centrer vertikalt */
+    margin-bottom: 10px; /* Luft mellem hver række */
+    height: 24px; /* Ens højde for alle elementer */
+}
+
+.form-right label {
+    display: flex;
+    align-items: center; /* Centrer tekst og checkbox */
+    gap: 8px; /* Afstand mellem checkbox og tekst */
+    margin: 0; /* Fjern ekstra margin */
+    cursor: pointer; /* Gør det klikbart */
+    font-size: 16px; /* Ensartet tekststørrelse */
+    line-height: 24px; /* Samme højde som elementet */
+}
+
+.form-right input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #207a32; /* Grøn farve */
+    cursor: pointer;
+    margin: 0; /* Fjern unødvendig margin */
+}
+
+
 
 /* Checkbox til time estimation */
 .time-estimation-checkbox {
