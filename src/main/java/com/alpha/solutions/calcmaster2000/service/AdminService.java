@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminService {
 
-        @Autowired
-        private AdminRepository adminRepository;
+        private final AdminRepository adminRepository;
+
+        @Autowired // Constructor injection
+        public AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+        }
 
         //validateLogin er forretningslogik, fordi den kombinerer dataadgang (repository-kaldet) med en loginvalidering.
         public Admin validateLogin(String username, String password) {
