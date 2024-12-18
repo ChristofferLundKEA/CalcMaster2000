@@ -95,8 +95,6 @@ public class ProjectController {
             model.addAttribute("project", project);
             model.addAttribute("tasks", tasks);
 
- 
-
             session.setAttribute("lastViewedProject", project); // Gem sidste sete projekt i sessionen
             return "project";// Returner Thymeleaf-skabelonen "project.html"
 

@@ -49,7 +49,7 @@ public class ProjectService {
     public Project getProjectById(int id) {
         Project project = projectRepository.getProjectById(id);
         if (project == null) {
-            throw new RuntimeException("Projekt med ID " + id + " blev ikke fundet");
+            throw new RuntimeException("Project with ID: " + id + ", was not found in our database");
         }
         // Beregn totalPrice for projektet
         double totalPrice = calculateTotalPrice(id);
