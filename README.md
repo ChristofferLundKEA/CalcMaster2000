@@ -1,7 +1,6 @@
-<div align=center> <img width="711" ![Screenshot](src/main/resources/static/static/images/Skærmbillede 2024-12-18 135055.png)
- </div>
+![Screenshot](src/main/resources/static/static/images/Skærmbillede 2024-12-18 135055.png)
 
-# CalcMaster200 - your new project management tool!
+# CalcMaster2000 - your new project management tool!
 
 
 ## What is CalcMaster2000?
