@@ -1,4 +1,5 @@
-<div align=center> <img width="711" alt="Screenshot 2024-12-18 at 13 50 55" src="https://github.com/user-attachments/assets/3fbb84d2-3132-4b13-ab84-5f74c34ae802"> </div>
+<div align=center> <img width="711" ![Screenshot](src/main/resources/static/static/images/Skærmbillede 2024-12-18 135055.png)
+ </div>
 
 # CalcMaster200 - your new project management tool!
 
