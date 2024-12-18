@@ -8,13 +8,42 @@
 CalcMaster2000 is a project management application tool built for Alpha Solutions,CalcMaster2000. It's designed to streamline task and resource allocation. It allows administrators to create, edit, and manage projects, tasks, and subtasks while tracking time estimates, costs, and employee assignments. With a user-friendly interface and database integration, the system ensures efficient project oversight and collaboration. The application is built with a focus on flexibility, scalability, and ease of use
 
 **Who maintains and contributes to the project?** 
-ChristofferLundKea
-Celinelundm
-StringArrayLaurray
+- ChristofferLundKea
+- Celinelundm
+- StringArrayLaurray
+
+## Languages and technologies 
+
+- **Programming Languages**:
+  - Java (Azul JDK 21)
+  - HTML
+  - CSS
+    
+- **Frameworks & Libraries**:
+  - Spring Data JDBC 2024.1
+  - Spring Boot 3.4.0
+  - Thymeleaf 3.4.0
+    
+- **Databases**:
+  - H2 SQL (org.hibernate.dialect.H2Dialect for local development)
+  - MySQL 8.0.33 (for production)
+    
+- **Build Tools**:
+  - Maven 4.0.0 (for dependency management and build automation)
+    
+## Dependencies
+CalcMaster2000 uses the following key dependencies:
+
+- **Spring Boot Starter Web**: For building web applications.
+- **Spring Boot Starter Thymeleaf**: For rendering dynamic HTML views.
+- **Spring Boot Starter Data JDBC**: For database integration with MySQL.
+- **MySQL Connector**: For connecting to the MySQL database.
+- **H2 Database** (test scope): For lightweight testing with an in-memory database.
+- **Spring Boot DevTools**: To improve the development workflow with live reload.
 
 ## sæt contributing fil ind her
 
-## First time you acces the site
+## First time you access the site
 Remember to login with username and password for the preset admin Klaus Petersen.
 
 ## Run the program locally or online
