@@ -2,7 +2,6 @@ USE CalcMaster2000;
 
 INSERT INTO Admin (Username, Password, Email) VALUES
     ('KlausPetersen', '#NGGYU1975', 'KP@alpha-solutions.com'),
-    ('CelineLM', 'Fuckjegelskermonner123!', 'CLM@alpha-solutions.com'),
     ('admin', 'admin', 'AD@alpha-solutions.com');
 
 
