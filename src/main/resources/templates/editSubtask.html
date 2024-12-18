@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Edit Subtask</title>
-    <link rel="stylesheet" href="/static/css/taskDetails.css"> <!-- Konsistent styling -->
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Konsistent styling -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -42,84 +42,85 @@
 
 
     <!-- Main Content -->
-<main class="content">
-    <!-- Header -->
-    <header class="header">
-        <a th:href="@{/tasks/{taskID}(taskID=${subtask.taskID})}" class="back-link">
-            <i class="fa fa-arrow-left"></i> <!-- Tilbage-knap -->
-        </a>
-        <h1>Edit Subtask</h1>
-    </header>
+    <main class="content">
+        <!-- Header -->
+        <header class="header">
+            <a th:href="@{/tasks/{taskID}(taskID=${subtask.taskID})}" class="back-link">
+                <i class="fa fa-arrow-left"></i> <!-- Tilbage-knap -->
+            </a>
+            <h1>Edit Subtask</h1>
+        </header>
 
-    <!-- Edit Subtask Form -->
-    <section class="task-details">
-        <form th:action="@{/subtasks/edit}" method="post" class="form">
-            <!-- Hidden fields -->
-            <input type="hidden" name="subtaskID" th:value="${subtask.subtaskID}">
-            <input type="hidden" name="taskID" th:value="${subtask.taskID}">
+        <!-- Edit Subtask Form -->
+        <section class="task-details">
+            <form th:action="@{/subtasks/edit}" method="post" class="form">
+                <!-- Hidden fields -->
+                <input type="hidden" name="subtaskID" th:value="${subtask.subtaskID}">
+                <input type="hidden" name="taskID" th:value="${subtask.taskID}">
 
-            <!-- Venstre kolonne -->
-            <div class="form-left">
-                <div class="form-group">
-                    <label for="name">Subtask Name:</label>
-                    <input type="text" id="name" name="name" th:value="${subtask.name}" required>
+                <!-- Venstre kolonne -->
+                <div class="form-left">
+                    <div class="form-group">
+                        <label for="name">Subtask Name:</label>
+                        <input type="text" id="name" name="name" th:value="${subtask.name}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" rows="4" required th:text="${subtask.description}"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority:</label>
+                        <select name="priority" id="priority">
+                            <option th:each="priority : ${priorities}"
+                                    th:value="${priority.name()}"
+                                    th:text="${priority.getDisplayName()}"
+                                    th:selected="${priority == subtask.priority}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" rows="4" required th:text="${subtask.description}"></textarea>
+                <!-- Højre kolonne -->
+                <div class="form-right">
+                    <div class="form-group">
+                        <label for="timeEstimate">Estimated Time (hours):</label>
+                        <input type="number" id="timeEstimate" name="timeEstimate" th:value="${subtask.timeEstimate}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select name="status" id="status">
+                            <option th:each="status : ${status}"
+                                    th:value="${status.name()}"
+                                    th:text="${status.getDisplayName()}"
+                                    th:selected="${status == subtask.status}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employeeID">Assigned Employee:</label>
+                        <select name="employeeID" id="employeeID">
+                            <option th:each="employee : ${employees}"
+                                    th:value="${employee.employeeID}"
+                                    th:text="${employee.name}"
+                                    th:selected="${employee.employeeID == currentEmployeeID}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="priority">Priority:</label>
-                    <select name="priority" id="priority">
-                        <option th:each="priority : ${priorities}"
-                                th:value="${priority.name()}"
-                                th:text="${priority.getDisplayName()}"
-                                th:selected="${priority == subtask.priority}">
-                        </option>
-                    </select>
+                <!-- Actions -->
+                <div class="actions">
+                    <button type="submit" class="btn">Save Changes</button>
+                    <a th:href="@{/tasks/{taskID}(taskID=${subtask.taskID})}" class="btn-cancel">Cancel</a>
                 </div>
-            </div>
-
-            <!-- Højre kolonne -->
-            <div class="form-right">
-                <div class="form-group">
-                    <label for="timeEstimate">Estimated Time (hours):</label>
-                    <input type="number" id="timeEstimate" name="timeEstimate" th:value="${subtask.timeEstimate}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <select name="status" id="status">
-                        <option th:each="status : ${status}"
-                                th:value="${status.name()}"
-                                th:text="${status.getDisplayName()}"
-                                th:selected="${status == subtask.status}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="employeeID">Assigned Employee:</label>
-                    <select name="employeeID" id="employeeID">
-                        <option th:each="employee : ${employees}"
-                                th:value="${employee.employeeID}"
-                                th:text="${employee.name}"
-                                th:selected="${employee.employeeID == currentEmployeeID}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="actions">
-                <button type="submit" class="btn">Save Changes</button>
-                <a th:href="@{/tasks/{taskID}(taskID=${subtask.taskID})}" class="btn-cancel">Cancel</a>
-            </div>
-        </form>
-    </section>
-</main>
+            </form>
+        </section>
+    </main>
+</div>
 </body>
 </html>
 

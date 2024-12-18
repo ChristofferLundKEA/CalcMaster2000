@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee Details</title>
-    <link rel="stylesheet" href="/static/css/taskDetails.css"> <!-- Brug taskDetails.css for ensartet stil -->
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Brug styles.css for ensartet stil -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -39,6 +39,7 @@
         </a>
     </div>
 </aside>
+
 <header>
     <a th:href="@{/employees}" class="back-link">
         <i class="fa fa-arrow-left"></i> <!-- Tilbage-pil -->
@@ -49,7 +50,7 @@
 <!-- Main Content -->
 <section class="task-details">
     <h2>Employee Details</h2>
-    <img src="/static/images/default-profile-picture.png" alt="Default Profile Picture" width="200" height="200">
+    <img src="/images/default-profile-picture.png" alt="Default Profile Picture" width="200" height="200">
     <p><strong>Name:</strong> <span th:text="${employee.name}"></span></p>
     <p><strong>Email:</strong> <span th:text="${employee.email}"></span></p>
     <p><strong>Phone:</strong> <span th:text="${employee.phone}"></span></p>
@@ -62,9 +63,11 @@
         <a th:href="@{/updateEmployee/{id}(id=${employee.employeeID})}" class="btn btn-edit">
             Edit
         </a>
-        <form action="/delete" method="post" style="margin: 0;">
+        <form th:action="@{/deleteEmployee/{id}(id=${employee.employeeID})}" method="post" style="margin: 0;">
             <button type="submit" class="btn btn-delete">Delete</button>
         </form>
+
+
     </div>
 </section>
 </body>
