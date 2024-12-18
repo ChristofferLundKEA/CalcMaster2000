@@ -18,6 +18,11 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    @GetMapping("")
+    public String noEndpoint(){
+        return "login";
+    }
+
     // Viser login-siden
     @GetMapping("/login")
     public String showLoginPage(HttpSession session) {
