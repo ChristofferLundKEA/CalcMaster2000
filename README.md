@@ -41,7 +41,8 @@ CalcMaster2000 uses the following key dependencies:
 - **H2 Database** (test scope): For lightweight testing with an in-memory database.
 - **Spring Boot DevTools**: To improve the development workflow with live reload.
 
-## sæt contributing fil ind her
+## ontribute
+You are welcome contribute to the project! If you would like to help improve the project, please follow the guidelines in the CONTRIBUTE.md file.
 
 ## First time you access the site
 Remember to login with username and password for the preset admin Klaus Petersen.
