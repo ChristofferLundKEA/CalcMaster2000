@@ -26,8 +26,8 @@ If you want to access the site locally on your machine (with port 8080), downloa
 CalcMaster2000 has been developed with a focus on core functionalities such as project management, task allocation, and resource tracking. While there is always potential for further enhancements, we prioritized delivering a product that meets essential needs within the time constraints of this project. This application represents the best we could achieve given the scope and timeframe, emphasizing simplicity, efficiency, and usability.
 
 ## Licenses
-Project Portal is licensed under the [MIT LICENSE](https://github.com/Pokkenslageren/Project-Portal/blob/af368015d034cb22638c9c3b1e937cb1b44cf8e8/LICENSE)
+Project Portal is licensed under the [MIT LICENSE](https://github.com/ChristofferLundKEA/CalcMaster2000/blob/master/LICENSE)
 
 ## Test Coverage
-Testdækningen for projektet kan findes her: 
+Testcoverage for the project is available here: 
 [Test Coverage Report](https://christofferlundkea.github.io/CalcMaster2000/test-coverage-report/)
