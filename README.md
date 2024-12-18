@@ -1,4 +1,4 @@
-![Screenshot](src/main/resources/static/static/images/Skærmbillede 2024-12-18 135055.png)
+![Screenshot](src/main/resources/static/static/images/screenshot.png)
 
 # CalcMaster2000 - your new project management tool!
 
